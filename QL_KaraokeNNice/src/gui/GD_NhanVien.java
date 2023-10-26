@@ -142,7 +142,7 @@ public class GD_NhanVien extends javax.swing.JFrame {
         panelC.setLayout(new java.awt.GridBagLayout());
 
         lblTittle.setBackground(new java.awt.Color(255, 255, 255));
-        lblTittle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTittle.setFont(new java.awt.Font("Playfair Display Medium", 1, 24)); // NOI18N
         lblTittle.setForeground(new java.awt.Color(33, 36, 71));
         lblTittle.setText("QUẢN LÝ NHÂN VIÊN");
         lblTittle.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -186,6 +186,7 @@ public class GD_NhanVien extends javax.swing.JFrame {
 
         panelDSNV.setBackground(new java.awt.Color(255, 255, 255));
         panelDSNV.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        panelDSNV.setPreferredSize(new java.awt.Dimension(460, 232));
         panelDSNV.setLayout(new java.awt.BorderLayout());
 
         scrollPane.setBackground(new java.awt.Color(255, 255, 255));
@@ -194,15 +195,6 @@ public class GD_NhanVien extends javax.swing.JFrame {
         tableDSNV.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         tableDSNV.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null, null},

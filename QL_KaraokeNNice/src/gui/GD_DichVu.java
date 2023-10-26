@@ -132,7 +132,7 @@ public class GD_DichVu extends javax.swing.JFrame {
         panelC.setLayout(new java.awt.GridBagLayout());
 
         lblTittle.setBackground(new java.awt.Color(255, 255, 255));
-        lblTittle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTittle.setFont(new java.awt.Font("Playfair Display Medium", 1, 24)); // NOI18N
         lblTittle.setForeground(new java.awt.Color(33, 36, 71));
         lblTittle.setText("QUẢN LÝ DỊCH VỤ");
         lblTittle.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -181,7 +181,7 @@ public class GD_DichVu extends javax.swing.JFrame {
         scrollPane.setBackground(new java.awt.Color(255, 255, 255));
         scrollPane.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách dịch vụ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 18))); // NOI18N
 
-        tableDichVu.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        tableDichVu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tableDichVu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},

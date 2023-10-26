@@ -24,7 +24,10 @@ public class QL_KaraokeNNice {
 //        new HomePage().setVisible(true);
         //new DSPhong().setVisible(true);
         //new GD_NhanVien().setVisible(true);
-        new GD_DichVu().setVisible(true);
+        //new GD_DichVu().setVisible(true);
+        //new Form.FormDatPhong().setVisible(true);
+        //new Form.FormThemKH().setVisible(true);
+        new Form.FormThemDVP().setVisible(true);
     }
 
 }

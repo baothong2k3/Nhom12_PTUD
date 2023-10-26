@@ -130,7 +130,7 @@ public class DSPhong extends javax.swing.JFrame {
         jPanel5.setLayout(new java.awt.GridBagLayout());
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("Serif", 1, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Playfair Display Medium", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(33, 36, 71));
         jLabel2.setText("DANH SÁCH PHÒNG");
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
