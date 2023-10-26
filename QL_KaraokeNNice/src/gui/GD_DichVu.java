@@ -4,8 +4,16 @@
  */
 package gui;
 
+import com.toedter.calendar.JDateChooserCellEditor;
+import com.toedter.components.JSpinField;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.table.TableCellEditor;
+import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.prompt.PromptSupport;
 
 /**
@@ -23,10 +31,34 @@ public class GD_DichVu extends javax.swing.JFrame {
         //setResizable(false);
         setLocationRelativeTo(null);
         PromptSupport.setPrompt("Nhập mã dịch vụ", txtTim);
+        table();
+    }
+
+    private void table() {
         tableDichVu.getTableHeader().setFont(new Font("Segoe UI", Font.PLAIN, 18));
         tableDichVu.getTableHeader().setOpaque(false);
-        tableDichVu.getTableHeader().setBackground(new Color(32,136,203));
-        tableDichVu.getTableHeader().setForeground(new Color(255,255,255));
+        tableDichVu.getTableHeader().setBackground(new Color(32, 136, 203));
+        tableDichVu.getTableHeader().setForeground(new Color(255, 255, 255));
+        //đơn vị bán
+        String[] donVi = {"Lon", "Cái", "Đĩa", "Hộp"};
+        JComboBox comboBoxDV = new JComboBox(donVi);
+        comboBoxDV.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        comboBoxDV.setBackground(new Color(255, 255, 255));
+        tableDichVu.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(comboBoxDV));
+        //xuất xứ
+        String[] xuatXu = {"Việt Nam", "Thái Lan", "Trung Quốc", "Hoa Kỳ", "Đức"};
+        JComboBox comboBoxXX = new JComboBox(xuatXu);
+        comboBoxXX.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        comboBoxXX.setBackground(new Color(255, 255, 255));
+        tableDichVu.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(comboBoxXX));
+        //tình trạng
+        String[] tinhTrang = {"Đang cung cấp", "Ngừng cung cấp"};
+        JComboBox comboBoxTT = new JComboBox(tinhTrang);
+        comboBoxTT.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        comboBoxTT.setBackground(new Color(255, 255, 255));
+        tableDichVu.getColumnModel().getColumn(7).setCellEditor(new DefaultCellEditor(comboBoxTT));
+        //HSD
+        tableDichVu.getColumnModel().getColumn(5).setCellEditor(new JDateChooserCellEditor());
     }
 
     /**
@@ -339,7 +371,6 @@ public class GD_DichVu extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         panelCenter.add(lblSoLuong, gridBagConstraints);
 
-        spinSoLuong.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         spinSoLuong.setMaximumSize(new java.awt.Dimension(100, 40));
         spinSoLuong.setMinimum(0);
         spinSoLuong.setMinimumSize(new java.awt.Dimension(100, 40));

@@ -23,8 +23,8 @@ public class QL_KaraokeNNice {
         //new LoginForm().setVisible(true);
 //        new HomePage().setVisible(true);
         //new DSPhong().setVisible(true);
-        new GD_NhanVien().setVisible(true);
-        //new GD_DichVu().setVisible(true);
+        //new GD_NhanVien().setVisible(true);
+        new GD_DichVu().setVisible(true);
     }
 
 }

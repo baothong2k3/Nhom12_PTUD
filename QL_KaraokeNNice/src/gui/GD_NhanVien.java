@@ -4,8 +4,15 @@
  */
 package gui;
 
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JDateChooserCellEditor;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import org.jdesktop.swingx.prompt.PromptSupport;
 
 /**
@@ -23,10 +30,34 @@ public class GD_NhanVien extends javax.swing.JFrame {
         //setResizable(false);
         setLocationRelativeTo(null);
         PromptSupport.setPrompt("Nhập số điện thoại", txtTim);
+        table();
+    }
+
+    private void table() {
         tableDSNV.getTableHeader().setFont(new Font("Segoe UI", Font.PLAIN, 18));
         tableDSNV.getTableHeader().setOpaque(false);
-        tableDSNV.getTableHeader().setBackground(new Color(32,136,203));
-        tableDSNV.getTableHeader().setForeground(new Color(255,255,255));
+        tableDSNV.getTableHeader().setBackground(new Color(32, 136, 203));
+        tableDSNV.getTableHeader().setForeground(new Color(255, 255, 255));
+        //chức vụ
+        String[] chucvu = {"Quản lý", "Lễ tân", "Bảo vệ", "Phục vụ"};
+        JComboBox comboBoxCV = new JComboBox(chucvu);
+        comboBoxCV.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        comboBoxCV.setBackground(new Color(255, 255, 255));
+        tableDSNV.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(comboBoxCV));
+        //giới tính
+        String[] gioitinh = {"Nam", "Nữ"};
+        JComboBox comboBoxGT = new JComboBox(gioitinh);
+        comboBoxGT.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        comboBoxGT.setBackground(new Color(255, 255, 255));
+        tableDSNV.getColumnModel().getColumn(5).setCellEditor(new DefaultCellEditor(comboBoxGT));
+        //trạng thái
+        String[] trangthai = {"Đang làm", "Đã nghỉ"};
+        JComboBox comboBoxTT = new JComboBox(trangthai);
+        comboBoxTT.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        comboBoxTT.setBackground(new Color(255, 255, 255));
+        tableDSNV.getColumnModel().getColumn(11).setCellEditor(new DefaultCellEditor(comboBoxTT));
+        //ngày sinh
+        tableDSNV.getColumnModel().getColumn(4).setCellEditor(new JDateChooserCellEditor());
     }
 
     /**
@@ -181,7 +212,7 @@ public class GD_NhanVien extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã NV", "CCCD", "Họ", "Tên", "Năm sinh", "Giới tính", "Số điện thoại", "Email", "Địa chỉ", "Chức vụ", "Mật khẩu", "Trạng thái"
+                "Mã NV", "CCCD", "Họ", "Tên", "Ngày sinh", "Giới tính", "Số điện thoại", "Email", "Địa chỉ", "Chức vụ", "Mật khẩu", "Trạng thái"
             }
         ));
         tableDSNV.setRowHeight(25);
