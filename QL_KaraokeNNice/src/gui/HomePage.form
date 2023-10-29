@@ -202,7 +202,7 @@
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Serif" size="24" style="1"/>
+                  <Font name="Playfair Display Medium" size="24" style="1"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="TRANG CH&#x1ee6;"/>
                 <Property name="horizontalTextPosition" type="int" value="4"/>

@@ -52,7 +52,7 @@ public class GD_DichVu extends javax.swing.JFrame {
         comboBoxXX.setBackground(new Color(255, 255, 255));
         tableDichVu.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(comboBoxXX));
         //tình trạng
-        String[] tinhTrang = {"Đang cung cấp", "Ngừng cung cấp"};
+        String[] tinhTrang = {"Đang bán", "Ngừng bán"};
         JComboBox comboBoxTT = new JComboBox(tinhTrang);
         comboBoxTT.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         comboBoxTT.setBackground(new Color(255, 255, 255));
@@ -132,7 +132,7 @@ public class GD_DichVu extends javax.swing.JFrame {
         panelC.setLayout(new java.awt.GridBagLayout());
 
         lblTittle.setBackground(new java.awt.Color(255, 255, 255));
-        lblTittle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTittle.setFont(new java.awt.Font("Playfair Display Medium", 1, 24)); // NOI18N
         lblTittle.setForeground(new java.awt.Color(33, 36, 71));
         lblTittle.setText("QUẢN LÝ DỊCH VỤ");
         lblTittle.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -181,7 +181,7 @@ public class GD_DichVu extends javax.swing.JFrame {
         scrollPane.setBackground(new java.awt.Color(255, 255, 255));
         scrollPane.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách dịch vụ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 18))); // NOI18N
 
-        tableDichVu.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        tableDichVu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tableDichVu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -234,7 +234,9 @@ public class GD_DichVu extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         panelCenter.add(lblMaDV, gridBagConstraints);
 
+        txtMaDV.setBackground(new java.awt.Color(242, 242, 242));
         txtMaDV.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtMaDV.setText("DVB001");
         txtMaDV.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         txtMaDV.setEnabled(false);
         txtMaDV.setMaximumSize(new java.awt.Dimension(250, 40));
@@ -371,6 +373,7 @@ public class GD_DichVu extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         panelCenter.add(lblSoLuong, gridBagConstraints);
 
+        spinSoLuong.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         spinSoLuong.setMaximumSize(new java.awt.Dimension(100, 40));
         spinSoLuong.setMinimum(0);
         spinSoLuong.setMinimumSize(new java.awt.Dimension(100, 40));

@@ -36,6 +36,7 @@ public class LoginForm extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jEditorPane1 = new javax.swing.JEditorPane();
+        jRadioButton1 = new javax.swing.JRadioButton();
         PanelDangNhap = new javax.swing.JPanel();
         img_login = new javax.swing.JLabel();
         label_dangNhap = new javax.swing.JLabel();
@@ -48,6 +49,8 @@ public class LoginForm extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jEditorPane1);
 
+        jRadioButton1.setText("jRadioButton1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(121, 188, 215));
         setSize(new java.awt.Dimension(1000, 500));
@@ -58,7 +61,7 @@ public class LoginForm extends javax.swing.JFrame {
 
         img_login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/image_login.png"))); // NOI18N
 
-        label_dangNhap.setFont(new java.awt.Font("Serif", 1, 50)); // NOI18N
+        label_dangNhap.setFont(new java.awt.Font("Playfair Display Medium", 1, 50)); // NOI18N
         label_dangNhap.setForeground(new java.awt.Color(33, 36, 71));
         label_dangNhap.setText("Đăng nhập");
 
@@ -82,7 +85,7 @@ public class LoginForm extends javax.swing.JFrame {
         });
 
         btn_dangNhap.setBackground(new java.awt.Color(64, 71, 241));
-        btn_dangNhap.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
+        btn_dangNhap.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         btn_dangNhap.setForeground(new java.awt.Color(255, 255, 255));
         btn_dangNhap.setText("Đăng nhập");
         btn_dangNhap.setBorder(null);
@@ -98,13 +101,13 @@ public class LoginForm extends javax.swing.JFrame {
         });
 
         btn_out.setBackground(new java.awt.Color(255, 51, 51));
-        btn_out.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
+        btn_out.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         btn_out.setForeground(new java.awt.Color(255, 255, 255));
         btn_out.setText("Thoát");
         btn_out.setBorder(null);
 
         btn_fpasssword.setBackground(new java.awt.Color(121, 188, 215));
-        btn_fpasssword.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
+        btn_fpasssword.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         btn_fpasssword.setText("Quên mật khẩu?");
         btn_fpasssword.setBorder(null);
         btn_fpasssword.addActionListener(new java.awt.event.ActionListener() {
@@ -125,9 +128,6 @@ public class LoginForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(PanelDangNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelDangNhapLayout.createSequentialGroup()
-                        .addComponent(label_dangNhap)
-                        .addGap(115, 115, 115))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelDangNhapLayout.createSequentialGroup()
                         .addGroup(PanelDangNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(PanelDangNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -138,14 +138,17 @@ public class LoginForm extends javax.swing.JFrame {
                                 .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(btn_hide)
                                 .addComponent(btn_fpasssword)))
-                        .addGap(40, 40, 40))))
+                        .addGap(40, 40, 40))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelDangNhapLayout.createSequentialGroup()
+                        .addComponent(label_dangNhap)
+                        .addGap(104, 104, 104))))
         );
         PanelDangNhapLayout.setVerticalGroup(
             PanelDangNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelDangNhapLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(label_dangNhap)
                 .addGap(33, 33, 33)
+                .addComponent(label_dangNhap)
+                .addGap(36, 36, 36)
                 .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_hide)
@@ -171,7 +174,7 @@ public class LoginForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelDangNhap, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+            .addComponent(PanelDangNhap, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 500, Short.MAX_VALUE)
         );
 
         pack();
@@ -217,6 +220,7 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JButton btn_out;
     private javax.swing.JLabel img_login;
     private javax.swing.JEditorPane jEditorPane1;
+    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel label_dangNhap;
     private javax.swing.JTextField txtMaNV;

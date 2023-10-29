@@ -98,7 +98,7 @@ public class HomePage extends javax.swing.JFrame {
         jPanel5.setBackground(new java.awt.Color(121, 188, 215));
         jPanel5.setLayout(new java.awt.GridBagLayout());
 
-        jLabel2.setFont(new java.awt.Font("Serif", 1, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Playfair Display Medium", 1, 24)); // NOI18N
         jLabel2.setText("TRANG CHỦ");
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jPanel5.add(jLabel2, new java.awt.GridBagConstraints());
