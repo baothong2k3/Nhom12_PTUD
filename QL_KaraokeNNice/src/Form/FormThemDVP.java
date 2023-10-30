@@ -25,13 +25,13 @@ public class FormThemDVP extends javax.swing.JFrame {
     }
 
     private void table() {
-        jTable1.getTableHeader().setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        jTable1.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
         jTable1.getTableHeader().setOpaque(false);
         jTable1.getTableHeader().setBackground(new Color(32, 136, 203));
         jTable1.getTableHeader().setForeground(new Color(255, 255, 255));
 //        jTable1.getColumnModel().getColumn(4).setCellEditor(new JXTable.GenericEditor());
         
-        jTable2.getTableHeader().setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        jTable2.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
         jTable2.getTableHeader().setOpaque(false);
         jTable2.getTableHeader().setBackground(new Color(32, 136, 203));
         jTable2.getTableHeader().setForeground(new Color(255, 255, 255));
@@ -89,8 +89,9 @@ public class FormThemDVP extends javax.swing.JFrame {
         jPanel4.add(jButton3, java.awt.BorderLayout.EAST);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1225, 400));
-        setPreferredSize(new java.awt.Dimension(1225, 500));
+        setMaximumSize(new java.awt.Dimension(1200, 650));
+        setMinimumSize(new java.awt.Dimension(1200, 650));
+        setPreferredSize(new java.awt.Dimension(1200, 650));
         getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
 
         panelHeader.setBackground(new java.awt.Color(255, 255, 255));
@@ -103,7 +104,7 @@ public class FormThemDVP extends javax.swing.JFrame {
         panelC.setLayout(new java.awt.GridBagLayout());
 
         lblTittle.setBackground(new java.awt.Color(255, 255, 255));
-        lblTittle.setFont(new java.awt.Font("Playfair Display Medium", 1, 24)); // NOI18N
+        lblTittle.setFont(new java.awt.Font("Cambria", 3, 24)); // NOI18N
         lblTittle.setForeground(new java.awt.Color(33, 36, 71));
         lblTittle.setText("CẬP NHẬT DỊCH VỤ");
         lblTittle.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -114,37 +115,44 @@ public class FormThemDVP extends javax.swing.JFrame {
         getContentPane().add(panelHeader, java.awt.BorderLayout.PAGE_START);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách dịch vụ đã thêm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 16))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách dịch vụ đã thêm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Cambria", 3, 16))); // NOI18N
         jPanel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel1.setMaximumSize(new java.awt.Dimension(1000, 1000));
-        jPanel1.setMinimumSize(new java.awt.Dimension(600, 350));
-        jPanel1.setPreferredSize(new java.awt.Dimension(600, 350));
+        jPanel1.setMaximumSize(new java.awt.Dimension(590, 350));
+        jPanel1.setMinimumSize(new java.awt.Dimension(590, 350));
+        jPanel1.setPreferredSize(new java.awt.Dimension(590, 350));
         jPanel1.setLayout(new java.awt.BorderLayout(0, 5));
 
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane2.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
+        jScrollPane2.setMaximumSize(new java.awt.Dimension(590, 350));
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(590, 350));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(590, 350));
 
-        jTable2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTable2.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Tên DV", "Đơn giá", "Đã thêm", "Thành tiền", "Thêm", "Bớt", "Xóa"
             }
         ));
-        jTable2.setPreferredSize(new java.awt.Dimension(525, 250));
+        jTable2.setMaximumSize(new java.awt.Dimension(590, 400));
+        jTable2.setMinimumSize(new java.awt.Dimension(590, 400));
+        jTable2.setPreferredSize(new java.awt.Dimension(590, 400));
         jTable2.setRowHeight(25);
         jTable2.setSelectionBackground(new java.awt.Color(204, 255, 255));
         jScrollPane2.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(2).setResizable(false);
+            jTable2.getColumnModel().getColumn(2).setPreferredWidth(30);
+            jTable2.getColumnModel().getColumn(4).setResizable(false);
+            jTable2.getColumnModel().getColumn(4).setPreferredWidth(15);
+            jTable2.getColumnModel().getColumn(5).setResizable(false);
+            jTable2.getColumnModel().getColumn(5).setPreferredWidth(15);
+            jTable2.getColumnModel().getColumn(6).setResizable(false);
+            jTable2.getColumnModel().getColumn(6).setPreferredWidth(15);
+        }
 
         jPanel1.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
@@ -152,14 +160,14 @@ public class FormThemDVP extends javax.swing.JFrame {
         jPanel6.setPreferredSize(new java.awt.Dimension(600, 50));
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING, 10, 10));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jLabel2.setText("Mã phòng");
         jPanel6.add(jLabel2);
 
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jTextField2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jTextField2.setEnabled(false);
         jTextField2.setMinimumSize(new java.awt.Dimension(120, 20));
-        jTextField2.setPreferredSize(new java.awt.Dimension(120, 25));
+        jTextField2.setPreferredSize(new java.awt.Dimension(120, 30));
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -167,14 +175,14 @@ public class FormThemDVP extends javax.swing.JFrame {
         });
         jPanel6.add(jTextField2);
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jLabel3.setText("Tổng tiền");
         jPanel6.add(jLabel3);
 
-        jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jTextField3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jTextField3.setEnabled(false);
         jTextField3.setMinimumSize(new java.awt.Dimension(120, 30));
-        jTextField3.setPreferredSize(new java.awt.Dimension(120, 25));
+        jTextField3.setPreferredSize(new java.awt.Dimension(120, 30));
         jPanel6.add(jTextField3);
 
         jPanel1.add(jPanel6, java.awt.BorderLayout.PAGE_START);
@@ -182,53 +190,47 @@ public class FormThemDVP extends javax.swing.JFrame {
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách dịch vụ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 16))); // NOI18N
-        jPanel2.setMinimumSize(new java.awt.Dimension(600, 350));
-        jPanel2.setPreferredSize(new java.awt.Dimension(600, 350));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách dịch vụ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Cambria", 3, 16))); // NOI18N
+        jPanel2.setMaximumSize(new java.awt.Dimension(590, 350));
+        jPanel2.setMinimumSize(new java.awt.Dimension(590, 350));
+        jPanel2.setPreferredSize(new java.awt.Dimension(590, 350));
         jPanel2.setLayout(new java.awt.BorderLayout(0, 5));
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(452, 200));
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(590, 350));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(590, 350));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(590, 350));
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Mã DV", "Tên DV", "Đơn giá", "Số lượng", "Đơn vị tính", "Thêm"
             }
-        ));
-        jTable1.setMinimumSize(new java.awt.Dimension(105, 250));
-        jTable1.setPreferredSize(new java.awt.Dimension(525, 250));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setMaximumSize(new java.awt.Dimension(590, 400));
+        jTable1.setMinimumSize(new java.awt.Dimension(590, 400));
+        jTable1.setPreferredSize(new java.awt.Dimension(590, 400));
         jTable1.setRowHeight(25);
         jTable1.setSelectionBackground(new java.awt.Color(204, 255, 255));
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(25);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(15);
+        }
 
         jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -237,19 +239,21 @@ public class FormThemDVP extends javax.swing.JFrame {
         jPanel3.setPreferredSize(new java.awt.Dimension(600, 50));
         jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 10));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jLabel1.setText("Mã dịch vụ");
         jPanel3.add(jLabel1);
 
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jTextField1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jTextField1.setToolTipText("");
-        jTextField1.setPreferredSize(new java.awt.Dimension(100, 25));
+        jTextField1.setMinimumSize(new java.awt.Dimension(0, 30));
+        jTextField1.setPreferredSize(new java.awt.Dimension(100, 30));
         jPanel3.add(jTextField1);
 
         jButton1.setBackground(new java.awt.Color(153, 255, 204));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jButton1.setText("Tìm");
-        jButton1.setPreferredSize(new java.awt.Dimension(100, 25));
+        jButton1.setMinimumSize(new java.awt.Dimension(0, 30));
+        jButton1.setPreferredSize(new java.awt.Dimension(100, 30));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -258,9 +262,10 @@ public class FormThemDVP extends javax.swing.JFrame {
         jPanel3.add(jButton1);
 
         jButton2.setBackground(new java.awt.Color(204, 204, 204));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jButton2.setText("Xóa");
-        jButton2.setPreferredSize(new java.awt.Dimension(100, 25));
+        jButton2.setMinimumSize(new java.awt.Dimension(0, 30));
+        jButton2.setPreferredSize(new java.awt.Dimension(100, 30));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -273,10 +278,11 @@ public class FormThemDVP extends javax.swing.JFrame {
         getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setMinimumSize(new java.awt.Dimension(122, 60));
-        jPanel5.setPreferredSize(new java.awt.Dimension(1236, 60));
+        jPanel5.setMaximumSize(new java.awt.Dimension(1000, 60));
+        jPanel5.setMinimumSize(new java.awt.Dimension(1000, 60));
+        jPanel5.setPreferredSize(new java.awt.Dimension(1000, 60));
         java.awt.GridBagLayout jPanel5Layout = new java.awt.GridBagLayout();
-        jPanel5Layout.columnWidths = new int[] {0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 0};
+        jPanel5Layout.columnWidths = new int[] {0, 80, 0, 80, 0, 80, 0, 80, 0, 80, 0, 80, 0, 80, 0, 80, 0, 80, 0, 80, 0};
         jPanel5Layout.rowHeights = new int[] {0};
         jPanel5.setLayout(jPanel5Layout);
 

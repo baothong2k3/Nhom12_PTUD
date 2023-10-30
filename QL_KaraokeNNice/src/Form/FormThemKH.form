@@ -14,7 +14,7 @@
       <Dimension value="[720, 350]"/>
     </Property>
     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[720, 400]"/>
+      <Dimension value="[800, 400]"/>
     </Property>
   </Properties>
   <SyntheticProperties>
@@ -41,11 +41,14 @@
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Cambria" size="12" style="0"/>
+        </Property>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[400, 40]"/>
         </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[400, 40]"/>
+          <Dimension value="[700, 40]"/>
         </Property>
       </Properties>
       <Constraints>
@@ -77,7 +80,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Playfair Display Medium" size="24" style="1"/>
+                  <Font name="Cambria" size="24" style="3"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="47" green="24" red="21" type="rgb"/>
@@ -100,8 +103,14 @@
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[700, 460]"/>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[700, 460]"/>
+        </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[120, 40]"/>
+          <Dimension value="[800, 460]"/>
         </Property>
       </Properties>
       <Constraints>
@@ -116,7 +125,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="16" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="H&#x1ecd;"/>
           </Properties>
@@ -129,13 +138,13 @@
         <Component class="javax.swing.JTextField" name="jTextField1">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="16" style="0"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[150, 40]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[150, 30]"/>
+              <Dimension value="[200, 40]"/>
             </Property>
           </Properties>
           <Constraints>
@@ -150,7 +159,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="16" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="CCCD"/>
           </Properties>
@@ -163,13 +172,13 @@
         <Component class="javax.swing.JTextField" name="jTextField2">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="16" style="0"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 40]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[200, 30]"/>
+              <Dimension value="[200, 40]"/>
             </Property>
           </Properties>
           <Events>
@@ -187,7 +196,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="16" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="T&#xea;n"/>
           </Properties>
@@ -200,13 +209,13 @@
         <Component class="javax.swing.JTextField" name="jTextField3">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="16" style="0"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[150, 40]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[150, 30]"/>
+              <Dimension value="[200, 40]"/>
             </Property>
           </Properties>
           <Events>
@@ -224,7 +233,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="16" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="N&#x103;m sinh"/>
           </Properties>
@@ -240,7 +249,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="16" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="S&#x110;T Kh&#xe1;ch"/>
           </Properties>
@@ -253,13 +262,13 @@
         <Component class="javax.swing.JTextField" name="jTextField6">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="16" style="0"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[300, 40]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[200, 30]"/>
+              <Dimension value="[200, 40]"/>
             </Property>
           </Properties>
           <Constraints>
@@ -274,7 +283,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="16" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="&#x110;&#x1ecb;a ch&#x1ec9;"/>
           </Properties>
@@ -287,13 +296,13 @@
         <Component class="javax.swing.JTextField" name="jTextField7">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="16" style="0"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[150, 40]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[200, 30]"/>
+              <Dimension value="[200, 40]"/>
             </Property>
           </Properties>
           <Constraints>
@@ -308,7 +317,7 @@
               <Color blue="ff" green="cc" red="99" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="18" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Image/back.png"/>
@@ -330,7 +339,7 @@
               <Color blue="cc" green="ff" red="cc" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="18" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Image/add-user.png"/>
@@ -355,7 +364,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="16" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Gi&#x1edb;i t&#xed;nh"/>
           </Properties>
@@ -374,7 +383,7 @@
               <ComponentRef name="buttonGroupGT"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="16" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Nam"/>
           </Properties>
@@ -396,7 +405,7 @@
               <ComponentRef name="buttonGroupGT"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="16" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="N&#x1eef;"/>
           </Properties>
@@ -409,7 +418,7 @@
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="16" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Email"/>
           </Properties>
@@ -422,13 +431,13 @@
         <Component class="javax.swing.JTextField" name="jTextField5">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="16" style="0"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[120, 30]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[200, 30]"/>
+              <Dimension value="[200, 40]"/>
             </Property>
           </Properties>
           <Constraints>
@@ -440,10 +449,10 @@
         <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="16" style="0"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[150, 30]"/>
+              <Dimension value="[200, 40]"/>
             </Property>
           </Properties>
           <Constraints>
@@ -458,14 +467,14 @@
               <Color blue="cc" green="cc" red="cc" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="18" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Image/eraser.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[100, 40]"/>
+              <Dimension value="[130, 40]"/>
             </Property>
           </Properties>
           <Constraints>
@@ -513,7 +522,7 @@
             <CodeExpression id="3">
               <ExpressionOrigin>
                 <Value type="[I" editor="org.netbeans.modules.form.layoutsupport.delegates.GridBagLayoutSupport$IntArrayPropertyEditor">
-                  <PropertyValue value="[0, 15, 0, 15, 0, 15, 0, 15, 0, 15, 0]"/>
+                  <PropertyValue value="[0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0]"/>
                 </Value>
               </ExpressionOrigin>
             </CodeExpression>

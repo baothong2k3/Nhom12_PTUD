@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.9" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
-  <NonVisualComponents>
-    <Component class="javax.swing.JTextField" name="jTextField5">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField5"/>
-      </Properties>
-    </Component>
-  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="ff" red="ff" type="rgb"/>
     </Property>
-    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[700, 350]"/>
+    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[800, 500]"/>
     </Property>
-    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[750, 290]"/>
+    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[800, 500]"/>
     </Property>
   </Properties>
   <SyntheticProperties>
@@ -44,11 +37,14 @@
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[800, 40]"/>
+        </Property>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[400, 40]"/>
+          <Dimension value="[800, 40]"/>
         </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[400, 40]"/>
+          <Dimension value="[800, 40]"/>
         </Property>
       </Properties>
       <Constraints>
@@ -80,7 +76,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Playfair Display Medium" size="24" style="1"/>
+                  <Font name="Cambria" size="24" style="3"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="47" green="24" red="21" type="rgb"/>
@@ -103,8 +99,14 @@
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[800, 460]"/>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[800, 460]"/>
+        </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[120, 40]"/>
+          <Dimension value="[800, 460]"/>
         </Property>
       </Properties>
       <Constraints>
@@ -119,7 +121,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="18" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="S&#x1ed1; ph&#xf2;ng"/>
           </Properties>
@@ -139,7 +141,7 @@
               <Dimension value="[150, 40]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[100, 30]"/>
+              <Dimension value="[200, 40]"/>
             </Property>
           </Properties>
           <Constraints>
@@ -154,7 +156,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="18" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Lo&#x1ea1;i ph&#xf2;ng"/>
           </Properties>
@@ -174,7 +176,7 @@
               <Dimension value="[150, 40]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[100, 30]"/>
+              <Dimension value="[200, 40]"/>
             </Property>
           </Properties>
           <Events>
@@ -192,7 +194,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="18" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="S&#x1ed1; ng&#x1b0;&#x1edd;i"/>
           </Properties>
@@ -212,7 +214,7 @@
               <Dimension value="[150, 40]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[120, 30]"/>
+              <Dimension value="[200, 40]"/>
             </Property>
           </Properties>
           <Events>
@@ -230,7 +232,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="18" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Gi&#xe1; ti&#x1ec1;n"/>
           </Properties>
@@ -250,7 +252,7 @@
               <Dimension value="[170, 40]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[120, 30]"/>
+              <Dimension value="[200, 40]"/>
             </Property>
           </Properties>
           <Constraints>
@@ -265,7 +267,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="18" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="S&#x110;T Kh&#xe1;ch"/>
           </Properties>
@@ -284,7 +286,7 @@
               <Dimension value="[300, 40]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[200, 30]"/>
+              <Dimension value="[200, 40]"/>
             </Property>
           </Properties>
           <Constraints>
@@ -303,7 +305,7 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Ki&#x1ec3;m tra"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[120, 30]"/>
+              <Dimension value="[120, 40]"/>
             </Property>
           </Properties>
           <Constraints>
@@ -318,7 +320,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Cambria" size="18" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="T&#xea;n kh&#xe1;ch h&#xe0;ng"/>
           </Properties>
@@ -338,7 +340,7 @@
               <Dimension value="[150, 40]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[200, 30]"/>
+              <Dimension value="[200, 40]"/>
             </Property>
           </Properties>
           <Constraints>
@@ -381,7 +383,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-              <GridBagConstraints gridX="6" gridY="10" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+              <GridBagConstraints gridX="6" gridY="10" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="22" weightX="0.0" weightY="0.0"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -409,7 +411,7 @@
             <CodeExpression id="2">
               <ExpressionOrigin>
                 <Value type="[I" editor="org.netbeans.modules.form.layoutsupport.delegates.GridBagLayoutSupport$IntArrayPropertyEditor">
-                  <PropertyValue value="[0, 10, 0, 10, 0, 10, 0, 10, 0]"/>
+                  <PropertyValue value="[0, 15, 0, 15, 0, 15, 0, 15, 0]"/>
                 </Value>
               </ExpressionOrigin>
             </CodeExpression>
@@ -424,7 +426,7 @@
             <CodeExpression id="3">
               <ExpressionOrigin>
                 <Value type="[I" editor="org.netbeans.modules.form.layoutsupport.delegates.GridBagLayoutSupport$IntArrayPropertyEditor">
-                  <PropertyValue value="[0, 15, 0, 15, 0, 15, 0, 15, 0, 15, 0]"/>
+                  <PropertyValue value="[0, 20, 0, 20, 0, 20, 0, 20, 0, 20, 0]"/>
                 </Value>
               </ExpressionOrigin>
             </CodeExpression>
@@ -1374,12 +1376,25 @@
           </Parameters>
         </CodeStatement>
         <CodeStatement>
+          <CodeExpression id="69_gridBagConstraints"/>
+          <StatementProvider type="CodeField">
+            <CodeField name="anchor" class="java.awt.GridBagConstraints"/>
+          </StatementProvider>
+          <Parameters>
+            <CodeExpression id="72">
+              <ExpressionOrigin>
+                <Value type="int" value="22"/>
+              </ExpressionOrigin>
+            </CodeExpression>
+          </Parameters>
+        </CodeStatement>
+        <CodeStatement>
           <CodeExpression id="4_jPanel1"/>
           <StatementProvider type="CodeMethod">
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="72_jButton3">
+            <CodeExpression id="73_jButton3">
               <CodeVariable name="jButton3" type="8194" declaredType="javax.swing.JButton"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
