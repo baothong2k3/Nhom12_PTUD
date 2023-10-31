@@ -34,6 +34,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         GD_DichVu.setVisible(false);
         tableDichVu();
         tableNhanVien();
+        tableKhachHang();
     }
 
     private void tableDichVu() {
@@ -89,6 +90,21 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         tableDSNV.getColumnModel().getColumn(11).setCellEditor(new DefaultCellEditor(comboBoxTT));
         //ngày sinh
         tableDSNV.getColumnModel().getColumn(4).setCellEditor(new JDateChooserCellEditor());
+    }
+
+    private void tableKhachHang() {
+        PromptSupport.setPrompt("Nhập số điện thoại", txtTimKH);
+        tableKH.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
+        tableKH.getTableHeader().setOpaque(false);
+        tableKH.getTableHeader().setBackground(new Color(32, 136, 203));
+        tableKH.getTableHeader().setForeground(new Color(255, 255, 255));
+    }
+
+    private void disableAllPanel() {
+        GD_Chinh.setVisible(false);
+        GD_DichVu.setVisible(false);
+        GD_NhanVien.setVisible(false);
+        GD_KhachHang.setVisible(false);
     }
 
     /**
@@ -166,6 +182,23 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         panelDSNV = new javax.swing.JPanel();
         scrollPane1 = new javax.swing.JScrollPane();
         tableDSNV = new javax.swing.JTable();
+        GD_KhachHang = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        txtTimKH = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableKH = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -174,7 +207,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        GD_Chinh = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -1044,6 +1077,178 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
         GD_NhanVien.add(panelDSNV, java.awt.BorderLayout.CENTER);
 
+        GD_KhachHang.setBackground(new java.awt.Color(255, 255, 255));
+        GD_KhachHang.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        GD_KhachHang.setMaximumSize(new java.awt.Dimension(1200, 820));
+        GD_KhachHang.setMinimumSize(new java.awt.Dimension(1200, 820));
+        GD_KhachHang.setPreferredSize(new java.awt.Dimension(1200, 820));
+        GD_KhachHang.setLayout(new java.awt.BorderLayout());
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin khách hàng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Cambria", 0, 16))); // NOI18N
+        jPanel3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jPanel3.setMinimumSize(new java.awt.Dimension(1200, 220));
+        jPanel3.setPreferredSize(new java.awt.Dimension(1200, 220));
+        java.awt.GridBagLayout jPanel3Layout = new java.awt.GridBagLayout();
+        jPanel3Layout.columnWidths = new int[] {0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0};
+        jPanel3Layout.rowHeights = new int[] {0, 10, 0, 10, 0};
+        jPanel3.setLayout(jPanel3Layout);
+
+        jLabel4.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jLabel4.setText("Mã khách hàng");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        jPanel3.add(jLabel4, gridBagConstraints);
+
+        jTextField1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jTextField1.setEnabled(false);
+        jTextField1.setMinimumSize(new java.awt.Dimension(200, 40));
+        jTextField1.setPreferredSize(new java.awt.Dimension(200, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        jPanel3.add(jTextField1, gridBagConstraints);
+
+        jLabel5.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jLabel5.setText("Họ khách hàng");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        jPanel3.add(jLabel5, gridBagConstraints);
+
+        jTextField2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jTextField2.setMinimumSize(new java.awt.Dimension(200, 40));
+        jTextField2.setPreferredSize(new java.awt.Dimension(200, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        jPanel3.add(jTextField2, gridBagConstraints);
+
+        jLabel6.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jLabel6.setText("Tên khách hàng");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel3.add(jLabel6, gridBagConstraints);
+
+        jTextField3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jTextField3.setMinimumSize(new java.awt.Dimension(200, 40));
+        jTextField3.setPreferredSize(new java.awt.Dimension(200, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        jPanel3.add(jTextField3, gridBagConstraints);
+
+        jLabel7.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jLabel7.setText("Số điện thoại");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel3.add(jLabel7, gridBagConstraints);
+
+        jTextField4.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jTextField4.setMinimumSize(new java.awt.Dimension(200, 40));
+        jTextField4.setPreferredSize(new java.awt.Dimension(200, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 2;
+        jPanel3.add(jTextField4, gridBagConstraints);
+
+        jButton2.setBackground(new java.awt.Color(153, 255, 255));
+        jButton2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/search-user.png"))); // NOI18N
+        jButton2.setText("Tìm");
+        jButton2.setPreferredSize(new java.awt.Dimension(100, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel3.add(jButton2, gridBagConstraints);
+
+        txtTimKH.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtTimKH.setMinimumSize(new java.awt.Dimension(200, 40));
+        txtTimKH.setPreferredSize(new java.awt.Dimension(200, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        jPanel3.add(txtTimKH, gridBagConstraints);
+
+        jButton3.setBackground(new java.awt.Color(204, 255, 204));
+        jButton3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/system-update.png"))); // NOI18N
+        jButton3.setText("Cập nhật thông tin");
+        jButton3.setPreferredSize(new java.awt.Dimension(200, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        jPanel3.add(jButton3, gridBagConstraints);
+
+        jButton4.setBackground(new java.awt.Color(153, 204, 255));
+        jButton4.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/add-user.png"))); // NOI18N
+        jButton4.setText("Thêm khách hàng");
+        jButton4.setPreferredSize(new java.awt.Dimension(200, 40));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 4;
+        jPanel3.add(jButton4, gridBagConstraints);
+
+        GD_KhachHang.add(jPanel3, java.awt.BorderLayout.PAGE_START);
+
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jPanel7.setPreferredSize(new java.awt.Dimension(1200, 500));
+        jPanel7.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách khách hàng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Cambria", 0, 16))); // NOI18N
+        jScrollPane1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(1200, 600));
+
+        tableKH.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        tableKH.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Mã KH", "CCCD", "Họ", "Tên", "Năm sinh", "Giới tính", "Số điện thoại"
+            }
+        ));
+        tableKH.setPreferredSize(new java.awt.Dimension(1200, 600));
+        tableKH.setRowHeight(25);
+        jScrollPane1.setViewportView(tableKH);
+
+        jPanel7.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        GD_KhachHang.add(jPanel7, java.awt.BorderLayout.CENTER);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(121, 188, 215));
         setMinimumSize(new java.awt.Dimension(1200, 900));
@@ -1126,17 +1331,17 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setMaximumSize(new java.awt.Dimension(1200, 820));
-        jPanel3.setMinimumSize(new java.awt.Dimension(1200, 820));
-        jPanel3.setPreferredSize(new java.awt.Dimension(1200, 820));
-        jPanel3.setLayout(new java.awt.BorderLayout());
+        GD_Chinh.setBackground(new java.awt.Color(255, 255, 255));
+        GD_Chinh.setMaximumSize(new java.awt.Dimension(1200, 820));
+        GD_Chinh.setMinimumSize(new java.awt.Dimension(1200, 820));
+        GD_Chinh.setPreferredSize(new java.awt.Dimension(1200, 820));
+        GD_Chinh.setLayout(new java.awt.BorderLayout());
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/home.png"))); // NOI18N
-        jPanel3.add(jLabel1, java.awt.BorderLayout.PAGE_START);
+        GD_Chinh.add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
-        jPanel1.add(jPanel3, java.awt.BorderLayout.CENTER);
+        jPanel1.add(GD_Chinh, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -1169,6 +1374,11 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/people.png"))); // NOI18N
         jMenu5.setText("Khách hàng");
         jMenu5.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jMenu5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu5MouseClicked(evt);
+            }
+        });
         jMenuBar2.add(jMenu5);
 
         jMenu10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/food.png"))); // NOI18N
@@ -1225,7 +1435,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
     private void jMenu10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu10MouseClicked
         // TODO add your handling code here:
-        jPanel3.setVisible(false);
+        disableAllPanel();
         jLabel2.setText("QUẢN LÝ DỊCH VỤ");
         jPanel1.add(GD_DichVu, BorderLayout.CENTER);
         GD_DichVu.setVisible(true);
@@ -1261,7 +1471,9 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
         // TODO add your handling code here:
-        jPanel3.setVisible(true);
+        disableAllPanel();
+        jLabel2.setText("TRANG CHỦ");
+        GD_Chinh.setVisible(true);
     }//GEN-LAST:event_jMenu1MouseClicked
 
     private void txtMaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaNVActionPerformed
@@ -1298,7 +1510,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
     private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
         // TODO add your handling code here:
-        GD_DichVu.setVisible(false);
+        disableAllPanel();
         GD_NhanVien.setVisible(true);
         jLabel2.setText("QUẢN LÝ NHÂN VIÊN");
         jPanel1.add(GD_NhanVien, BorderLayout.CENTER);
@@ -1311,6 +1523,19 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private void pwMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwMatKhauActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_pwMatKhauActionPerformed
+
+    private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
+        // TODO add your handling code here:
+        disableAllPanel();
+        GD_KhachHang.setVisible(true);
+        jLabel2.setText("QUẢN LÝ KHÁCH HÀNG");
+        jPanel1.add(GD_KhachHang, BorderLayout.CENTER);
+    }//GEN-LAST:event_jMenu5MouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        new Form.FormThemKH().setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1349,7 +1574,9 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel GD_Chinh;
     private javax.swing.JPanel GD_DichVu;
+    private javax.swing.JPanel GD_KhachHang;
     private javax.swing.JPanel GD_NhanVien;
     private javax.swing.JButton btnCapNhat;
     private javax.swing.JButton btnCapNhatDV;
@@ -1366,9 +1593,16 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboXuatXu;
     private com.toedter.calendar.JDateChooser hsd;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu11;
@@ -1383,6 +1617,12 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel lblCCCD;
     private javax.swing.JLabel lblDiaChi;
     private javax.swing.JLabel lblDonGia;
@@ -1419,6 +1659,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private com.toedter.components.JSpinField spinSoLuong;
     private javax.swing.JTable tableDSNV;
     private javax.swing.JTable tableDichVu;
+    private javax.swing.JTable tableKH;
     private javax.swing.JTextField txtCCCD;
     private javax.swing.JLabel txtChucVu;
     private javax.swing.JTextField txtDiaChi;
@@ -1432,6 +1673,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JTextField txtTenDV;
     private javax.swing.JTextField txtTim;
     private javax.swing.JTextField txtTim1;
+    private javax.swing.JTextField txtTimKH;
     // End of variables declaration//GEN-END:variables
 
     private Object DSPhong() {
