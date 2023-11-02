@@ -4,7 +4,6 @@
  */
 package ql_karaokennice;
 
-import gui.DSPhong;
 import gui.GiaoDienChinh;
 import gui.LoginForm;
 import Form.Form_TraPhong;
@@ -21,13 +20,7 @@ public class QL_KaraokeNNice {
     public static void main(String[] args) {
         //new LoginForm().setVisible(true);
         new GiaoDienChinh().setVisible(true);
-        //new DSPhong().setVisible(true);
-        //new GD_NhanVien().setVisible(true);
-        //new GD_DichVu().setVisible(true);
-        //new Form.FormDatPhong().setVisible(true);
-        //new Form.FormThemKH().setVisible(true);
-        //new Form.FormThemDVP().setVisible(true);
-        //new Form_TraPhong().setVisible(true);
+        //new Form.Form_ChiTietHoaDon().setVisible(true);
     }
 
 }

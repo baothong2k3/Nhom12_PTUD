@@ -8,12 +8,12 @@ package Form;
  *
  * @author PC BAO THONG
  */
-public class FormThemKH extends javax.swing.JFrame {
+public class Form_DatPhong extends javax.swing.JFrame {
 
     /**
      * Creates new form FormDatPhong
      */
-    public FormThemKH() {
+    public Form_DatPhong() {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
@@ -29,7 +29,6 @@ public class FormThemKH extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        buttonGroupGT = new javax.swing.ButtonGroup();
         panelHeader = new javax.swing.JPanel();
         panelC = new javax.swing.JPanel();
         lblTittle = new javax.swing.JLabel();
@@ -41,29 +40,24 @@ public class FormThemKH extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jLabel8 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-        setMinimumSize(new java.awt.Dimension(720, 350));
-        setPreferredSize(new java.awt.Dimension(800, 400));
+        setMaximumSize(new java.awt.Dimension(800, 500));
+        setMinimumSize(new java.awt.Dimension(800, 500));
 
         panelHeader.setBackground(new java.awt.Color(255, 255, 255));
-        panelHeader.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
-        panelHeader.setMinimumSize(new java.awt.Dimension(400, 40));
-        panelHeader.setPreferredSize(new java.awt.Dimension(700, 40));
+        panelHeader.setMaximumSize(new java.awt.Dimension(800, 40));
+        panelHeader.setMinimumSize(new java.awt.Dimension(800, 40));
+        panelHeader.setPreferredSize(new java.awt.Dimension(800, 40));
         panelHeader.setLayout(new java.awt.GridLayout(1, 0));
 
         panelC.setBackground(new java.awt.Color(121, 188, 215));
@@ -73,7 +67,7 @@ public class FormThemKH extends javax.swing.JFrame {
         lblTittle.setBackground(new java.awt.Color(255, 255, 255));
         lblTittle.setFont(new java.awt.Font("Cambria", 3, 24)); // NOI18N
         lblTittle.setForeground(new java.awt.Color(33, 36, 71));
-        lblTittle.setText("THÊM KHÁCH HÀNG");
+        lblTittle.setText("ĐẶT PHÒNG");
         lblTittle.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         panelC.add(lblTittle, new java.awt.GridBagConstraints());
 
@@ -82,43 +76,45 @@ public class FormThemKH extends javax.swing.JFrame {
         getContentPane().add(panelHeader, java.awt.BorderLayout.PAGE_START);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setMaximumSize(new java.awt.Dimension(700, 460));
-        jPanel1.setMinimumSize(new java.awt.Dimension(700, 460));
+        jPanel1.setMaximumSize(new java.awt.Dimension(800, 460));
+        jPanel1.setMinimumSize(new java.awt.Dimension(800, 460));
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 460));
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
-        jPanel1Layout.columnWidths = new int[] {0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0};
-        jPanel1Layout.rowHeights = new int[] {0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0};
+        jPanel1Layout.columnWidths = new int[] {0, 15, 0, 15, 0, 15, 0, 15, 0};
+        jPanel1Layout.rowHeights = new int[] {0, 20, 0, 20, 0, 20, 0, 20, 0, 20, 0};
         jPanel1.setLayout(jPanel1Layout);
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jLabel1.setText("Họ");
+        jLabel1.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
+        jLabel1.setText("Số phòng");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel1, gridBagConstraints);
 
-        jTextField1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jTextField1.setEnabled(false);
         jTextField1.setMinimumSize(new java.awt.Dimension(150, 40));
         jTextField1.setPreferredSize(new java.awt.Dimension(200, 40));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jTextField1, gridBagConstraints);
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jLabel2.setText("CCCD");
+        jLabel2.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
+        jLabel2.setText("Loại phòng");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel2, gridBagConstraints);
 
-        jTextField2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField2.setMinimumSize(new java.awt.Dimension(200, 40));
+        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jTextField2.setEnabled(false);
+        jTextField2.setMinimumSize(new java.awt.Dimension(150, 40));
         jTextField2.setPreferredSize(new java.awt.Dimension(200, 40));
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,20 +123,21 @@ public class FormThemKH extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jTextField2, gridBagConstraints);
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jLabel3.setText("Tên");
+        jLabel3.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
+        jLabel3.setText("Số người");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel3, gridBagConstraints);
 
-        jTextField3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jTextField3.setEnabled(false);
         jTextField3.setMinimumSize(new java.awt.Dimension(150, 40));
         jTextField3.setPreferredSize(new java.awt.Dimension(200, 40));
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
@@ -149,58 +146,75 @@ public class FormThemKH extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
         jPanel1.add(jTextField3, gridBagConstraints);
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jLabel4.setText("Năm sinh");
+        jLabel4.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
+        jLabel4.setText("Giá tiền");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel4, gridBagConstraints);
 
+        jTextField4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jTextField4.setEnabled(false);
+        jTextField4.setMinimumSize(new java.awt.Dimension(170, 40));
+        jTextField4.setPreferredSize(new java.awt.Dimension(200, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 2;
+        jPanel1.add(jTextField4, gridBagConstraints);
+
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel5.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
         jLabel5.setText("SĐT Khách");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel5, gridBagConstraints);
 
-        jTextField6.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jTextField6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jTextField6.setMinimumSize(new java.awt.Dimension(300, 40));
         jTextField6.setPreferredSize(new java.awt.Dimension(200, 40));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         jPanel1.add(jTextField6, gridBagConstraints);
 
+        jButton1.setBackground(new java.awt.Color(204, 255, 255));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jButton1.setText("Kiểm tra");
+        jButton1.setPreferredSize(new java.awt.Dimension(120, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        jPanel1.add(jButton1, gridBagConstraints);
+
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel6.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jLabel6.setText("Địa chỉ");
+        jLabel6.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
+        jLabel6.setText("Tên khách hàng");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.gridy = 6;
         jPanel1.add(jLabel6, gridBagConstraints);
 
-        jTextField7.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jTextField7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jTextField7.setEnabled(false);
         jTextField7.setMinimumSize(new java.awt.Dimension(150, 40));
         jTextField7.setPreferredSize(new java.awt.Dimension(200, 40));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         jPanel1.add(jTextField7, gridBagConstraints);
 
         jButton2.setBackground(new java.awt.Color(153, 204, 255));
-        jButton2.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/back.png"))); // NOI18N
+        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton2.setText("Quay lại");
-        jButton2.setPreferredSize(new java.awt.Dimension(130, 40));
+        jButton2.setPreferredSize(new java.awt.Dimension(120, 40));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
@@ -208,88 +222,14 @@ public class FormThemKH extends javax.swing.JFrame {
         jPanel1.add(jButton2, gridBagConstraints);
 
         jButton3.setBackground(new java.awt.Color(204, 255, 204));
-        jButton3.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/add-user.png"))); // NOI18N
-        jButton3.setText("Thêm");
-        jButton3.setPreferredSize(new java.awt.Dimension(130, 40));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
+        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jButton3.setText("Đặt phòng");
+        jButton3.setPreferredSize(new java.awt.Dimension(120, 40));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel1.add(jButton3, gridBagConstraints);
-
-        jLabel7.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel7.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jLabel7.setText("Giới tính");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jLabel7, gridBagConstraints);
-
-        jRadioButton1.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroupGT.add(jRadioButton1);
-        jRadioButton1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jRadioButton1.setText("Nam");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jRadioButton1, gridBagConstraints);
-
-        jRadioButton2.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroupGT.add(jRadioButton2);
-        jRadioButton2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jRadioButton2.setText("Nữ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        jPanel1.add(jRadioButton2, gridBagConstraints);
-
-        jLabel8.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jLabel8.setText("Email");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jLabel8, gridBagConstraints);
-
-        jTextField5.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField5.setMinimumSize(new java.awt.Dimension(120, 30));
-        jTextField5.setPreferredSize(new java.awt.Dimension(200, 40));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        jPanel1.add(jTextField5, gridBagConstraints);
-
-        jDateChooser1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jDateChooser1.setPreferredSize(new java.awt.Dimension(200, 40));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jDateChooser1, gridBagConstraints);
-
-        jButton1.setBackground(new java.awt.Color(204, 204, 204));
-        jButton1.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/eraser.png"))); // NOI18N
-        jButton1.setText("Xóa");
-        jButton1.setPreferredSize(new java.awt.Dimension(130, 40));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 10;
-        jPanel1.add(jButton1, gridBagConstraints);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -303,14 +243,6 @@ public class FormThemKH extends javax.swing.JFrame {
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
-
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -329,13 +261,13 @@ public class FormThemKH extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormThemKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form_DatPhong.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormThemKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form_DatPhong.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormThemKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form_DatPhong.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormThemKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form_DatPhong.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -343,32 +275,26 @@ public class FormThemKH extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FormThemKH().setVisible(true);
+                new Form_DatPhong().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup buttonGroupGT;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JLabel lblTittle;
