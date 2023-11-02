@@ -12,12 +12,12 @@ import org.jdesktop.swingx.JXTable;
  *
  * @author PC BAO THONG
  */
-public class Form_ThemDVP extends javax.swing.JFrame {
+public class Form_CapNhatDVP extends javax.swing.JFrame {
 
     /**
      * Creates new form FormThemDVP
      */
-    public Form_ThemDVP() {
+    public Form_CapNhatDVP() {
         initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
@@ -344,21 +344,23 @@ public class Form_ThemDVP extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Form_ThemDVP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form_CapNhatDVP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Form_ThemDVP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form_CapNhatDVP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Form_ThemDVP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form_CapNhatDVP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Form_ThemDVP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form_CapNhatDVP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Form_ThemDVP().setVisible(true);
+                new Form_CapNhatDVP().setVisible(true);
             }
         });
     }
