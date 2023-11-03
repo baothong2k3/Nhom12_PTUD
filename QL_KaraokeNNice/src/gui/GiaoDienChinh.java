@@ -5,14 +5,20 @@
 package gui;
 
 import com.toedter.calendar.JDateChooserCellEditor;
+import connectDB.ConnectDB;
+import dao.HoaDon_DAO;
+import entity.HoaDon;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.List;
 import java.awt.PopupMenu;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.DefaultCellEditor;
@@ -23,6 +29,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.plaf.PromptTextUI;
 import org.jdesktop.swingx.prompt.PromptSupport;
 
@@ -32,10 +39,23 @@ import org.jdesktop.swingx.prompt.PromptSupport;
  */
 public class GiaoDienChinh extends javax.swing.JFrame {
 
+    //DAO
+    private HoaDon_DAO hd_dao;
+
+    //HoaDon
+    private DefaultTableModel modelHD;
+
     /**
      * Creates new form HomePage
      */
     public GiaoDienChinh() {
+        try {
+            ConnectDB.getInstance().connect();
+            System.out.println("Ket noi Database thanh cong");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        hd_dao = new HoaDon_DAO();
         initComponents();
         setLocationRelativeTo(null);
         //setResizable(false);
@@ -132,7 +152,21 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         tableHD.getTableHeader().setBackground(new Color(32, 136, 203));
         tableHD.getTableHeader().setForeground(new Color(255, 255, 255));
         tableHD.getColumnModel().getColumn(1).setCellEditor(new JDateChooserCellEditor());
+        modelHD = (DefaultTableModel) tableHD.getModel();
+        napDuLieuHD();
     }
+
+    private void napDuLieuHD() {
+        ArrayList<HoaDon> dsHD;
+        dsHD = hd_dao.getAllHoaDon();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        for (HoaDon hd : dsHD) {
+            String ngayLap = formatter.format(hd.getGioKetThuc());
+            modelHD.addRow(new Object[]{hd.getMaHD(), ngayLap, hd.getKhachHang().getHoKH() + " " + hd.getKhachHang().getTenKH(),
+                hd.getKhachHang().getSdtKH(), hd.getNhanVienLap().getHoNV() + " " + hd.getNhanVienLap().getTenNV(), hd.getTongTien()});
+        }
+    }
+
     private void tableDanhSachPhong() {
         PromptSupport.setPrompt("Nhập mã phòng", txtTP);
         tableDSPhong.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
@@ -2129,10 +2163,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
         tableHD.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Mã hóa đơn", "Ngày lập", "Tên khách hàng", "Số điện thọai", "Nhân viên", "Tổng tiền"
@@ -2730,8 +2761,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Frame 15.png"))); // NOI18N
-        jLabel1.setMinimumSize(new java.awt.Dimension(1200, 520));
-        jLabel1.setPreferredSize(new java.awt.Dimension(1200, 520));
         GD_Chinh.add(jLabel1, java.awt.BorderLayout.CENTER);
 
         jPanel1.add(GD_Chinh, java.awt.BorderLayout.CENTER);
