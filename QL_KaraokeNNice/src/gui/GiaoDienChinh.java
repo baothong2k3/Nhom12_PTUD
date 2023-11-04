@@ -4,232 +4,41 @@
  */
 package gui;
 
-import com.toedter.calendar.JDateChooserCellEditor;
-import connectDB.ConnectDB;
-import dao.HoaDon_DAO;
-import entity.HoaDon;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.List;
-import java.awt.PopupMenu;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import javax.swing.DefaultCellEditor;
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.SwingConstants;
-import javax.swing.Timer;
-import javax.swing.table.DefaultTableModel;
-import org.jdesktop.swingx.plaf.PromptTextUI;
-import org.jdesktop.swingx.prompt.PromptSupport;
+import java.awt.CardLayout;
+import javax.swing.JFrame;
 
 /**
  *
  * @author PC BAO THONG
  */
 public class GiaoDienChinh extends javax.swing.JFrame {
-
-    //DAO
-    private HoaDon_DAO hd_dao;
-
-    //HoaDon
-    private DefaultTableModel modelHD;
-
+    private CardLayout card = null;
     /**
      * Creates new form HomePage
      */
     public GiaoDienChinh() {
-        try {
-            ConnectDB.getInstance().connect();
-            System.out.println("Ket noi Database thanh cong");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        hd_dao = new HoaDon_DAO();
         initComponents();
         setLocationRelativeTo(null);
         //setResizable(false);
         setTitle("Quản lý karaoke NNice");
-        tableDichVu();
-        tableNhanVien();
-        tableKhachHang();
-        tablePhieuDat();
-        tableHoaDon();
-        tableDanhSachPhong();
-        hienThiNgay();
-        dsPhong();
+        card = (CardLayout) this.GD_Chinh.getLayout();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
-
-    private void tableDichVu() {
-        PromptSupport.setPrompt("Nhập mã dịch vụ", txtTim);
-        tableDichVu.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
-        tableDichVu.getTableHeader().setOpaque(false);
-        tableDichVu.getTableHeader().setBackground(new Color(32, 136, 203));
-        tableDichVu.getTableHeader().setForeground(new Color(255, 255, 255));
-        //đơn vị bán
-        String[] donVi = {"Lon", "Cái", "Đĩa", "Hộp"};
-        JComboBox comboBoxDV = new JComboBox(donVi);
-        comboBoxDV.setFont(new Font("Cambria", Font.PLAIN, 16));
-        comboBoxDV.setBackground(new Color(255, 255, 255));
-        tableDichVu.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(comboBoxDV));
-        //xuất xứ
-        String[] xuatXu = {"Việt Nam", "Thái Lan", "Trung Quốc", "Hoa Kỳ", "Đức"};
-        JComboBox comboBoxXX = new JComboBox(xuatXu);
-        comboBoxXX.setFont(new Font("Cambria", Font.PLAIN, 16));
-        comboBoxXX.setBackground(new Color(255, 255, 255));
-        tableDichVu.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(comboBoxXX));
-        //tình trạng
-        String[] tinhTrang = {"Đang bán", "Ngừng bán"};
-        JComboBox comboBoxTT = new JComboBox(tinhTrang);
-        comboBoxTT.setFont(new Font("Cambria", Font.PLAIN, 16));
-        comboBoxTT.setBackground(new Color(255, 255, 255));
-        tableDichVu.getColumnModel().getColumn(7).setCellEditor(new DefaultCellEditor(comboBoxTT));
-        //HSD
-        tableDichVu.getColumnModel().getColumn(5).setCellEditor(new JDateChooserCellEditor());
-    }
-
-    private void tableNhanVien() {
-        PromptSupport.setPrompt("Nhập số điện thoại", txtTim1);
-        tableDSNV.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
-        tableDSNV.getTableHeader().setOpaque(false);
-        tableDSNV.getTableHeader().setBackground(new Color(32, 136, 203));
-        tableDSNV.getTableHeader().setForeground(new Color(255, 255, 255));
-        //chức vụ
-        String[] chucvu = {"Quản lý", "Lễ tân", "Bảo vệ", "Phục vụ"};
-        JComboBox comboBoxCV = new JComboBox(chucvu);
-        comboBoxCV.setFont(new Font("Cambria", Font.PLAIN, 16));
-        comboBoxCV.setBackground(new Color(255, 255, 255));
-        tableDSNV.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(comboBoxCV));
-        //giới tính
-        String[] gioitinh = {"Nam", "Nữ"};
-        JComboBox comboBoxGT = new JComboBox(gioitinh);
-        comboBoxGT.setFont(new Font("Cambria", Font.PLAIN, 16));
-        comboBoxGT.setBackground(new Color(255, 255, 255));
-        tableDSNV.getColumnModel().getColumn(5).setCellEditor(new DefaultCellEditor(comboBoxGT));
-        //trạng thái
-        String[] trangthai = {"Đang làm", "Đã nghỉ"};
-        JComboBox comboBoxTT = new JComboBox(trangthai);
-        comboBoxTT.setFont(new Font("Cambria", Font.PLAIN, 16));
-        comboBoxTT.setBackground(new Color(255, 255, 255));
-        tableDSNV.getColumnModel().getColumn(11).setCellEditor(new DefaultCellEditor(comboBoxTT));
-        //ngày sinh
-        tableDSNV.getColumnModel().getColumn(4).setCellEditor(new JDateChooserCellEditor());
-    }
-
-    private void tableKhachHang() {
-        PromptSupport.setPrompt("Nhập số điện thoại", txtTimKH);
-        tableKH.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
-        tableKH.getTableHeader().setOpaque(false);
-        tableKH.getTableHeader().setBackground(new Color(32, 136, 203));
-        tableKH.getTableHeader().setForeground(new Color(255, 255, 255));
-        tableKH.getColumnModel().getColumn(4).setCellEditor(new JDateChooserCellEditor());
-    }
-
-    private void tablePhieuDat() {
-        PromptSupport.setPrompt("Nhập số điện thoại khách", txtTimPhieu);
-        tablePhieu.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
-        tablePhieu.getTableHeader().setOpaque(false);
-        tablePhieu.getTableHeader().setBackground(new Color(32, 136, 203));
-        tablePhieu.getTableHeader().setForeground(new Color(255, 255, 255));
-        tablePhieu.getColumnModel().getColumn(3).setCellEditor(new JDateChooserCellEditor());
-        tablePhieu.getColumnModel().getColumn(4).setCellEditor(new JDateChooserCellEditor());
-    }
-
-    private void tableHoaDon() {
-        PromptSupport.setPrompt("Nhập số điện thoại khách", txtHD);
-        tableHD.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
-        tableHD.getTableHeader().setOpaque(false);
-        tableHD.getTableHeader().setBackground(new Color(32, 136, 203));
-        tableHD.getTableHeader().setForeground(new Color(255, 255, 255));
-        tableHD.getColumnModel().getColumn(1).setCellEditor(new JDateChooserCellEditor());
-        modelHD = (DefaultTableModel) tableHD.getModel();
-        napDuLieuHD();
-    }
-
-    private void napDuLieuHD() {
-        ArrayList<HoaDon> dsHD;
-        dsHD = hd_dao.getAllHoaDon();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        for (HoaDon hd : dsHD) {
-            String ngayLap = formatter.format(hd.getGioKetThuc());
-            modelHD.addRow(new Object[]{hd.getMaHD(), ngayLap, hd.getKhachHang().getHoKH() + " " + hd.getKhachHang().getTenKH(),
-                hd.getKhachHang().getSdtKH(), hd.getNhanVienLap().getHoNV() + " " + hd.getNhanVienLap().getTenNV(), hd.getTongTien()});
-        }
-    }
-
-    private void tableDanhSachPhong() {
-        PromptSupport.setPrompt("Nhập mã phòng", txtTP);
-        tableDSPhong.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
-        tableDSPhong.getTableHeader().setOpaque(false);
-        tableDSPhong.getTableHeader().setBackground(new Color(32, 136, 203));
-        tableDSPhong.getTableHeader().setForeground(new Color(255, 255, 255));
-        tableDSPhong.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(comboSucChua));
-    }
-
-    private void disableAllPanel() {
-        GD_Chinh.setVisible(false);
-        GD_DichVu.setVisible(false);
-        GD_NhanVien.setVisible(false);
-        GD_KhachHang.setVisible(false);
-        GD_Phong.setVisible(false);
-        GD_PhieuDatPhong.setVisible(false);
-        GD_HoaDon.setVisible(false);
-        GD_DSPhong.setVisible(false);
-    }
-
-    private void hienThiNgay() {
-        // Tạo JLabel để hiển thị ngày và giờ
-        jPanel12.setLayout(new GridBagLayout());
-        JLabel dateLabel = new JLabel();
-        JLabel timeLabel = new JLabel();
-
-        jPanel12.add(dateLabel);
-        jPanel12.add(timeLabel);
-        // Định dạng cho ngày và giờ
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a");
-
-        // Tạo một GridBagConstraints để canh chỉnh phần tử vào giữa
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets = new Insets(5, 5, 5, 5); // Khoảng cách từ các lề
-        constraints.anchor = GridBagConstraints.CENTER; // Canh giữa
-
-        constraints.gridy = 0; // Hàng 0 cho ngày
-        dateLabel.setFont(new Font("Cambria", Font.PLAIN, 16));
-        jPanel12.add(dateLabel, constraints);
-
-        constraints.gridy = 1; // Hàng 1 cho giờ
-        timeLabel.setFont(new Font("Cambria", Font.PLAIN, 16));
-        jPanel12.add(timeLabel, constraints);
-
-        Timer timer = new Timer(1000, e -> {
-            Calendar calendar = Calendar.getInstance();
-            Date now = calendar.getTime();
-
-            String formattedDate = dateFormatter.format(now);
-            String formattedTime = timeFormatter.format(now);
-
-            dateLabel.setText("Date: " + formattedDate);
-            timeLabel.setText("Time: " + formattedTime);
-        });
-        timer.start();
-    }
-
-    private void dsPhong() {
-        for (int i = 0; i < 10; i++) {
-//            panelPhong.add(new JButton("VCC"));
-        }
-    }
+//    private void disableAllPanel() {
+//        GD_Chinh.setVisible(false);
+//        GD_DichVu.setVisible(false);
+//        GD_NhanVien.setVisible(false);
+//        GD_KhachHang.setVisible(false);
+//        GD_Phong.setVisible(false);
+//        GD_PhieuDatPhong.setVisible(false);
+//        GD_HoaDon.setVisible(false);
+//        GD_DSPhong.setVisible(false);
+//    }
+//    private void dsPhong() {
+//        for (int i = 0; i < 10; i++) {
+////            panelPhong.add(new JButton("VCC"));
+//        }
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -448,7 +257,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         GD_Chinh = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu11 = new javax.swing.JMenu();
@@ -2757,12 +2565,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         GD_Chinh.setBackground(new java.awt.Color(255, 255, 255));
         GD_Chinh.setMinimumSize(new java.awt.Dimension(1200, 520));
         GD_Chinh.setPreferredSize(new java.awt.Dimension(1200, 900));
-        GD_Chinh.setLayout(new java.awt.BorderLayout());
-
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Frame 15.png"))); // NOI18N
-        GD_Chinh.add(jLabel1, java.awt.BorderLayout.CENTER);
-
+        GD_Chinh.setLayout(new java.awt.CardLayout());
         jPanel1.add(GD_Chinh, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
@@ -3017,9 +2820,9 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
         // TODO add your handling code here:
-        disableAllPanel();
+        //disableAllPanel();
         jLabel2.setText("TRANG CHỦ");
-        GD_Chinh.setVisible(true);
+        //GD_Chinh.setVisible(true);
     }//GEN-LAST:event_jMenu1MouseClicked
 
     private void txtMaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaNVActionPerformed
@@ -3146,50 +2949,62 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         // TODO add your handling code here:
-        disableAllPanel();
-        GD_NhanVien.setVisible(true);
+        //disableAllPanel();
+        //GD_NhanVien.setVisible(true);
         jLabel2.setText("QUẢN LÝ NHÂN VIÊN");
-        jPanel1.add(GD_NhanVien, BorderLayout.CENTER);
+        GD_Chinh.add(new GD_NV(), "nhanvien");
+        card.show(this.GD_Chinh, "nhanvien");
+        //jPanel1.add(GD_NhanVien, BorderLayout.CENTER);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         // TODO add your handling code here:
-        disableAllPanel();
-        GD_KhachHang.setVisible(true);
+        //disableAllPanel();
+        GD_Chinh.add(new GD_KH(), "khachhang");
+        card.show(this.GD_Chinh, "khachhang");
+        //GD_KhachHang.setVisible(true);
         jLabel2.setText("QUẢN LÝ KHÁCH HÀNG");
-        jPanel1.add(GD_KhachHang, BorderLayout.CENTER);
+        //jPanel1.add(GD_KhachHang, BorderLayout.CENTER);
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
-        disableAllPanel();
+        //disableAllPanel();
+        GD_Chinh.add(new GD_DV(), "dichvu");
         jLabel2.setText("QUẢN LÝ DỊCH VỤ");
-        jPanel1.add(GD_DichVu, BorderLayout.CENTER);
-        GD_DichVu.setVisible(true);
+        card.show(this.GD_Chinh, "dichvu");
+        //jPanel1.add(GD_DichVu, BorderLayout.CENTER);
+        //GD_DichVu.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         // TODO add your handling code here:
-        disableAllPanel();
+        //disableAllPanel();
+        GD_Chinh.add(new GD_DatPhong(), "datphong");
         jLabel2.setText("ĐẶT - TRẢ PHÒNG");
-        jPanel1.add(GD_Phong, BorderLayout.CENTER);
-        GD_Phong.setVisible(true);
+        card.show(this.GD_Chinh, "datphong");
+        //jPanel1.add(GD_DSPhong, BorderLayout.CENTER);
+        //GD_Phong.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         // TODO add your handling code here:
-        disableAllPanel();
+        //disableAllPanel();
+        GD_Chinh.add(new GD_HD(), "hoadon");
         jLabel2.setText("QUẢN LÝ HÓA ĐƠN");
-        jPanel1.add(GD_HoaDon, BorderLayout.CENTER);
-        GD_HoaDon.setVisible(true);
+        card.show(this.GD_Chinh, "hoadon");
+        //jPanel1.add(GD_HoaDon, BorderLayout.CENTER);
+        //GD_HoaDon.setVisible(true);
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
         // TODO add your handling code here:
-        disableAllPanel();
+        //disableAllPanel();
         jLabel2.setText("QUẢN LÝ PHIẾU ĐẶT PHÒNG");
-        jPanel1.add(GD_PhieuDatPhong, BorderLayout.CENTER);
-        GD_PhieuDatPhong.setVisible(true);
+        GD_Chinh.add(new GD_PhieuDP(), "phieudatphong");
+        //jPanel1.add(GD_PhieuDatPhong, BorderLayout.CENTER);
+        card.show(this.GD_Chinh, "phieudatphong");
+        //GD_PhieuDatPhong.setVisible(true);
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     private void comboDVBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboDVBActionPerformed
@@ -3226,10 +3041,12 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
-        disableAllPanel();
+        //disableAllPanel();
         jLabel2.setText("QUẢN LÝ PHÒNG");
-        jPanel1.add(GD_DSPhong, BorderLayout.CENTER);
-        GD_DSPhong.setVisible(true);
+        GD_Chinh.add(new GD_DSPhong(), "phong");
+        card.show(this.GD_Chinh, "phong");
+        //jPanel1.add(GD_DSPhong, BorderLayout.CENTER);
+        //GD_DSPhong.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
@@ -3331,7 +3148,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private com.toedter.calendar.JDateChooser jDateChooser4;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
