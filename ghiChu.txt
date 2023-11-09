@@ -1,0 +1,34 @@
+1. Nếu như trong libraries ko có itextpdf thì gắn lại file jar vào
+
+2. DAO
+KhachHang_DAO
+	public KhachHang getKhachHangTheoMa(String mKH)
+
+NhanVien_DAO
+	public NhanVien getNhanVienTheoMa(String mNV)
+
+DichVu_DAO
+	public DichVu getDichVuTheoMa(String mDV)
+
+Phong_DAO
+	public boolean kiemTraMaPhong(String mP)
+	public Phong getPhongTheoMa(String mP)
+
+PhieuDatPhong_DAO
+	public ArrayList<PhieuDatPhong> getAllPDP()
+	public ArrayList<PhieuDatPhong> getAllPDPTheoSDT(String sdt)
+	public PhieuDatPhong getPDPTheoMa(String mPD)
+	public boolean updatePDP(PhieuDatPhong pd)
+
+HoaDon
+	public ArrayList<HoaDon> getAllHoaDon()
+	public HoaDon getHoaDonTheoMa(String mHD)
+	public ArrayList<HoaDon> getAllHoaDonTheoSDT(String sdt)
+	public ArrayList<ChiTietHoaDon> getAllCTHDTheoMaHD(String mHD)
+	public ChiTietHoaDon getCTHDTheoMaHD(String mHD)
+	public ArrayList<ChiTietDichVu> getAllCTDVTheoMaHD(String mHD)
+	public boolean updateTrangThai_TongTien_HD(String maHD, Double tongTien)
+	
+3. GD_HD, GD_PhieuDP, Form_ChiTietHoaDon(HoaDon hd)
+ Cái form chi tiết hóa đơn dùng để trả phòng cũng được
+	
