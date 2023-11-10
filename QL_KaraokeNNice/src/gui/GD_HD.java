@@ -4,7 +4,7 @@
  */
 package gui;
 
-import Form.Form_ChiTietHoaDon;
+import Form.Form_HoaDon;
 import com.toedter.calendar.JDateChooserCellEditor;
 import connectDB.ConnectDB;
 import dao.HoaDon_DAO;
@@ -372,7 +372,7 @@ public class GD_HD extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Chỉ được chọn 1 dòng để xem");
             return;
         }
-        new Form_ChiTietHoaDon(hd).setVisible(true);
+        new Form_HoaDon(hd).setVisible(true);
     }//GEN-LAST:event_btnXemCTHDActionPerformed
 
     private void btnTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimActionPerformed

@@ -53,6 +53,14 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         panelC = new javax.swing.JPanel();
         lblTittle = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
@@ -60,14 +68,6 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
 
@@ -106,7 +106,7 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         lblTittle.setBackground(new java.awt.Color(255, 255, 255));
         lblTittle.setFont(new java.awt.Font("Cambria", 3, 24)); // NOI18N
         lblTittle.setForeground(new java.awt.Color(33, 36, 71));
-        lblTittle.setText("CẬP NHẬT DỊCH VỤ");
+        lblTittle.setText("CẬP NHẬT DỊCH VỤ CHO PHÒNG");
         lblTittle.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         panelC.add(lblTittle, new java.awt.GridBagConstraints());
 
@@ -121,118 +121,6 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(590, 350));
         jPanel1.setPreferredSize(new java.awt.Dimension(590, 350));
         jPanel1.setLayout(new java.awt.BorderLayout(0, 5));
-
-        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane2.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
-        jScrollPane2.setMaximumSize(new java.awt.Dimension(590, 350));
-        jScrollPane2.setMinimumSize(new java.awt.Dimension(590, 350));
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(590, 350));
-
-        jTable2.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Tên DV", "Đơn giá", "Đã thêm", "Thành tiền", "Thêm", "Bớt", "Xóa"
-            }
-        ));
-        jTable2.setMaximumSize(new java.awt.Dimension(590, 400));
-        jTable2.setMinimumSize(new java.awt.Dimension(590, 400));
-        jTable2.setPreferredSize(new java.awt.Dimension(590, 400));
-        jTable2.setRowHeight(25);
-        jTable2.setSelectionBackground(new java.awt.Color(204, 255, 255));
-        jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(2).setResizable(false);
-            jTable2.getColumnModel().getColumn(2).setPreferredWidth(30);
-            jTable2.getColumnModel().getColumn(4).setResizable(false);
-            jTable2.getColumnModel().getColumn(4).setPreferredWidth(15);
-            jTable2.getColumnModel().getColumn(5).setResizable(false);
-            jTable2.getColumnModel().getColumn(5).setPreferredWidth(15);
-            jTable2.getColumnModel().getColumn(6).setResizable(false);
-            jTable2.getColumnModel().getColumn(6).setPreferredWidth(15);
-        }
-
-        jPanel1.add(jScrollPane2, java.awt.BorderLayout.CENTER);
-
-        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel6.setPreferredSize(new java.awt.Dimension(600, 50));
-        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING, 10, 10));
-
-        jLabel2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jLabel2.setText("Mã phòng");
-        jPanel6.add(jLabel2);
-
-        jTextField2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField2.setEnabled(false);
-        jTextField2.setMinimumSize(new java.awt.Dimension(120, 20));
-        jTextField2.setPreferredSize(new java.awt.Dimension(120, 30));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-        jPanel6.add(jTextField2);
-
-        jLabel3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jLabel3.setText("Tổng tiền");
-        jPanel6.add(jLabel3);
-
-        jTextField3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField3.setEnabled(false);
-        jTextField3.setMinimumSize(new java.awt.Dimension(120, 30));
-        jTextField3.setPreferredSize(new java.awt.Dimension(120, 30));
-        jPanel6.add(jTextField3);
-
-        jPanel1.add(jPanel6, java.awt.BorderLayout.PAGE_START);
-
-        getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách dịch vụ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Cambria", 3, 16))); // NOI18N
-        jPanel2.setMaximumSize(new java.awt.Dimension(590, 350));
-        jPanel2.setMinimumSize(new java.awt.Dimension(590, 350));
-        jPanel2.setPreferredSize(new java.awt.Dimension(590, 350));
-        jPanel2.setLayout(new java.awt.BorderLayout(0, 5));
-
-        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setMaximumSize(new java.awt.Dimension(590, 350));
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(590, 350));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(590, 350));
-
-        jTable1.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Mã DV", "Tên DV", "Đơn giá", "Số lượng", "Đơn vị tính", "Thêm"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable1.setMaximumSize(new java.awt.Dimension(590, 400));
-        jTable1.setMinimumSize(new java.awt.Dimension(590, 400));
-        jTable1.setPreferredSize(new java.awt.Dimension(590, 400));
-        jTable1.setRowHeight(25);
-        jTable1.setSelectionBackground(new java.awt.Color(204, 255, 255));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(25);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(15);
-        }
-
-        jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setMinimumSize(new java.awt.Dimension(600, 50));
@@ -273,7 +161,113 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         });
         jPanel3.add(jButton2);
 
-        jPanel2.add(jPanel3, java.awt.BorderLayout.NORTH);
+        jPanel1.add(jPanel3, java.awt.BorderLayout.NORTH);
+
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(590, 350));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(590, 350));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(590, 350));
+
+        jTable1.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Mã DV", "Tên DV", "Đơn giá", "Số lượng", "Đơn vị tính", "Thêm"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setRowHeight(25);
+        jTable1.setSelectionBackground(new java.awt.Color(204, 255, 255));
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(25);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(15);
+        }
+
+        jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách dịch vụ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Cambria", 3, 16))); // NOI18N
+        jPanel2.setMaximumSize(new java.awt.Dimension(590, 350));
+        jPanel2.setMinimumSize(new java.awt.Dimension(590, 350));
+        jPanel2.setPreferredSize(new java.awt.Dimension(590, 350));
+        jPanel2.setLayout(new java.awt.BorderLayout(0, 5));
+
+        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane2.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
+        jScrollPane2.setMaximumSize(new java.awt.Dimension(590, 350));
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(590, 350));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(590, 350));
+
+        jTable2.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Tên DV", "Đơn giá", "Đã thêm", "Thành tiền", "Thêm", "Bớt", "Xóa"
+            }
+        ));
+        jTable2.setRowHeight(25);
+        jTable2.setSelectionBackground(new java.awt.Color(204, 255, 255));
+        jScrollPane2.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(2).setResizable(false);
+            jTable2.getColumnModel().getColumn(2).setPreferredWidth(30);
+            jTable2.getColumnModel().getColumn(4).setResizable(false);
+            jTable2.getColumnModel().getColumn(4).setPreferredWidth(15);
+            jTable2.getColumnModel().getColumn(5).setResizable(false);
+            jTable2.getColumnModel().getColumn(5).setPreferredWidth(15);
+            jTable2.getColumnModel().getColumn(6).setResizable(false);
+            jTable2.getColumnModel().getColumn(6).setPreferredWidth(15);
+        }
+
+        jPanel2.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.setPreferredSize(new java.awt.Dimension(600, 50));
+        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING, 10, 10));
+
+        jLabel2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jLabel2.setText("Mã phòng");
+        jPanel6.add(jLabel2);
+
+        jTextField2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jTextField2.setEnabled(false);
+        jTextField2.setMinimumSize(new java.awt.Dimension(120, 20));
+        jTextField2.setPreferredSize(new java.awt.Dimension(120, 30));
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(jTextField2);
+
+        jLabel3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jLabel3.setText("Tổng tiền");
+        jPanel6.add(jLabel3);
+
+        jTextField3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jTextField3.setEnabled(false);
+        jTextField3.setMinimumSize(new java.awt.Dimension(120, 30));
+        jTextField3.setPreferredSize(new java.awt.Dimension(120, 30));
+        jPanel6.add(jTextField3);
+
+        jPanel2.add(jPanel6, java.awt.BorderLayout.PAGE_START);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
 

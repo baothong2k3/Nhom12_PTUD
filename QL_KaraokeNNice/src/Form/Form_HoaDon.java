@@ -63,7 +63,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author PC BAO THONG
  */
-public class Form_ChiTietHoaDon extends javax.swing.JFrame {
+public class Form_HoaDon extends javax.swing.JFrame {
 
     public static File fontFile = new File("VietFontsWeb1_ttf/vuArial.ttf");
     //dao
@@ -82,7 +82,7 @@ public class Form_ChiTietHoaDon extends javax.swing.JFrame {
     //ex
     int xacNhan;
 
-    public Form_ChiTietHoaDon(HoaDon hd) {
+    public Form_HoaDon(HoaDon hd) {
         try {
             ConnectDB.getInstance().connect();
         } catch (Exception e) {
@@ -705,11 +705,11 @@ public class Form_ChiTietHoaDon extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Xuất hóa đơn " + lblMaHD.getText().trim() + " Thành công");
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Form_ChiTietHoaDon.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Form_HoaDon.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DocumentException ex) {
-            Logger.getLogger(Form_ChiTietHoaDon.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Form_HoaDon.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(Form_ChiTietHoaDon.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Form_HoaDon.class.getName()).log(Level.SEVERE, null, ex);
         }
         setVisible(false);
         dispose();
