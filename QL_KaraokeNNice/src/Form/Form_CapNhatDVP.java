@@ -47,46 +47,27 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel4 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
         panelHeader = new javax.swing.JPanel();
         panelC = new javax.swing.JPanel();
         lblTittle = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
-
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setMinimumSize(new java.awt.Dimension(80, 40));
-        jPanel4.setLayout(new java.awt.BorderLayout());
-
-        jButton3.setBackground(new java.awt.Color(102, 153, 255));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Quay lại");
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setPreferredSize(new java.awt.Dimension(80, 30));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jPanel4.add(jButton3, java.awt.BorderLayout.EAST);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1200, 650));
@@ -121,6 +102,81 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(590, 350));
         jPanel1.setPreferredSize(new java.awt.Dimension(590, 350));
         jPanel1.setLayout(new java.awt.BorderLayout(0, 5));
+
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(590, 350));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(590, 350));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(590, 350));
+
+        jTable1.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Mã DV", "Tên DV", "Đơn giá", "Số lượng", "Đơn vị tính", "Thêm"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setRowHeight(25);
+        jTable1.setSelectionBackground(new java.awt.Color(204, 255, 255));
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(25);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(15);
+        }
+
+        jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.setPreferredSize(new java.awt.Dimension(600, 50));
+        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING, 10, 10));
+
+        jLabel2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jLabel2.setText("Mã phòng");
+        jPanel6.add(jLabel2);
+
+        jTextField2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jTextField2.setEnabled(false);
+        jTextField2.setMinimumSize(new java.awt.Dimension(120, 20));
+        jTextField2.setPreferredSize(new java.awt.Dimension(120, 30));
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(jTextField2);
+
+        jLabel3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jLabel3.setText("Tổng tiền");
+        jPanel6.add(jLabel3);
+
+        jTextField3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jTextField3.setEnabled(false);
+        jTextField3.setMinimumSize(new java.awt.Dimension(120, 30));
+        jTextField3.setPreferredSize(new java.awt.Dimension(120, 30));
+        jPanel6.add(jTextField3);
+
+        jPanel1.add(jPanel6, java.awt.BorderLayout.PAGE_START);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách dịch vụ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Cambria", 3, 16))); // NOI18N
+        jPanel2.setMaximumSize(new java.awt.Dimension(590, 350));
+        jPanel2.setMinimumSize(new java.awt.Dimension(590, 350));
+        jPanel2.setPreferredSize(new java.awt.Dimension(590, 350));
+        jPanel2.setLayout(new java.awt.BorderLayout(0, 5));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setMinimumSize(new java.awt.Dimension(600, 50));
@@ -161,51 +217,7 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         });
         jPanel3.add(jButton2);
 
-        jPanel1.add(jPanel3, java.awt.BorderLayout.NORTH);
-
-        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setMaximumSize(new java.awt.Dimension(590, 350));
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(590, 350));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(590, 350));
-
-        jTable1.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Mã DV", "Tên DV", "Đơn giá", "Số lượng", "Đơn vị tính", "Thêm"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable1.setRowHeight(25);
-        jTable1.setSelectionBackground(new java.awt.Color(204, 255, 255));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(25);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(15);
-        }
-
-        jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách dịch vụ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Cambria", 3, 16))); // NOI18N
-        jPanel2.setMaximumSize(new java.awt.Dimension(590, 350));
-        jPanel2.setMinimumSize(new java.awt.Dimension(590, 350));
-        jPanel2.setPreferredSize(new java.awt.Dimension(590, 350));
-        jPanel2.setLayout(new java.awt.BorderLayout(0, 5));
+        jPanel2.add(jPanel3, java.awt.BorderLayout.NORTH);
 
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
@@ -237,37 +249,6 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         }
 
         jPanel2.add(jScrollPane2, java.awt.BorderLayout.CENTER);
-
-        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel6.setPreferredSize(new java.awt.Dimension(600, 50));
-        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING, 10, 10));
-
-        jLabel2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jLabel2.setText("Mã phòng");
-        jPanel6.add(jLabel2);
-
-        jTextField2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField2.setEnabled(false);
-        jTextField2.setMinimumSize(new java.awt.Dimension(120, 20));
-        jTextField2.setPreferredSize(new java.awt.Dimension(120, 30));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-        jPanel6.add(jTextField2);
-
-        jLabel3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jLabel3.setText("Tổng tiền");
-        jPanel6.add(jLabel3);
-
-        jTextField3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField3.setEnabled(false);
-        jTextField3.setMinimumSize(new java.awt.Dimension(120, 30));
-        jTextField3.setPreferredSize(new java.awt.Dimension(120, 30));
-        jPanel6.add(jTextField3);
-
-        jPanel2.add(jPanel6, java.awt.BorderLayout.PAGE_START);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
 
@@ -312,10 +293,6 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
@@ -362,7 +339,6 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -370,7 +346,6 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;

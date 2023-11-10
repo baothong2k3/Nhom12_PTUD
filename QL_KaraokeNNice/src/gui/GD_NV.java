@@ -538,7 +538,6 @@ public class GD_NV extends javax.swing.JPanel {
                 "Mã NV", "CCCD", "Họ", "Tên", "Ngày sinh", "Giới tính", "Số điện thoại", "Email", "Địa chỉ", "Chức vụ", "Mật khẩu", "Trạng thái"
             }
         ));
-        tableDSNV.setPreferredSize(new java.awt.Dimension(1200, 220));
         tableDSNV.setRowHeight(25);
         tableDSNV.setSelectionBackground(new java.awt.Color(204, 255, 255));
         tableDSNV.setShowHorizontalLines(true);

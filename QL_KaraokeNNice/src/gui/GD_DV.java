@@ -430,7 +430,6 @@ public class GD_DV extends javax.swing.JPanel {
             }
         ));
         tableDichVu.setMinimumSize(new java.awt.Dimension(1200, 300));
-        tableDichVu.setPreferredSize(new java.awt.Dimension(1200, 900));
         tableDichVu.setRowHeight(25);
         tableDichVu.setSelectionBackground(new java.awt.Color(204, 255, 255));
         tableDichVu.setShowHorizontalLines(true);

@@ -322,7 +322,6 @@ public class GD_KH extends javax.swing.JPanel {
                 "Mã KH", "CCCD", "Họ", "Tên", "Ngày sinh", "Giới tính", "Số điện thoại"
             }
         ));
-        tableKH.setPreferredSize(new java.awt.Dimension(1200, 600));
         tableKH.setRowHeight(25);
         jScrollPane1.setViewportView(tableKH);
 
