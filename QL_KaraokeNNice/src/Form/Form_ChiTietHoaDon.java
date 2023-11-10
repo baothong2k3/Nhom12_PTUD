@@ -135,14 +135,17 @@ public class Form_ChiTietHoaDon extends javax.swing.JFrame {
             String GKT = formatter.format(cthd.getGioKetThuc());
 
             modelCTHD.addRow(new Object[]{cthd.getPhong().getMaPhong(), cthd.tinhThoiLuong(), lp.getGiaTien(),
-                GNP + " - " + GKT, "Giờ", cthd.tinhThoiLuong() * lp.getGiaTien()});
+                GNP + " - " + GKT, "Giờ", cthd.tinhThanhTienPhong()});
+//            modelCTHD.addRow(new Object[]{cthd.getPhong().getMaPhong(), cthd.tinhThoiLuong(), lp.getGiaTien(),
+//                GNP + " - " + GKT, "Giờ", cthd.tinhThoiLuong()*lp.getGiaTien()});
         }
 
         for (ChiTietDichVu ctdv : dsCTDV) {
             DichVu dv = dv_dao.getDichVuTheoMa(ctdv.getDichVu().getMaDV());
-
             modelCTHD.addRow(new Object[]{dv.getTenDV(), ctdv.getSoLuong(), dv.getDonGia(),
-                "", dv.getDonViBan(), ctdv.getSoLuong() * dv.getDonGia()});
+                "", dv.getDonViBan(), ctdv.tinhThanhTienDV()});
+//            modelCTHD.addRow(new Object[]{dv.getTenDV(), ctdv.getSoLuong(), dv.getDonGia(),
+//                "", dv.getDonViBan(), ctdv.getSoLuong() * dv.getDonGia()});
         }
     }
 
@@ -158,41 +161,41 @@ public class Form_ChiTietHoaDon extends javax.swing.JFrame {
         String sNgayLap = formatter.format(hd.getNgayLap());
         lblGN.setText(sNgayLap);
 
-        double tongTien = tinhTongTien(hd);
-        double tongTienVAT = tinhTongTienVAT(hd);
+        double tongTien = hd.tinhTongTienHD();
+        double tongTienVAT = hd.tinhTongTienHDVAT();
         Locale localeVN = new Locale("vi", "VN");
         NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
         String sTongTien = currencyVN.format(tongTien);
         String sTongTienVAT = currencyVN.format(tongTienVAT);
-
+        
         lblTongCong.setText("" + sTongTien);
         lblTongTienVAT.setText("" + sTongTienVAT);
     }
 
-    private double tinhTongTien(HoaDon hd) {
-        dsCTHD = hd_dao.getAllCTHDTheoMaHD(hd.getMaHD());
-        dsCTDV = hd_dao.getAllCTDVTheoMaHD(hd.getMaHD());
-        double tongTienP = 0, tongTienDV = 0;
-
-        for (ChiTietHoaDon cthd : dsCTHD) {
-            Phong p = phong_dao.getPhongTheoMa(cthd.getPhong().getMaPhong());
-            LoaiPhong lp = phong_dao.getLoaiPhongTheoMa(p.getLoaiPhong().getMaLP());
-            double thanhTienP = cthd.tinhThoiLuong() * lp.getGiaTien();
-            tongTienP = tongTienP + thanhTienP;
-        }
-
-        for (ChiTietDichVu ctdv : dsCTDV) {
-            DichVu dv = dv_dao.getDichVuTheoMa(ctdv.getDichVu().getMaDV());
-            double thanhTienDV = ctdv.getSoLuong() * dv.getDonGia();
-            tongTienDV = tongTienDV + thanhTienDV;
-        }
-        return tongTienDV + tongTienP;
-    }
-
-    private double tinhTongTienVAT(HoaDon hd) {
-        double tongTien = tinhTongTien(hd);
-        return tongTien * hd.getVAT() + tongTien;
-    }
+//    private double tinhTongTien(HoaDon hd) {
+//        dsCTHD = hd_dao.getAllCTHDTheoMaHD(hd.getMaHD());
+//        dsCTDV = hd_dao.getAllCTDVTheoMaHD(hd.getMaHD());
+//        double tongTienP = 0, tongTienDV = 0;
+//
+//        for (ChiTietHoaDon cthd : dsCTHD) {
+//            Phong p = phong_dao.getPhongTheoMa(cthd.getPhong().getMaPhong());
+//            LoaiPhong lp = phong_dao.getLoaiPhongTheoMa(p.getLoaiPhong().getMaLP());
+//            double thanhTienP = cthd.tinhThoiLuong() * lp.getGiaTien();
+//            tongTienP = tongTienP + thanhTienP;
+//        }
+//
+//        for (ChiTietDichVu ctdv : dsCTDV) {
+//            DichVu dv = dv_dao.getDichVuTheoMa(ctdv.getDichVu().getMaDV());
+//            double thanhTienDV = ctdv.getSoLuong() * dv.getDonGia();
+//            tongTienDV = tongTienDV + thanhTienDV;
+//        }
+//        return tongTienDV + tongTienP;
+//    }
+//
+//    private double tinhTongTienVAT(HoaDon hd) {
+//        double tongTien = tinhTongTien(hd);
+//        return tongTien * hd.getVAT() + tongTien;
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -536,7 +539,7 @@ public class Form_ChiTietHoaDon extends javax.swing.JFrame {
                 try {
                     String stienNhan = txtTienNhan.getText().trim();
                     double tienNhan = Double.parseDouble(stienNhan);
-                    double tongTienVAT = tinhTongTienVAT(hd);
+                    double tongTienVAT = hd.tinhTongTienHDVAT();
                     double tienThua = tienNhan - tongTienVAT;
                     Locale localeVN = new Locale("vi", "VN");
                     NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
@@ -597,7 +600,7 @@ public class Form_ChiTietHoaDon extends javax.swing.JFrame {
 //        btnThanhToan.setVisible(true);
 //        setVisible(false);
 //        dispose();
-        
+
         path = "hoaDonPDF\\" + path + ".pdf";
         if (!path.matches("(.)+(\\.pdf)$")) {
             path += ".pdf";
@@ -618,13 +621,13 @@ public class Form_ChiTietHoaDon extends javax.swing.JFrame {
             Font fontKara = new Font(bf, 25);
             Font fontDC = new Font(bf, 25);
             doc.open();
-            
+
             doc.add(new Paragraph("Karaoke NNice", fontKara));
             doc.add(new Paragraph("Địa chỉ: Nguyễn Văn Bảo, Phường 4, Gò Vấp", fontDC));
-            doc.add(new Paragraph("Mã hóa đơn: "+lblMaHD.getText().trim(), font));
-            doc.add(new Paragraph("Tên khách hàng: "+lblTenKH.getText().trim(), font));
-            doc.add(new Paragraph("Ngày Lập: "+lblGN.getText().trim(), font));
-            doc.add(new Paragraph("Tên nhân viên: "+lblTenNV.getText().trim(), font));
+            doc.add(new Paragraph("Mã hóa đơn: " + lblMaHD.getText().trim(), font));
+            doc.add(new Paragraph("Tên khách hàng: " + lblTenKH.getText().trim(), font));
+            doc.add(new Paragraph("Ngày Lập: " + lblGN.getText().trim(), font));
+            doc.add(new Paragraph("Tên nhân viên: " + lblTenNV.getText().trim(), font));
             doc.add(new Paragraph(" "));
             doc.add(new Paragraph(" "));
 
@@ -703,10 +706,10 @@ public class Form_ChiTietHoaDon extends javax.swing.JFrame {
 
             doc.add(tbl);
             doc.add(new Paragraph(" "));
-            doc.add(new Paragraph("Tổng cộng: "+lblTongCong.getText().trim(), font));
-            doc.add(new Paragraph("Tổng tiền (VAT): "+lblTongTienVAT.getText().trim(), font));
-            doc.add(new Paragraph("Tiền nhận: "+txtTienNhan.getText().trim(), font));
-            doc.add(new Paragraph("Tiền thừa: "+lblTienThua.getText().trim(), font));
+            doc.add(new Paragraph("Tổng cộng: " + lblTongCong.getText().trim(), font));
+            doc.add(new Paragraph("Tổng tiền (VAT): " + lblTongTienVAT.getText().trim(), font));
+            doc.add(new Paragraph("Tiền nhận: " + txtTienNhan.getText().trim(), font));
+            doc.add(new Paragraph("Tiền thừa: " + lblTienThua.getText().trim(), font));
             doc.close();
             if (xacNhan == JOptionPane.YES_OPTION) {
                 Desktop.getDesktop().open(new File(path));
@@ -721,24 +724,24 @@ public class Form_ChiTietHoaDon extends javax.swing.JFrame {
             Logger.getLogger(Form_ChiTietHoaDon.class.getName()).log(Level.SEVERE, null, ex);
         }
         setVisible(false);
-         dispose();
+        dispose();
     }
 
-    public BufferedImage scaleImage(int WIDTH, int HEIGHT, BufferedImage img) {
-        BufferedImage bi = null;
-        try {
-            ImageIcon ii = new ImageIcon(img);
-            bi = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-            Graphics2D g2d = (Graphics2D) bi.createGraphics();
-            g2d.addRenderingHints(
-                    new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
-            g2d.drawImage(ii.getImage(), 0, 0, WIDTH, HEIGHT, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        return bi;
-    }
+//    public BufferedImage scaleImage(int WIDTH, int HEIGHT, BufferedImage img) {
+//        BufferedImage bi = null;
+//        try {
+//            ImageIcon ii = new ImageIcon(img);
+//            bi = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+//            Graphics2D g2d = (Graphics2D) bi.createGraphics();
+//            g2d.addRenderingHints(
+//                    new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
+//            g2d.drawImage(ii.getImage(), 0, 0, WIDTH, HEIGHT, null);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//        return bi;
+//    }
 
     public boolean isNumber(String str) {
         try {
@@ -761,7 +764,7 @@ public class Form_ChiTietHoaDon extends javax.swing.JFrame {
         }
 
         double tienNhan = Double.parseDouble(stienNhan);
-        double tongTienVAT = tinhTongTienVAT(hd);
+        double tongTienVAT = hd.tinhTongTienHDVAT();
         if (!(stienNhan.length() > 0)) {
             JOptionPane.showMessageDialog(null, "Tiền nhận phải lớn hơn hoặc bằng tổng tiền có VAT");
             txtTienNhan.requestFocus();

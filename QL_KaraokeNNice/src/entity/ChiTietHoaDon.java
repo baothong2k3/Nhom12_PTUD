@@ -1,5 +1,6 @@
 package entity;
 
+import dao.Phong_DAO;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -63,11 +64,19 @@ public class ChiTietHoaDon {
         int iGKT = calGKT.get(Calendar.HOUR_OF_DAY);
         long khoangCachThoiGian = getGioKetThuc().getTime() - getGioNhanPhong().getTime();
         double soGioGiuaHaiNgay = khoangCachThoiGian / (60 * 60 * 1000);
-        
+
         int validGKT, validGN;
-//        if(iGKT = )
         int thoiLuong = (int) soGioGiuaHaiNgay;
         return thoiLuong;
+    }
+
+    public double tinhThanhTienPhong() {
+        Phong_DAO p_dao = new Phong_DAO();
+        Phong p = p_dao.getPhongTheoMa(getPhong().getMaPhong());
+        LoaiPhong lp = p_dao.getLoaiPhongTheoMa(p.getLoaiPhong().getMaLP());
+        
+        double thanhTienP = tinhThoiLuong() * lp.getGiaTien();
+        return thanhTienP;
     }
 
     @Override

@@ -5,7 +5,8 @@
         <group>
             <file>file:/C:/Users/PHAM%20LE%20THANH%20NHIET/Desktop/Nhom12_PTUD-main/QL_KaraokeNNice/src/Form/Form_ChiTietHoaDon.java</file>
             <file>file:/C:/Users/PHAM%20LE%20THANH%20NHIET/Desktop/Nhom12_PTUD-main/QL_KaraokeNNice/src/dao/HoaDon_DAO.java</file>
-            <file>file:/C:/Users/PHAM%20LE%20THANH%20NHIET/Desktop/Nhom12_PTUD-main/QL_KaraokeNNice/src/gui/GD_HD.java</file>
+            <file>file:/C:/Users/PHAM%20LE%20THANH%20NHIET/Desktop/Nhom12_PTUD-main/QL_KaraokeNNice/src/entity/HoaDon.java</file>
+            <file>file:/C:/Users/PHAM%20LE%20THANH%20NHIET/Desktop/Nhom12_PTUD-main/QL_KaraokeNNice/src/entity/ChiTietDichVu.java</file>
         </group>
     </open-files>
 </project-private>

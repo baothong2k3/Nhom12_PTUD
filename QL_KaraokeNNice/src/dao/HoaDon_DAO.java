@@ -205,6 +205,29 @@ public class HoaDon_DAO {
         return cthd;
     }
     
+    public ChiTietDichVu getCTDVTheoMaHD(String mHD) {
+        ChiTietDichVu ctdv = null;
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        try {
+            String sql = "SELECT top 1 * FROM ChiTietDichVu where maHD = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, mHD);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {                           
+                String maDV = rs.getString(1);
+                int soLuong = rs.getInt(2);  
+         
+                ctdv = new ChiTietDichVu(new DichVu(maDV), soLuong, new HoaDon(mHD));                               
+            }
+        } catch (SQLException e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        } 
+        return ctdv;
+    }
+    
     public ArrayList<ChiTietDichVu> getAllCTDVTheoMaHD(String mHD) {
         ArrayList<ChiTietDichVu> dsCTDV = new ArrayList<ChiTietDichVu>();
         ConnectDB.getInstance();

@@ -1,6 +1,10 @@
 package entity;
 
 //import java.sql.Date;
+import dao.DichVu_DAO;
+import dao.HoaDon_DAO;
+import dao.Phong_DAO;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
@@ -85,6 +89,34 @@ public class HoaDon {
 
     public HoaDon(String maHD) {
         this.maHD = maHD;
+    }
+    
+    public double tinhTongTienHD() {
+        HoaDon_DAO hd_dao = new HoaDon_DAO();
+        Phong_DAO phong_dao = new Phong_DAO();
+        DichVu_DAO dv_dao = new DichVu_DAO();
+        
+        ArrayList<ChiTietHoaDon> dsCTHD = hd_dao.getAllCTHDTheoMaHD(getMaHD());
+        ArrayList<ChiTietDichVu> dsCTDV = hd_dao.getAllCTDVTheoMaHD(getMaHD());
+        double tongTienP = 0, tongTienDV = 0;
+
+        for (ChiTietHoaDon cthd : dsCTHD) {
+            Phong p = phong_dao.getPhongTheoMa(cthd.getPhong().getMaPhong());
+            LoaiPhong lp = phong_dao.getLoaiPhongTheoMa(p.getLoaiPhong().getMaLP());
+            double thanhTienP = cthd.tinhThoiLuong() * lp.getGiaTien();
+            tongTienP = tongTienP + thanhTienP;
+        }
+
+        for (ChiTietDichVu ctdv : dsCTDV) {
+            DichVu dv = dv_dao.getDichVuTheoMa(ctdv.getDichVu().getMaDV());
+            double thanhTienDV = ctdv.getSoLuong() * dv.getDonGia();
+            tongTienDV = tongTienDV + thanhTienDV;
+        }
+        return tongTienDV + tongTienP;
+    }
+    
+    public double tinhTongTienHDVAT(){
+        return tinhTongTienHD()*getVAT() + tinhTongTienHD();
     }
 
     @Override
