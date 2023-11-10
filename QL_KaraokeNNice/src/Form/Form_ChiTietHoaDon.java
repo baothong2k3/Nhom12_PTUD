@@ -4,12 +4,19 @@
  */
 package Form;
 
+import com.itextpdf.text.Font;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfDocument;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
 import connectDB.ConnectDB;
@@ -29,19 +36,24 @@ import entity.Phong;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Desktop;
-import java.awt.Font;
+//import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.AttributedCharacterIterator;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -53,6 +65,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Form_ChiTietHoaDon extends javax.swing.JFrame {
 
+    public static File fontFile = new File("VietFontsWeb1_ttf/vuArial.ttf");
     //dao
     private KhachHang_DAO kh_dao;
     private NhanVien_DAO nv_dao;
@@ -88,20 +101,22 @@ public class Form_ChiTietHoaDon extends javax.swing.JFrame {
     }
 
     private void table(HoaDon hd) {
-        tableCTHD.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 18));
+        java.awt.Font fo = new java.awt.Font("Cambria", Font.BOLD, 18);
+        tableCTHD.getTableHeader().setFont(fo);
         tableCTHD.getTableHeader().setOpaque(false);
         tableCTHD.getTableHeader().setBackground(new Color(32, 136, 203));
         tableCTHD.getTableHeader().setForeground(new Color(255, 255, 255));
-        
-        tableCTHD.getColumnModel().getColumn(1).setCellRenderer(new CenterTableCellRenderer()); 
-        tableCTHD.getColumnModel().getColumn(3).setCellRenderer(new CenterTableCellRenderer()); 
-        tableCTHD.getColumnModel().getColumn(4).setCellRenderer(new CenterTableCellRenderer()); 
-       
-        modelCTHD = (DefaultTableModel) tableCTHD.getModel(); 
+
+        tableCTHD.getColumnModel().getColumn(1).setCellRenderer(new CenterTableCellRenderer());
+        tableCTHD.getColumnModel().getColumn(3).setCellRenderer(new CenterTableCellRenderer());
+        tableCTHD.getColumnModel().getColumn(4).setCellRenderer(new CenterTableCellRenderer());
+
+        modelCTHD = (DefaultTableModel) tableCTHD.getModel();
         napDuLieuCTHD(hd);
     }
-    
+
     private static class CenterTableCellRenderer extends DefaultTableCellRenderer {
+
         public CenterTableCellRenderer() {
             setHorizontalAlignment(SwingConstants.CENTER); //Căn giữa nội dung
         }
@@ -495,6 +510,7 @@ public class Form_ChiTietHoaDon extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnXuatPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatPDFActionPerformed
+
         Object object = evt.getSource();
         if (object.equals(btnXuatPDF)) {
             xacNhan = JOptionPane.showConfirmDialog(this, "Bạn có muốn xem file", "Thông báo",
@@ -539,47 +555,174 @@ public class Form_ChiTietHoaDon extends javax.swing.JFrame {
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     public void xuatFilePDF(String path) {
+//        btnThanhToan.setVisible(false);
+//        btnXuatPDF.setVisible(false);
+//        path = "hoaDonPDF\\" + path + ".pdf";
+//        if (!path.matches("(.)+(\\.pdf)$")) {
+//            path += ".pdf";
+//        }
+//        Container content = this.getContentPane();
+//        int height = 650;
+//        int width = 1200;
+//        BufferedImage img = new BufferedImage(content.getWidth(), content.getHeight(), BufferedImage.TYPE_INT_RGB);
+//        Graphics2D g2d = img.createGraphics();
+//        content.printAll(g2d);
+//        g2d.dispose();
+//        try {
+//            Document d = new Document();
+//            PdfWriter writer = PdfWriter.getInstance(d, new FileOutputStream(path));
+//            PdfDocument pdfD = new PdfDocument();
+//            d.setPageSize(PageSize.A2);
+//            d.open();
+//
+//            PdfContentByte contentByte = writer.getDirectContent();
+//            Image image = Image.getInstance(contentByte, scaleImage(1190, height, img), 1);
+//
+//            PdfTemplate template = contentByte.createTemplate(width, height);
+//            image.setAbsolutePosition(0, 0);
+//            template.addImage(image);
+//            contentByte.addTemplate(template, 0, 100);
+//            d.close();
+//
+//            if (xacNhan == JOptionPane.YES_OPTION) {
+//                Desktop.getDesktop().open(new File(path));
+//            } else {
+//                JOptionPane.showMessageDialog(this, "Xuất hóa đơn " + lblMaHD.getText().trim() + " Thành công");
+//            }
+//        } catch (IOException | DocumentException ex) {
+//            ex.printStackTrace();
+//            JOptionPane.showMessageDialog(this, "Không thành công");
+//        }
+//        btnXuatPDF.setVisible(true);
+//        btnThanhToan.setVisible(true);
+//        setVisible(false);
+//        dispose();
+        
         path = "hoaDonPDF\\" + path + ".pdf";
         if (!path.matches("(.)+(\\.pdf)$")) {
             path += ".pdf";
         }
-        Container content = this.getContentPane();
-        int height = 650;
-        int width = 1300;
-        BufferedImage img = new BufferedImage(content.getWidth(), content.getHeight(), BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2d = img.createGraphics();
-        content.printAll(g2d);
-        g2d.dispose();
+//        JFileChooser j = new JFileChooser();
+//        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//        int x = j.showSaveDialog(this);
+//        if (x == JFileChooser.APPROVE_OPTION) {
+//            path = j.getSelectedFile().getPath();
+//        }
+        Document doc = new Document();
+        doc.setPageSize(PageSize._11X17);
         try {
-            Document d = new Document();
-            PdfWriter writer = PdfWriter.getInstance(d, new FileOutputStream(path));
-            PdfDocument pdfD = new PdfDocument();
-            d.setPageSize(PageSize.A2);
-            d.open();
+            PdfWriter.getInstance(doc, new FileOutputStream(path));
 
-            PdfContentByte contentByte = writer.getDirectContent();
-            Image image = Image.getInstance(contentByte, scaleImage(1200, height, img), 1);
+            BaseFont bf = BaseFont.createFont(fontFile.getAbsolutePath(), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            Font font = new Font(bf, 15);
+            Font fontKara = new Font(bf, 25);
+            Font fontDC = new Font(bf, 25);
+            doc.open();
+            
+            doc.add(new Paragraph("Karaoke NNice", fontKara));
+            doc.add(new Paragraph("Địa chỉ: Nguyễn Văn Bảo, Phường 4, Gò Vấp", fontDC));
+            doc.add(new Paragraph("Mã hóa đơn: "+lblMaHD.getText().trim(), font));
+            doc.add(new Paragraph("Tên khách hàng: "+lblTenKH.getText().trim(), font));
+            doc.add(new Paragraph("Ngày Lập: "+lblGN.getText().trim(), font));
+            doc.add(new Paragraph("Tên nhân viên: "+lblTenNV.getText().trim(), font));
+            doc.add(new Paragraph(" "));
+            doc.add(new Paragraph(" "));
 
-            PdfTemplate template = contentByte.createTemplate(width, height);
-            image.setAbsolutePosition(0, 0);
-            template.addImage(image);
-            contentByte.addTemplate(template, 0, 100);
-            d.close();
+            PdfPTable tbl = new PdfPTable(6);
 
+            PdfPCell cell0 = new PdfPCell();
+            Phrase phr0 = new Phrase("Tên", font);
+            cell0.setPhrase(phr0);
+
+            PdfPCell cell1 = new PdfPCell();
+            Phrase phr1 = new Phrase("Số lượng / giờ", font);
+            cell1.setPhrase(phr1);
+
+            PdfPCell cell2 = new PdfPCell();
+            Phrase phr2 = new Phrase("Đơn giá", font);
+            cell2.setPhrase(phr2);
+
+            PdfPCell cell3 = new PdfPCell();
+            Phrase phr3 = new Phrase("Giờ vào - ra", font);
+            cell3.setPhrase(phr3);
+
+            PdfPCell cell4 = new PdfPCell();
+            Phrase phr4 = new Phrase("Đơn vị tính", font);
+            cell4.setPhrase(phr4);
+
+            PdfPCell cell5 = new PdfPCell();
+            Phrase phr5 = new Phrase("Thành tiền", font);
+            cell5.setPhrase(phr5);
+
+            tbl.addCell(cell0);
+            tbl.addCell(cell1);
+            tbl.addCell(cell2);
+            tbl.addCell(cell3);
+            tbl.addCell(cell4);
+            tbl.addCell(cell5);
+
+            for (int i = 0; i < tableCTHD.getRowCount(); i++) {
+                String ten = tableCTHD.getValueAt(i, 0).toString();
+                String sl = tableCTHD.getValueAt(i, 1).toString();
+                String dg = tableCTHD.getValueAt(i, 2).toString();
+                String gvr = tableCTHD.getValueAt(i, 3).toString();
+                String dvt = tableCTHD.getValueAt(i, 4).toString();
+                String tt = tableCTHD.getValueAt(i, 5).toString();
+
+                PdfPCell cTen = new PdfPCell();
+                Phrase phrTen = new Phrase(ten, font);
+                cTen.setPhrase(phrTen);
+
+                PdfPCell cSL = new PdfPCell();
+                Phrase phrSl = new Phrase(sl, font);
+                cSL.setPhrase(phrSl);
+
+                PdfPCell cDg = new PdfPCell();
+                Phrase phrDg = new Phrase(dg, font);
+                cDg.setPhrase(phrDg);
+
+                PdfPCell cGvr = new PdfPCell();
+                Phrase phrGvr = new Phrase(gvr, font);
+                cGvr.setPhrase(phrGvr);
+
+                PdfPCell cDvt = new PdfPCell();
+                Phrase phrDvt = new Phrase(dvt, font);
+                cDvt.setPhrase(phrDvt);
+
+                PdfPCell cTT = new PdfPCell();
+                Phrase phrTT = new Phrase(tt, font);
+                cTT.setPhrase(phrTT);
+
+                tbl.addCell(cTen);
+                tbl.addCell(cSL);
+                tbl.addCell(cDg);
+                tbl.addCell(cGvr);
+                tbl.addCell(cDvt);
+                tbl.addCell(cTT);
+            }
+
+            doc.add(tbl);
+            doc.add(new Paragraph(" "));
+            doc.add(new Paragraph("Tổng cộng: "+lblTongCong.getText().trim(), font));
+            doc.add(new Paragraph("Tổng tiền (VAT): "+lblTongTienVAT.getText().trim(), font));
+            doc.add(new Paragraph("Tiền nhận: "+txtTienNhan.getText().trim(), font));
+            doc.add(new Paragraph("Tiền thừa: "+lblTienThua.getText().trim(), font));
+            doc.close();
             if (xacNhan == JOptionPane.YES_OPTION) {
                 Desktop.getDesktop().open(new File(path));
             } else {
                 JOptionPane.showMessageDialog(this, "Xuất hóa đơn " + lblMaHD.getText().trim() + " Thành công");
             }
-        } catch (IOException | DocumentException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Không thành công");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Form_ChiTietHoaDon.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DocumentException ex) {
+            Logger.getLogger(Form_ChiTietHoaDon.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Form_ChiTietHoaDon.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-
+        setVisible(false);
+         dispose();
     }
-    
 
     public BufferedImage scaleImage(int WIDTH, int HEIGHT, BufferedImage img) {
         BufferedImage bi = null;

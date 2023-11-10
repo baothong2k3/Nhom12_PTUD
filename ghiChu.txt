@@ -31,4 +31,6 @@ HoaDon
 	
 3. GD_HD, GD_PhieuDP, Form_ChiTietHoaDon(HoaDon hd)
  Cái form chi tiết hóa đơn dùng để trả phòng cũng được
+
+4. Phải có thư mục VietFontsWeb1_ttf trong project
 	
