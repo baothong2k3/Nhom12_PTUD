@@ -12,6 +12,17 @@ public class PhieuDatPhong {
     private Phong phong;
     private Date thoiGianDat;
     private Date thoiGianNhan;
+    private boolean trangThai;
+
+    public boolean isTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(boolean trangThai) {
+        this.trangThai = trangThai;
+    }
+    
+    
 
     public String getMaPhieu() {
         return maPhieu;
@@ -61,13 +72,21 @@ public class PhieuDatPhong {
         this.thoiGianNhan = thoiGianNhan;
     }
 
-    public PhieuDatPhong(String maPhieu, KhachHang khachHang, NhanVien nhanVienLap, Phong phong, Date thoiGianDat, Date thoiGianNhan) {
+    public PhieuDatPhong(String maPhieu, KhachHang khachHang, NhanVien nhanVienLap, Phong phong, Date thoiGianDat, Date thoiGianNhan, boolean trangThai) {
         this.maPhieu = maPhieu;
         this.khachHang = khachHang;
         this.nhanVienLap = nhanVienLap;
         this.phong = phong;
         this.thoiGianDat = thoiGianDat;
         this.thoiGianNhan = thoiGianNhan;
+        this.trangThai = trangThai;
+    }
+
+    public PhieuDatPhong(String maPhieu, Phong phong, Date thoiGianNhan, boolean trangThai) {
+        this.maPhieu = maPhieu;
+        this.phong = phong;
+        this.thoiGianNhan = thoiGianNhan;
+        this.trangThai = trangThai;
     }
 
     public PhieuDatPhong() {

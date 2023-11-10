@@ -5,8 +5,26 @@
 package gui;
 
 import com.toedter.calendar.JDateChooserCellEditor;
+import connectDB.ConnectDB;
+import dao.KhachHang_DAO;
+import dao.NhanVien_DAO;
+import dao.PhieuDatPhong_DAO;
+import dao.Phong_DAO;
+import entity.KhachHang;
+import entity.NhanVien;
+import entity.PhieuDatPhong;
+import entity.Phong;
 import java.awt.Color;
 import java.awt.Font;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.prompt.PromptSupport;
 
 /**
@@ -15,22 +33,62 @@ import org.jdesktop.swingx.prompt.PromptSupport;
  */
 public class GD_PhieuDP extends javax.swing.JPanel {
 
-    /**
-     * Creates new form GD_PhieuDP
-     */
+    //DAO
+    private KhachHang_DAO kh_dao;
+    private NhanVien_DAO nv_dao;
+    private PhieuDatPhong_DAO pdp_dao;
+    private Phong_DAO phong_dao;
+
+    //HoaDon
+    private DefaultTableModel modelPDP;
+
+    //List
+    private ArrayList<KhachHang> dsKH;
+    private ArrayList<NhanVien> dsNV;
+    private ArrayList<PhieuDatPhong> dsPDP;
+    
     public GD_PhieuDP() {
+        try {
+            ConnectDB.getInstance().connect();
+            System.out.println("Ket noi Database thanh cong");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        kh_dao = new KhachHang_DAO();
+        nv_dao = new NhanVien_DAO();
+        pdp_dao = new PhieuDatPhong_DAO();
+        phong_dao = new Phong_DAO();
         initComponents();
         tablePhieuDat();
     }
 
     private void tablePhieuDat() {
-        PromptSupport.setPrompt("Nhập số điện thoại khách", txtTimPhieu);
+        PromptSupport.setPrompt("Nhập số điện thoại khách", txtTimSDT);
         tablePhieu.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
         tablePhieu.getTableHeader().setOpaque(false);
         tablePhieu.getTableHeader().setBackground(new Color(32, 136, 203));
         tablePhieu.getTableHeader().setForeground(new Color(255, 255, 255));
-        tablePhieu.getColumnModel().getColumn(3).setCellEditor(new JDateChooserCellEditor());
-        tablePhieu.getColumnModel().getColumn(4).setCellEditor(new JDateChooserCellEditor());
+        modelPDP = (DefaultTableModel) tablePhieu.getModel();
+        napDuLieuPDP();
+    }
+    
+    private void napDuLieuPDP() {
+        dsPDP = pdp_dao.getAllPDP();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String trangThai;
+        for (PhieuDatPhong pdp : dsPDP) {
+            KhachHang kh = kh_dao.getKhachHangTheoMa(pdp.getKhachHang().getMaKH());
+            NhanVien nv = nv_dao.getNhanVienTheoMa(pdp.getNhanVienLap().getMaNV());
+            String tgNhan = formatter.format(pdp.getThoiGianNhan());
+            String tgDat = formatter.format(pdp.getThoiGianDat());
+            if (pdp.isTrangThai()) {
+                trangThai = "Đã nhận";
+            } else {
+                trangThai = "Chờ nhận phòng";
+            }
+            modelPDP.addRow(new Object[]{pdp.getMaPhieu(), kh.getHoKH() + " " + kh.getTenKH(),
+                kh.getSdtKH(), pdp.getPhong().getMaPhong(), tgDat, tgNhan, nv.getHoNV() + " " + nv.getTenNV(), trangThai});
+        }
     }
 
     /**
@@ -48,11 +106,11 @@ public class GD_PhieuDP extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablePhieu = new javax.swing.JTable();
         jPanel15 = new javax.swing.JPanel();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jTextField10 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
-        txtTimPhieu = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
+        cboTrangThai = new javax.swing.JComboBox<>();
+        txtMaPhieu = new javax.swing.JTextField();
+        txtTenNV = new javax.swing.JTextField();
+        txtTimSDT = new javax.swing.JTextField();
+        txtSDT = new javax.swing.JTextField();
         jLabel26 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
@@ -60,13 +118,14 @@ public class GD_PhieuDP extends javax.swing.JPanel {
         jLabel22 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        jButton14 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
-        jButton16 = new javax.swing.JButton();
-        jTextField11 = new javax.swing.JTextField();
-        jButton20 = new javax.swing.JButton();
+        btnTim = new javax.swing.JButton();
+        txtLamMoi = new javax.swing.JButton();
+        txtTenKH = new javax.swing.JTextField();
+        btnCapNhat = new javax.swing.JButton();
+        txtTGN = new javax.swing.JTextField();
+        txtTGD = new javax.swing.JTextField();
+        txtMaPhong = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -81,16 +140,18 @@ public class GD_PhieuDP extends javax.swing.JPanel {
 
         tablePhieu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Mã phiếu", "Tên khách hàng", "Số điện thoại", "Thời gian đặt", "Thời gian nhận", "Tên nhân viên", "Trạng thái phiếu"
+                "Mã phiếu", "Tên khách hàng", "Số điện thoại", "Phòng", "Thời gian đặt", "Thời gian nhận", "Tên nhân viên", "Trạng thái phiếu"
             }
         ));
         tablePhieu.setRowHeight(25);
+        tablePhieu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablePhieuMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablePhieu);
 
         jPanel16.add(jScrollPane2, java.awt.BorderLayout.CENTER);
@@ -106,47 +167,50 @@ public class GD_PhieuDP extends javax.swing.JPanel {
         jPanel15Layout.rowHeights = new int[] {0, 20, 0, 20, 0, 20, 0};
         jPanel15.setLayout(jPanel15Layout);
 
-        jComboBox4.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chờ nhận phòng", "Đã nhận" }));
-        jComboBox4.setMinimumSize(new java.awt.Dimension(200, 30));
-        jComboBox4.setPreferredSize(new java.awt.Dimension(200, 30));
+        cboTrangThai.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        cboTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chờ nhận phòng", "Đã nhận" }));
+        cboTrangThai.setMinimumSize(new java.awt.Dimension(200, 30));
+        cboTrangThai.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
-        jPanel15.add(jComboBox4, gridBagConstraints);
+        jPanel15.add(cboTrangThai, gridBagConstraints);
 
-        jTextField10.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField10.setEnabled(false);
-        jTextField10.setMinimumSize(new java.awt.Dimension(200, 30));
-        jTextField10.setPreferredSize(new java.awt.Dimension(200, 30));
+        txtMaPhieu.setEditable(false);
+        txtMaPhieu.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtMaPhieu.setEnabled(false);
+        txtMaPhieu.setMinimumSize(new java.awt.Dimension(200, 30));
+        txtMaPhieu.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        jPanel15.add(jTextField10, gridBagConstraints);
+        jPanel15.add(txtMaPhieu, gridBagConstraints);
 
-        jTextField9.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField9.setMinimumSize(new java.awt.Dimension(200, 30));
-        jTextField9.setPreferredSize(new java.awt.Dimension(200, 30));
+        txtTenNV.setEditable(false);
+        txtTenNV.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtTenNV.setMinimumSize(new java.awt.Dimension(200, 30));
+        txtTenNV.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 2;
-        jPanel15.add(jTextField9, gridBagConstraints);
+        jPanel15.add(txtTenNV, gridBagConstraints);
 
-        txtTimPhieu.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        txtTimPhieu.setMinimumSize(new java.awt.Dimension(200, 30));
-        txtTimPhieu.setPreferredSize(new java.awt.Dimension(200, 30));
+        txtTimSDT.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtTimSDT.setMinimumSize(new java.awt.Dimension(200, 30));
+        txtTimSDT.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
-        jPanel15.add(txtTimPhieu, gridBagConstraints);
+        jPanel15.add(txtTimSDT, gridBagConstraints);
 
-        jTextField7.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField7.setMinimumSize(new java.awt.Dimension(200, 30));
-        jTextField7.setPreferredSize(new java.awt.Dimension(200, 30));
+        txtSDT.setEditable(false);
+        txtSDT.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtSDT.setMinimumSize(new java.awt.Dimension(200, 30));
+        txtSDT.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 0;
-        jPanel15.add(jTextField7, gridBagConstraints);
+        jPanel15.add(txtSDT, gridBagConstraints);
 
         jLabel26.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jLabel26.setText("Trạng thái phiếu");
@@ -204,97 +268,250 @@ public class GD_PhieuDP extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel15.add(jLabel20, gridBagConstraints);
 
-        jDateChooser1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jDateChooser1.setMinimumSize(new java.awt.Dimension(200, 30));
-        jDateChooser1.setPreferredSize(new java.awt.Dimension(200, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 2;
-        jPanel15.add(jDateChooser1, gridBagConstraints);
-
-        jDateChooser2.setEnabled(false);
-        jDateChooser2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jDateChooser2.setMinimumSize(new java.awt.Dimension(200, 30));
-        jDateChooser2.setPreferredSize(new java.awt.Dimension(200, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        jPanel15.add(jDateChooser2, gridBagConstraints);
-
-        jButton14.setBackground(new java.awt.Color(121, 188, 215));
-        jButton14.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jButton14.setForeground(new java.awt.Color(255, 255, 255));
-        jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/search-doc.png"))); // NOI18N
-        jButton14.setText("Tìm");
-        jButton14.setMinimumSize(new java.awt.Dimension(100, 30));
-        jButton14.setPreferredSize(new java.awt.Dimension(150, 30));
+        btnTim.setBackground(new java.awt.Color(121, 188, 215));
+        btnTim.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        btnTim.setForeground(new java.awt.Color(255, 255, 255));
+        btnTim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/search-doc.png"))); // NOI18N
+        btnTim.setText("Tìm");
+        btnTim.setMinimumSize(new java.awt.Dimension(100, 30));
+        btnTim.setPreferredSize(new java.awt.Dimension(150, 30));
+        btnTim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel15.add(jButton14, gridBagConstraints);
+        jPanel15.add(btnTim, gridBagConstraints);
 
-        jButton15.setBackground(new java.awt.Color(0, 204, 204));
-        jButton15.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jButton15.setForeground(new java.awt.Color(255, 255, 255));
-        jButton15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/paper.png"))); // NOI18N
-        jButton15.setText("Xem chi tiết");
-        jButton15.setMinimumSize(new java.awt.Dimension(150, 30));
-        jButton15.setPreferredSize(new java.awt.Dimension(150, 30));
+        txtLamMoi.setBackground(new java.awt.Color(0, 255, 213));
+        txtLamMoi.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtLamMoi.setForeground(new java.awt.Color(255, 255, 255));
+        txtLamMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/refresh.png"))); // NOI18N
+        txtLamMoi.setText("Làm mới");
+        txtLamMoi.setMinimumSize(new java.awt.Dimension(120, 30));
+        txtLamMoi.setPreferredSize(new java.awt.Dimension(150, 30));
+        txtLamMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtLamMoiActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel15.add(jButton15, gridBagConstraints);
+        jPanel15.add(txtLamMoi, gridBagConstraints);
 
-        jButton16.setBackground(new java.awt.Color(0, 255, 213));
-        jButton16.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jButton16.setForeground(new java.awt.Color(255, 255, 255));
-        jButton16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/refresh.png"))); // NOI18N
-        jButton16.setText("Làm mới");
-        jButton16.setMinimumSize(new java.awt.Dimension(120, 30));
-        jButton16.setPreferredSize(new java.awt.Dimension(150, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel15.add(jButton16, gridBagConstraints);
-
-        jTextField11.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField11.setMinimumSize(new java.awt.Dimension(200, 30));
-        jTextField11.setPreferredSize(new java.awt.Dimension(200, 30));
+        txtTenKH.setEditable(false);
+        txtTenKH.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtTenKH.setMinimumSize(new java.awt.Dimension(200, 30));
+        txtTenKH.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
-        jPanel15.add(jTextField11, gridBagConstraints);
+        jPanel15.add(txtTenKH, gridBagConstraints);
 
-        jButton20.setBackground(new java.awt.Color(102, 255, 51));
-        jButton20.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jButton20.setForeground(new java.awt.Color(255, 255, 255));
-        jButton20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/system-update.png"))); // NOI18N
-        jButton20.setText("Cập nhật");
-        jButton20.setMinimumSize(new java.awt.Dimension(120, 30));
-        jButton20.setPreferredSize(new java.awt.Dimension(150, 30));
+        btnCapNhat.setBackground(new java.awt.Color(102, 255, 51));
+        btnCapNhat.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        btnCapNhat.setForeground(new java.awt.Color(255, 255, 255));
+        btnCapNhat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/system-update.png"))); // NOI18N
+        btnCapNhat.setText("Cập nhật");
+        btnCapNhat.setMinimumSize(new java.awt.Dimension(120, 30));
+        btnCapNhat.setPreferredSize(new java.awt.Dimension(150, 30));
+        btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCapNhatActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 6;
+        jPanel15.add(btnCapNhat, gridBagConstraints);
+
+        txtTGN.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtTGN.setPreferredSize(new java.awt.Dimension(200, 30));
+        txtTGN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTGNActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 6;
-        jPanel15.add(jButton20, gridBagConstraints);
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        jPanel15.add(txtTGN, gridBagConstraints);
+
+        txtTGD.setEditable(false);
+        txtTGD.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtTGD.setPreferredSize(new java.awt.Dimension(200, 30));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        jPanel15.add(txtTGD, gridBagConstraints);
+
+        txtMaPhong.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtMaPhong.setPreferredSize(new java.awt.Dimension(200, 30));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 4;
+        jPanel15.add(txtMaPhong, gridBagConstraints);
+
+        jLabel1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jLabel1.setText("Phòng");
+        jLabel1.setPreferredSize(new java.awt.Dimension(104, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel15.add(jLabel1, gridBagConstraints);
 
         GD_PhieuDatPhong.add(jPanel15, java.awt.BorderLayout.PAGE_START);
 
         add(GD_PhieuDatPhong, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtTGNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTGNActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTGNActionPerformed
 
+    private void tablePhieuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePhieuMouseClicked
+         int r = tablePhieu.getSelectedRow();
+        txtMaPhieu.setText(modelPDP.getValueAt(r, 0).toString());
+        txtTenKH.setText(modelPDP.getValueAt(r, 1).toString());
+        txtSDT.setText(modelPDP.getValueAt(r, 2).toString());
+        txtMaPhong.setText(modelPDP.getValueAt(r, 3).toString());
+        txtTGD.setText(modelPDP.getValueAt(r, 4).toString());
+        txtTGN.setText(modelPDP.getValueAt(r, 5).toString());
+        txtTenNV.setText(modelPDP.getValueAt(r, 6).toString());
+        if (modelPDP.getValueAt(r, 7).toString().equalsIgnoreCase("Đã nhận")) {
+            cboTrangThai.setSelectedItem("Đã nhận");
+        } else {
+            cboTrangThai.setSelectedItem("Chờ nhận phòng");
+        }
+        String mP = modelPDP.getValueAt(r, 0).toString();
+        PhieuDatPhong pd = pdp_dao.getPDPTheoMa(mP);
+    }//GEN-LAST:event_tablePhieuMouseClicked
+
+    private void txtLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLamMoiActionPerformed
+        modelPDP.getDataVector().removeAllElements();
+        napDuLieuPDP();
+    }//GEN-LAST:event_txtLamMoiActionPerformed
+    
+    private PhieuDatPhong LayDuLieuTxtPDP() throws ParseException {
+        String maPhieu = txtMaPhieu.getText().trim();
+        String maPhong = txtMaPhong.getText().trim();
+        Phong p = new Phong(maPhong);
+
+        String gioNhan = txtTGN.getText().trim();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date dateGioNhan = dateFormat.parse(gioNhan);
+
+        String trangThai_tmp = (String) cboTrangThai.getSelectedItem();
+        boolean trangThai;
+        if (trangThai_tmp.equalsIgnoreCase("Đã nhận")) {
+            trangThai = true;
+        } else {
+            trangThai = false;
+        }
+        return new PhieuDatPhong(maPhieu, p, dateGioNhan, trangThai);
+    }
+    
+    private void btnTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimActionPerformed
+        String sdt = txtTimSDT.getText().trim();
+        dsPDP = pdp_dao.getAllPDPTheoSDT(sdt);
+        modelPDP.getDataVector().removeAllElements();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String trangThai;
+        for (PhieuDatPhong pdp : dsPDP) {
+            KhachHang kh = kh_dao.getKhachHangTheoMa(pdp.getKhachHang().getMaKH());
+            NhanVien nv = nv_dao.getNhanVienTheoMa(pdp.getNhanVienLap().getMaNV());
+            String tgNhan = formatter.format(pdp.getThoiGianNhan());
+            String tgDat = formatter.format(pdp.getThoiGianDat());
+            if (pdp.isTrangThai()) {
+                trangThai = "Đã nhận";
+            } else {
+                trangThai = "Chờ nhận phòng";
+            }
+            modelPDP.addRow(new Object[]{pdp.getMaPhieu(), kh.getHoKH() + " " + kh.getTenKH(),
+                kh.getSdtKH(), pdp.getPhong().getMaPhong(), tgDat, tgNhan, nv.getHoNV() + " " + nv.getTenNV(), trangThai});
+        }
+    }//GEN-LAST:event_btnTimActionPerformed
+
+    private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
+        Object o = evt.getSource();
+        if (o.equals(btnCapNhat)) {
+            try {
+                int r = tablePhieu.getSelectedRow();
+                if (r == -1) {
+                    JOptionPane.showMessageDialog(null, "Bạn chưa chọn dòng");
+                    return;
+                }
+                if (tablePhieu.getSelectedRowCount() > 1) {
+                    JOptionPane.showMessageDialog(null, "Chỉ được chọn 1 dòng để sửa");
+                    return;
+                }
+
+                PhieuDatPhong pd = LayDuLieuTxtPDP();
+
+                if (!phong_dao.kiemTraMaPhong(pd.getPhong().getMaPhong())) {
+                    JOptionPane.showMessageDialog(null, "Không tồn tại phòng này, định dạng mã phòng là P và 3 kí số (Pxxx)");
+                    return;
+                }
+                if (validPDP()) {
+                    try {
+                        if (pdp_dao.updatePDP(pd)) {
+                            JOptionPane.showMessageDialog(null, "Cập nhật thành công");
+                            modelPDP.removeRow(r);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Không thể sửa, hãy kiểm tra lại");
+                        }
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            } catch (ParseException ex) {
+                
+            }
+        }
+    }//GEN-LAST:event_btnCapNhatActionPerformed
+
+    private boolean validPDP() throws ParseException {
+        String maPhieu = txtMaPhieu.getText().trim();
+        String maPhong = txtMaPhong.getText().trim();
+        String gioNhan = txtTGN.getText().trim();
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date dateGioNhan = dateFormat.parse(gioNhan);
+        
+        PhieuDatPhong pd = pdp_dao.getPDPTheoMa(maPhieu);
+        
+        if (!(maPhong.length() > 0 && maPhong.matches("(P)\\d{3}"))) {
+            JOptionPane.showMessageDialog(null, "Định dạng mã phòng là P và 3 kí số (Pxxx)");
+            txtMaPhong.requestFocus();
+            return false;
+        }
+        
+        else if (!(gioNhan.length() > 0 && gioNhan.matches("^\\d{1,2}/\\d{1,2}/\\d{4} \\d{1,2}:\\d{1,2}:\\d{1,2}$"))) {
+            JOptionPane.showMessageDialog(null, "Ngày giờ theo định dạng dd/MM/yyyy HH:mm:ss");
+            txtTGN.requestFocus();
+            return false;
+        }
+        
+        else if (dateGioNhan.compareTo(pd.getThoiGianDat()) <= 0) {
+            JOptionPane.showMessageDialog(null, "Thời gian nhận phải lớn hơn thời gian đặt");
+            return false;
+        }
+
+        return true;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel GD_PhieuDatPhong;
-    private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton16;
-    private javax.swing.JButton jButton20;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private javax.swing.JButton btnCapNhat;
+    private javax.swing.JButton btnTim;
+    private javax.swing.JComboBox<String> cboTrangThai;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -305,11 +522,15 @@ public class GD_PhieuDP extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JTable tablePhieu;
-    private javax.swing.JTextField txtTimPhieu;
+    private javax.swing.JButton txtLamMoi;
+    private javax.swing.JTextField txtMaPhieu;
+    private javax.swing.JTextField txtMaPhong;
+    private javax.swing.JTextField txtSDT;
+    private javax.swing.JTextField txtTGD;
+    private javax.swing.JTextField txtTGN;
+    private javax.swing.JTextField txtTenKH;
+    private javax.swing.JTextField txtTenNV;
+    private javax.swing.JTextField txtTimSDT;
     // End of variables declaration//GEN-END:variables
 }

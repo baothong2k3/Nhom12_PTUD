@@ -1,5 +1,7 @@
 package entity;
 
+import dao.DichVu_DAO;
+
 public class ChiTietDichVu {
 
     private DichVu dichVu;
@@ -42,6 +44,14 @@ public class ChiTietDichVu {
     public Object[] getObjectCTDV() {
         Object[] obj = {getDichVu(), getSoLuong(), getHoaDon()};
         return obj;
+    }
+    
+    public double tinhThanhTienDV() {
+        DichVu_DAO dv_dao = new DichVu_DAO();
+        DichVu dv = dv_dao.getDichVuTheoMa(getDichVu().getMaDV());
+        
+        double thanhTienDV = getSoLuong() * dv.getDonGia();
+        return thanhTienDV;
     }
 
     @Override

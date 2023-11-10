@@ -1,13 +1,16 @@
 package entity;
 
+import dao.Phong_DAO;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
 public class ChiTietHoaDon {
 
     private HoaDon hoaDon;
-    private int thoiLuong;
+    private Date gioNhanPhong;
+    private Date gioKetThuc;
     private Phong phong;
 
     public HoaDon getHoaDon() {
@@ -18,12 +21,20 @@ public class ChiTietHoaDon {
         this.hoaDon = hoaDon;
     }
 
-    public int getThoiLuong() {
-        return thoiLuong;
+    public Date getGioNhanPhong() {
+        return gioNhanPhong;
     }
 
-    public void setThoiLuong(int thoiLuong) {
-        this.thoiLuong = thoiLuong;
+    public void setGioNhanPhong(Date gioNhanPhong) {
+        this.gioNhanPhong = gioNhanPhong;
+    }
+
+    public Date getGioKetThuc() {
+        return gioKetThuc;
+    }
+
+    public void setGioKetThuc(Date gioKetThuc) {
+        this.gioKetThuc = gioKetThuc;
     }
 
     public Phong getPhong() {
@@ -34,9 +45,10 @@ public class ChiTietHoaDon {
         this.phong = phong;
     }
 
-    public ChiTietHoaDon(HoaDon hoaDon, int thoiLuong, Phong phong) {
+    public ChiTietHoaDon(HoaDon hoaDon, Date gioNhanPhong, Date gioKetThuc, Phong phong) {
         this.hoaDon = hoaDon;
-        this.thoiLuong = thoiLuong;
+        this.gioNhanPhong = gioNhanPhong;
+        this.gioKetThuc = gioKetThuc;
         this.phong = phong;
     }
 
@@ -44,25 +56,32 @@ public class ChiTietHoaDon {
     }
 
     public int tinhThoiLuong() {
-        SimpleDateFormat formatter = new SimpleDateFormat("HH");
-        String sGioNhan = formatter.format(getHoaDon().getGioNhanPhong());
-        String sGioKetThuc = formatter.format(getHoaDon().getGioKetThuc());
+        Calendar calGN = Calendar.getInstance();
+        Calendar calGKT = Calendar.getInstance();
+        calGN.setTime(getGioNhanPhong());
+        calGKT.setTime(getGioKetThuc());
+        int iGN = calGN.get(Calendar.HOUR_OF_DAY);
+        int iGKT = calGKT.get(Calendar.HOUR_OF_DAY);
+        long khoangCachThoiGian = getGioKetThuc().getTime() - getGioNhanPhong().getTime();
+        double soGioGiuaHaiNgay = khoangCachThoiGian / (60 * 60 * 1000);
 
-        int gioNhan = Integer.parseInt(sGioNhan);
-        int gioKetThuc = Integer.parseInt(sGioKetThuc);
-        int thoiLuongSD = gioKetThuc - gioNhan;
-
-        return thoiLuongSD;
+        int validGKT, validGN;
+        int thoiLuong = (int) soGioGiuaHaiNgay;
+        return thoiLuong;
     }
 
-    public Object[] getObjectCTHD() {
-        Object[] obj = {getHoaDon(), getThoiLuong(), getPhong()};
-        return obj;
+    public double tinhThanhTienPhong() {
+        Phong_DAO p_dao = new Phong_DAO();
+        Phong p = p_dao.getPhongTheoMa(getPhong().getMaPhong());
+        LoaiPhong lp = p_dao.getLoaiPhongTheoMa(p.getLoaiPhong().getMaLP());
+        
+        double thanhTienP = tinhThoiLuong() * lp.getGiaTien();
+        return thanhTienP;
     }
 
     @Override
     public String toString() {
-        return "ChiTietHoaDon{" + "hoaDon=" + hoaDon + ", thoiLuong=" + thoiLuong + ", phong=" + phong + '}';
+        return "ChiTietHoaDon{" + "hoaDon=" + hoaDon + ", gioNhanPhong=" + gioNhanPhong + ", gioKetThuc=" + gioKetThuc + ", phong=" + phong + '}';
     }
 
 }

@@ -4,16 +4,24 @@
  */
 package gui;
 
+import Form.Form_ChiTietHoaDon;
 import com.toedter.calendar.JDateChooserCellEditor;
 import connectDB.ConnectDB;
 import dao.HoaDon_DAO;
+import dao.KhachHang_DAO;
+import dao.NhanVien_DAO;
 import entity.HoaDon;
+import entity.KhachHang;
+import entity.NhanVien;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.prompt.PromptSupport;
 
@@ -22,47 +30,56 @@ import org.jdesktop.swingx.prompt.PromptSupport;
  * @author PC BAO THONG
  */
 public class GD_HD extends javax.swing.JPanel {
+
     //DAO
     private HoaDon_DAO hd_dao;
+    private KhachHang_DAO kh_dao;
+    private NhanVien_DAO nv_dao;
 
     //HoaDon
     private DefaultTableModel modelHD;
 
-    /**
-     * Creates new form GD_HD
-     */
+    //List
+    private ArrayList<HoaDon> dsHD;
+    private ArrayList<KhachHang> dsKH;
+    private ArrayList<NhanVien> dsNV;
+
     public GD_HD() {
         try {
             ConnectDB.getInstance().connect();
-            System.out.println("Ket noi Database thanh cong");
+//            System.out.println("Ket noi Database thanh cong");
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         hd_dao = new HoaDon_DAO();
+        kh_dao = new KhachHang_DAO();
+        nv_dao = new NhanVien_DAO();
         initComponents();
         tableHoaDon();
     }
 
     private void tableHoaDon() {
-        PromptSupport.setPrompt("Nhập số điện thoại khách", txtHD);
+        PromptSupport.setPrompt("Nhập số điện thoại khách", txtTimSDT);
         tableHD.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
         tableHD.getTableHeader().setOpaque(false);
         tableHD.getTableHeader().setBackground(new Color(32, 136, 203));
         tableHD.getTableHeader().setForeground(new Color(255, 255, 255));
-        tableHD.getColumnModel().getColumn(1).setCellEditor(new JDateChooserCellEditor());
         modelHD = (DefaultTableModel) tableHD.getModel();
         napDuLieuHD();
     }
+
     private void napDuLieuHD() {
-        ArrayList<HoaDon> dsHD;
         dsHD = hd_dao.getAllHoaDon();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         for (HoaDon hd : dsHD) {
-            String ngayLap = formatter.format(hd.getGioKetThuc());
-            modelHD.addRow(new Object[]{hd.getMaHD(), ngayLap, hd.getKhachHang().getHoKH() + " " + hd.getKhachHang().getTenKH(),
-                hd.getKhachHang().getSdtKH(), hd.getNhanVienLap().getHoNV() + " " + hd.getNhanVienLap().getTenNV(), hd.getTongTien()});
+            KhachHang kh = kh_dao.getKhachHangTheoMa(hd.getKhachHang().getMaKH());
+            NhanVien nv = nv_dao.getNhanVienTheoMa(hd.getNhanVienLap().getMaNV());
+            String ngayLap = formatter.format(hd.getNgayLap());
+            modelHD.addRow(new Object[]{hd.getMaHD(), ngayLap, kh.getHoKH() + " " + kh.getTenKH(),
+                kh.getSdtKH(), nv.getHoNV() + " " + nv.getTenNV(), hd.getTongTien()});
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -78,23 +95,22 @@ public class GD_HD extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         tableHD = new javax.swing.JTable();
         jPanel18 = new javax.swing.JPanel();
-        jTextField12 = new javax.swing.JTextField();
-        jTextField13 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
+        txtMaHD = new javax.swing.JTextField();
+        txtTenNV = new javax.swing.JTextField();
+        txtTenKH = new javax.swing.JTextField();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
-        jDateChooser4 = new com.toedter.calendar.JDateChooser();
-        jButton17 = new javax.swing.JButton();
-        jButton18 = new javax.swing.JButton();
-        jButton19 = new javax.swing.JButton();
-        txtHD = new javax.swing.JTextField();
-        jTextField15 = new javax.swing.JTextField();
+        btnTim = new javax.swing.JButton();
+        btnXemCTHD = new javax.swing.JButton();
+        btnLamMoi = new javax.swing.JButton();
+        txtTimSDT = new javax.swing.JTextField();
+        txtSDT = new javax.swing.JTextField();
         jLabel27 = new javax.swing.JLabel();
-        jSpinField1 = new com.toedter.components.JSpinField();
-        jSpinField2 = new com.toedter.components.JSpinField();
+        txtTongTien = new javax.swing.JTextField();
+        txtNgayLap = new javax.swing.JTextField();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -114,8 +130,21 @@ public class GD_HD extends javax.swing.JPanel {
             new String [] {
                 "Mã hóa đơn", "Ngày lập", "Tên khách hàng", "Số điện thọai", "Nhân viên", "Tổng tiền"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         tableHD.setRowHeight(25);
+        tableHD.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableHDMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tableHD);
 
         jPanel17.add(jScrollPane3, java.awt.BorderLayout.CENTER);
@@ -131,30 +160,32 @@ public class GD_HD extends javax.swing.JPanel {
         jPanel18Layout.rowHeights = new int[] {0, 20, 0, 20, 0, 20, 0, 20, 0};
         jPanel18.setLayout(jPanel18Layout);
 
-        jTextField12.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField12.setEnabled(false);
-        jTextField12.setMinimumSize(new java.awt.Dimension(200, 30));
-        jTextField12.setPreferredSize(new java.awt.Dimension(200, 30));
+        txtMaHD.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtMaHD.setEnabled(false);
+        txtMaHD.setMinimumSize(new java.awt.Dimension(200, 30));
+        txtMaHD.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
-        jPanel18.add(jTextField12, gridBagConstraints);
+        jPanel18.add(txtMaHD, gridBagConstraints);
 
-        jTextField13.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField13.setMinimumSize(new java.awt.Dimension(200, 30));
-        jTextField13.setPreferredSize(new java.awt.Dimension(200, 30));
+        txtTenNV.setEditable(false);
+        txtTenNV.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtTenNV.setMinimumSize(new java.awt.Dimension(200, 30));
+        txtTenNV.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 2;
-        jPanel18.add(jTextField13, gridBagConstraints);
+        jPanel18.add(txtTenNV, gridBagConstraints);
 
-        jTextField8.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField8.setMinimumSize(new java.awt.Dimension(200, 30));
-        jTextField8.setPreferredSize(new java.awt.Dimension(200, 30));
+        txtTenKH.setEditable(false);
+        txtTenKH.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtTenKH.setMinimumSize(new java.awt.Dimension(200, 30));
+        txtTenKH.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 0;
-        jPanel18.add(jTextField8, gridBagConstraints);
+        jPanel18.add(txtTenKH, gridBagConstraints);
 
         jLabel29.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jLabel29.setText("Ngày lập");
@@ -196,108 +227,174 @@ public class GD_HD extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel18.add(jLabel33, gridBagConstraints);
 
-        jDateChooser4.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jDateChooser4.setMinimumSize(new java.awt.Dimension(200, 30));
-        jDateChooser4.setPreferredSize(new java.awt.Dimension(200, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 2;
-        jPanel18.add(jDateChooser4, gridBagConstraints);
-
-        jButton17.setBackground(new java.awt.Color(121, 188, 215));
-        jButton17.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jButton17.setForeground(new java.awt.Color(255, 255, 255));
-        jButton17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/search-doc.png"))); // NOI18N
-        jButton17.setText("Tìm");
-        jButton17.setMinimumSize(new java.awt.Dimension(100, 30));
-        jButton17.setPreferredSize(new java.awt.Dimension(100, 30));
+        btnTim.setBackground(new java.awt.Color(121, 188, 215));
+        btnTim.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        btnTim.setForeground(new java.awt.Color(255, 255, 255));
+        btnTim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/search-doc.png"))); // NOI18N
+        btnTim.setText("Tìm");
+        btnTim.setMinimumSize(new java.awt.Dimension(100, 30));
+        btnTim.setPreferredSize(new java.awt.Dimension(100, 30));
+        btnTim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel18.add(jButton17, gridBagConstraints);
+        jPanel18.add(btnTim, gridBagConstraints);
 
-        jButton18.setBackground(new java.awt.Color(0, 204, 204));
-        jButton18.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jButton18.setForeground(new java.awt.Color(255, 255, 255));
-        jButton18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/paper.png"))); // NOI18N
-        jButton18.setText("Xem chi tiết");
-        jButton18.setMinimumSize(new java.awt.Dimension(150, 30));
-        jButton18.setPreferredSize(new java.awt.Dimension(150, 30));
+        btnXemCTHD.setBackground(new java.awt.Color(0, 204, 204));
+        btnXemCTHD.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        btnXemCTHD.setForeground(new java.awt.Color(255, 255, 255));
+        btnXemCTHD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/paper.png"))); // NOI18N
+        btnXemCTHD.setText("Xem chi tiết");
+        btnXemCTHD.setMinimumSize(new java.awt.Dimension(150, 30));
+        btnXemCTHD.setPreferredSize(new java.awt.Dimension(150, 30));
+        btnXemCTHD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXemCTHDActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel18.add(jButton18, gridBagConstraints);
+        jPanel18.add(btnXemCTHD, gridBagConstraints);
 
-        jButton19.setBackground(new java.awt.Color(0, 255, 213));
-        jButton19.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jButton19.setForeground(new java.awt.Color(255, 255, 255));
-        jButton19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/refresh.png"))); // NOI18N
-        jButton19.setText("Làm mới");
-        jButton19.setMinimumSize(new java.awt.Dimension(15, 30));
-        jButton19.setPreferredSize(new java.awt.Dimension(150, 30));
+        btnLamMoi.setBackground(new java.awt.Color(0, 255, 213));
+        btnLamMoi.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        btnLamMoi.setForeground(new java.awt.Color(255, 255, 255));
+        btnLamMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/refresh.png"))); // NOI18N
+        btnLamMoi.setText("Làm mới");
+        btnLamMoi.setMinimumSize(new java.awt.Dimension(15, 30));
+        btnLamMoi.setPreferredSize(new java.awt.Dimension(150, 30));
+        btnLamMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLamMoiActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel18.add(jButton19, gridBagConstraints);
+        jPanel18.add(btnLamMoi, gridBagConstraints);
 
-        txtHD.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        txtHD.setMinimumSize(new java.awt.Dimension(200, 30));
-        txtHD.setPreferredSize(new java.awt.Dimension(200, 30));
+        txtTimSDT.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtTimSDT.setMinimumSize(new java.awt.Dimension(200, 30));
+        txtTimSDT.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 4;
-        jPanel18.add(txtHD, gridBagConstraints);
+        jPanel18.add(txtTimSDT, gridBagConstraints);
 
-        jTextField15.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField15.setMinimumSize(new java.awt.Dimension(200, 30));
-        jTextField15.setPreferredSize(new java.awt.Dimension(200, 30));
+        txtSDT.setEditable(false);
+        txtSDT.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtSDT.setMinimumSize(new java.awt.Dimension(200, 30));
+        txtSDT.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 18;
         gridBagConstraints.gridy = 0;
-        jPanel18.add(jTextField15, gridBagConstraints);
+        jPanel18.add(txtSDT, gridBagConstraints);
 
         jLabel27.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jLabel27.setText("Giờ lập");
+        jLabel27.setText("Tổng tiền");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 16;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel18.add(jLabel27, gridBagConstraints);
 
-        jSpinField1.setMaximum(22);
-        jSpinField1.setMinimum(8);
-        jSpinField1.setPreferredSize(new java.awt.Dimension(90, 30));
+        txtTongTien.setEditable(false);
+        txtTongTien.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtTongTien.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 18;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel18.add(jSpinField1, gridBagConstraints);
+        jPanel18.add(txtTongTien, gridBagConstraints);
 
-        jSpinField2.setMaximum(59);
-        jSpinField2.setMaximumSize(new java.awt.Dimension(0, 0));
-        jSpinField2.setMinimum(0);
-        jSpinField2.setPreferredSize(new java.awt.Dimension(90, 30));
+        txtNgayLap.setEditable(false);
+        txtNgayLap.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtNgayLap.setPreferredSize(new java.awt.Dimension(200, 30));
+        txtNgayLap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNgayLapActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 18;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        jPanel18.add(jSpinField2, gridBagConstraints);
+        jPanel18.add(txtNgayLap, gridBagConstraints);
 
         GD_HoaDon.add(jPanel18, java.awt.BorderLayout.PAGE_START);
 
         add(GD_HoaDon, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tableHDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableHDMouseClicked
+        int r = tableHD.getSelectedRow();
+        txtMaHD.setText(modelHD.getValueAt(r, 0).toString());
+        String mHD = txtMaHD.getText().trim();
+        HoaDon hd = hd_dao.getHoaDonTheoMa(mHD);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
+        String ngayLap = formatter.format(hd.getNgayLap());
+        txtNgayLap.setText(ngayLap);
+        txtTenKH.setText(modelHD.getValueAt(r, 2).toString());
+        txtSDT.setText(modelHD.getValueAt(r, 3).toString());
+        txtTenNV.setText(modelHD.getValueAt(r, 4).toString());
+        
+        Double tongTien = Double.parseDouble(modelHD.getValueAt(r, 5).toString());
+        Locale localeVN = new Locale("vi", "VN");
+        NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
+        String sTongTien = currencyVN.format(tongTien);
+        txtTongTien.setText(sTongTien);
+    }//GEN-LAST:event_tableHDMouseClicked
+
+    private void txtNgayLapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNgayLapActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNgayLapActionPerformed
+
+    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
+        modelHD.getDataVector().removeAllElements();
+        napDuLieuHD();
+    }//GEN-LAST:event_btnLamMoiActionPerformed
+
+    private void btnXemCTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemCTHDActionPerformed
+        String maHD = txtMaHD.getText().trim();
+        HoaDon hd = hd_dao.getHoaDonTheoMa(maHD);
+        int r = tableHD.getSelectedRow();
+        if (r == -1) {
+            JOptionPane.showMessageDialog(null, "Bạn chưa chọn dòng");
+            return;
+        }
+        if (tableHD.getSelectedRowCount() > 1) {
+            JOptionPane.showMessageDialog(null, "Chỉ được chọn 1 dòng để xem");
+            return;
+        }
+        new Form_ChiTietHoaDon(hd).setVisible(true);
+    }//GEN-LAST:event_btnXemCTHDActionPerformed
+
+    private void btnTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimActionPerformed
+        String sdt = txtTimSDT.getText().trim();
+        dsHD = hd_dao.getAllHoaDonTheoSDT(sdt);
+        modelHD.getDataVector().removeAllElements();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        for (HoaDon hd : dsHD) {
+            KhachHang kh = kh_dao.getKhachHangTheoMa(hd.getKhachHang().getMaKH());
+            NhanVien nv = nv_dao.getNhanVienTheoMa(hd.getNhanVienLap().getMaNV());
+            String ngayLap = formatter.format(hd.getNgayLap());
+            modelHD.addRow(new Object[]{hd.getMaHD(), ngayLap, kh.getHoKH() + " " + kh.getTenKH(),
+                kh.getSdtKH(), nv.getHoNV() + " " + nv.getTenNV(), hd.getTongTien()});
+        }
+    }//GEN-LAST:event_btnTimActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel GD_HoaDon;
-    private javax.swing.JButton jButton17;
-    private javax.swing.JButton jButton18;
-    private javax.swing.JButton jButton19;
-    private com.toedter.calendar.JDateChooser jDateChooser4;
+    private javax.swing.JButton btnLamMoi;
+    private javax.swing.JButton btnTim;
+    private javax.swing.JButton btnXemCTHD;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel30;
@@ -307,13 +404,13 @@ public class GD_HD extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JScrollPane jScrollPane3;
-    private com.toedter.components.JSpinField jSpinField1;
-    private com.toedter.components.JSpinField jSpinField2;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField8;
     private javax.swing.JTable tableHD;
-    private javax.swing.JTextField txtHD;
+    private javax.swing.JTextField txtMaHD;
+    private javax.swing.JTextField txtNgayLap;
+    private javax.swing.JTextField txtSDT;
+    private javax.swing.JTextField txtTenKH;
+    private javax.swing.JTextField txtTenNV;
+    private javax.swing.JTextField txtTimSDT;
+    private javax.swing.JTextField txtTongTien;
     // End of variables declaration//GEN-END:variables
 }

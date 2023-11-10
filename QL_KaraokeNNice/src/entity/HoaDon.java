@@ -1,6 +1,10 @@
 package entity;
 
 //import java.sql.Date;
+import dao.DichVu_DAO;
+import dao.HoaDon_DAO;
+import dao.Phong_DAO;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
@@ -8,11 +12,10 @@ public class HoaDon {
 
     private String maHD;
     private KhachHang khachHang;
-    private Date gioNhanPhong;
-    private Date gioKetThuc;
     private NhanVien nhanVienLap;
+    private Date NgayLap;
+    private double VAT = 0.1;
     private double tongTien;
-    private double tienKhachTra;
     private boolean trangThai;
 
     public String getMaHD() {
@@ -31,28 +34,28 @@ public class HoaDon {
         this.khachHang = khachHang;
     }
 
-    public Date getGioNhanPhong() {
-        return gioNhanPhong;
-    }
-
-    public void setGioNhanPhong(Date gioNhanPhong) {
-        this.gioNhanPhong = gioNhanPhong;
-    }
-
-    public Date getGioKetThuc() {
-        return gioKetThuc;
-    }
-
-    public void setGioKetThuc(Date gioKetThuc) {
-        this.gioKetThuc = gioKetThuc;
-    }
-
     public NhanVien getNhanVienLap() {
         return nhanVienLap;
     }
 
     public void setNhanVienLap(NhanVien nhanVienLap) {
         this.nhanVienLap = nhanVienLap;
+    }
+
+    public Date getNgayLap() {
+        return NgayLap;
+    }
+
+    public void setNgayLap(Date NgayLap) {
+        this.NgayLap = NgayLap;
+    }
+
+    public double getVAT() {
+        return VAT;
+    }
+
+    public void setVAT(double VAT) {
+        this.VAT = VAT;
     }
 
     public double getTongTien() {
@@ -63,14 +66,6 @@ public class HoaDon {
         this.tongTien = tongTien;
     }
 
-    public double getTienKhachTra() {
-        return tienKhachTra;
-    }
-
-    public void setTienKhachTra(double tienKhachTra) {
-        this.tienKhachTra = tienKhachTra;
-    }
-
     public boolean isTrangThai() {
         return trangThai;
     }
@@ -79,14 +74,13 @@ public class HoaDon {
         this.trangThai = trangThai;
     }
 
-    public HoaDon(String maHD, KhachHang khachHang, Date gioNhanPhong, Date gioKetThuc, NhanVien nhanVienLap, double tongTien, double tienKhachTra, boolean trangThai) {
+    public HoaDon(String maHD, KhachHang khachHang, NhanVien nhanVienLap, Date NgayLap, double VAT, double tongTien, boolean trangThai) {
         this.maHD = maHD;
         this.khachHang = khachHang;
-        this.gioNhanPhong = gioNhanPhong;
-        this.gioKetThuc = gioKetThuc;
         this.nhanVienLap = nhanVienLap;
+        this.NgayLap = NgayLap;
+        this.VAT = VAT;
         this.tongTien = tongTien;
-        this.tienKhachTra = tienKhachTra;
         this.trangThai = trangThai;
     }
 
@@ -96,11 +90,39 @@ public class HoaDon {
     public HoaDon(String maHD) {
         this.maHD = maHD;
     }
+    
+    public double tinhTongTienHD() {
+        HoaDon_DAO hd_dao = new HoaDon_DAO();
+        Phong_DAO phong_dao = new Phong_DAO();
+        DichVu_DAO dv_dao = new DichVu_DAO();
+        
+        ArrayList<ChiTietHoaDon> dsCTHD = hd_dao.getAllCTHDTheoMaHD(getMaHD());
+        ArrayList<ChiTietDichVu> dsCTDV = hd_dao.getAllCTDVTheoMaHD(getMaHD());
+        double tongTienP = 0, tongTienDV = 0;
+
+        for (ChiTietHoaDon cthd : dsCTHD) {
+            Phong p = phong_dao.getPhongTheoMa(cthd.getPhong().getMaPhong());
+            LoaiPhong lp = phong_dao.getLoaiPhongTheoMa(p.getLoaiPhong().getMaLP());
+            double thanhTienP = cthd.tinhThoiLuong() * lp.getGiaTien();
+            tongTienP = tongTienP + thanhTienP;
+        }
+
+        for (ChiTietDichVu ctdv : dsCTDV) {
+            DichVu dv = dv_dao.getDichVuTheoMa(ctdv.getDichVu().getMaDV());
+            double thanhTienDV = ctdv.getSoLuong() * dv.getDonGia();
+            tongTienDV = tongTienDV + thanhTienDV;
+        }
+        return tongTienDV + tongTienP;
+    }
+    
+    public double tinhTongTienHDVAT(){
+        return tinhTongTienHD()*getVAT() + tinhTongTienHD();
+    }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 17 * hash + Objects.hashCode(this.maHD);
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.maHD);
         return hash;
     }
 
@@ -119,20 +141,11 @@ public class HoaDon {
         return Objects.equals(this.maHD, other.maHD);
     }
 
-    public Object[] getObjectHD() {
-        String trangThai = "";
-        if (isTrangThai()) {
-            trangThai = "Đã thanh toán";
-        } else {
-            trangThai = "Chưa thanh toán";
-        }
-        Object[] obj = {getMaHD(), getKhachHang(), getGioNhanPhong(), getGioKetThuc(), getNhanVienLap(), getTongTien(), getTienKhachTra(), trangThai};
-        return obj;
-    }
-
     @Override
     public String toString() {
-        return "HoaDon{" + "maHD=" + maHD + ", khachHang=" + khachHang + ", gioNhanPhong=" + gioNhanPhong + ", gioKetThuc=" + gioKetThuc + ", nhanVien=" + nhanVienLap + ", tongTien=" + tongTien + ", tienKhachTra=" + tienKhachTra + ", trangThai=" + trangThai + '}';
+        return "HoaDon{" + "maHD=" + maHD + ", khachHang=" + khachHang + ", nhanVienLap=" + nhanVienLap + ", NgayLap=" + NgayLap + ", VAT=" + VAT + ", tongTien=" + tongTien + ", trangThai=" + trangThai + '}';
     }
+
+    
 
 }

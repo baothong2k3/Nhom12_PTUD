@@ -92,6 +92,7 @@ public class DichVu {
 		this.maDV = maDV;
 	}
 	
+        
 	public Object[] getObjectDV() {
 		String tinhTrang="";
 		if(isTinhTrang()) {

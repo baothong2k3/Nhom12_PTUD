@@ -269,7 +269,6 @@ public class Form_TraPhong extends javax.swing.JFrame {
             }
         ));
         jTable1.setMinimumSize(new java.awt.Dimension(780, 200));
-        jTable1.setPreferredSize(new java.awt.Dimension(780, 200));
         jTable1.setRowHeight(25);
         jScrollPane1.setViewportView(jTable1);
 
@@ -318,8 +317,7 @@ public class Form_TraPhong extends javax.swing.JFrame {
                         .addComponent(jLabel13)
                         .addComponent(jLabel16)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);

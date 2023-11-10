@@ -59,13 +59,11 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         lblTenDV = new javax.swing.JLabel();
         txtTenDV = new javax.swing.JTextField();
         lblHsd = new javax.swing.JLabel();
-        hsd = new com.toedter.calendar.JDateChooser();
         lblXuatXu = new javax.swing.JLabel();
-        comboXuatXu = new javax.swing.JComboBox<>();
+        comboXuatXu = new javax.swing.JComboBox<String>();
         lblDonViBan = new javax.swing.JLabel();
-        comboDVB = new javax.swing.JComboBox<>();
+        comboDVB = new javax.swing.JComboBox<String>();
         lblSoLuong = new javax.swing.JLabel();
-        spinSoLuong = new com.toedter.components.JSpinField();
         lblTinhTrang = new javax.swing.JLabel();
         radioDangBan = new javax.swing.JRadioButton();
         radioNgungBan = new javax.swing.JRadioButton();
@@ -89,7 +87,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         lblTen = new javax.swing.JLabel();
         txtTen = new javax.swing.JTextField();
         lblNgaySinh = new javax.swing.JLabel();
-        ngaySinh = new com.toedter.calendar.JDateChooser();
         lblGioiTinh = new javax.swing.JLabel();
         radioNam = new javax.swing.JRadioButton();
         radioNu = new javax.swing.JRadioButton();
@@ -100,7 +97,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         lblDiaChi = new javax.swing.JLabel();
         txtDiaChi = new javax.swing.JTextField();
         txtChucVu = new javax.swing.JLabel();
-        comboChucVu = new javax.swing.JComboBox<>();
+        comboChucVu = new javax.swing.JComboBox<String>();
         lblMatKhau = new javax.swing.JLabel();
         pwMatKhau = new javax.swing.JPasswordField();
         lblTrangThai = new javax.swing.JLabel();
@@ -134,7 +131,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jTextField6 = new javax.swing.JTextField();
         radioNu1 = new javax.swing.JRadioButton();
         radioNam1 = new javax.swing.JRadioButton();
-        ngaySinh1 = new com.toedter.calendar.JDateChooser();
         jLabel11 = new javax.swing.JLabel();
         btnLamMoi2 = new javax.swing.JButton();
         btnXoa2 = new javax.swing.JButton();
@@ -147,9 +143,9 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
+        jComboBox2 = new javax.swing.JComboBox<String>();
+        jComboBox3 = new javax.swing.JComboBox<String>();
         jTextField5 = new javax.swing.JTextField();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
@@ -177,7 +173,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablePhieu = new javax.swing.JTable();
         jPanel15 = new javax.swing.JPanel();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        jComboBox4 = new javax.swing.JComboBox<String>();
         jTextField10 = new javax.swing.JTextField();
         jTextField9 = new javax.swing.JTextField();
         txtTimPhieu = new javax.swing.JTextField();
@@ -189,8 +185,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jButton14 = new javax.swing.JButton();
         jButton15 = new javax.swing.JButton();
         jButton16 = new javax.swing.JButton();
@@ -209,15 +203,12 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
-        jDateChooser4 = new com.toedter.calendar.JDateChooser();
         jButton17 = new javax.swing.JButton();
         jButton18 = new javax.swing.JButton();
         jButton19 = new javax.swing.JButton();
         txtHD = new javax.swing.JTextField();
         jTextField15 = new javax.swing.JTextField();
         jLabel27 = new javax.swing.JLabel();
-        jSpinField1 = new com.toedter.components.JSpinField();
-        jSpinField2 = new com.toedter.components.JSpinField();
         GD_DSPhong = new javax.swing.JPanel();
         panelNorth2 = new javax.swing.JPanel();
         lblMaDV1 = new javax.swing.JLabel();
@@ -228,9 +219,9 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         txtTenDV1 = new javax.swing.JTextField();
         lblHsd1 = new javax.swing.JLabel();
         lblXuatXu1 = new javax.swing.JLabel();
-        comboXuatXu1 = new javax.swing.JComboBox<>();
+        comboXuatXu1 = new javax.swing.JComboBox<String>();
         lblDonViBan1 = new javax.swing.JLabel();
-        comboSucChua = new javax.swing.JComboBox<>();
+        comboSucChua = new javax.swing.JComboBox<String>();
         lblTinhTrang1 = new javax.swing.JLabel();
         radioDangBan1 = new javax.swing.JRadioButton();
         radioNgungBan1 = new javax.swing.JRadioButton();
@@ -377,17 +368,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         panelNorth.add(lblHsd, gridBagConstraints);
 
-        hsd.setBackground(new java.awt.Color(255, 255, 255));
-        hsd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        hsd.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        hsd.setMaximumSize(new java.awt.Dimension(250, 30));
-        hsd.setMinimumSize(new java.awt.Dimension(250, 30));
-        hsd.setPreferredSize(new java.awt.Dimension(250, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 4;
-        panelNorth.add(hsd, gridBagConstraints);
-
         lblXuatXu.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         lblXuatXu.setText("Xuất xứ");
         lblXuatXu.setMaximumSize(new java.awt.Dimension(110, 40));
@@ -400,7 +380,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         panelNorth.add(lblXuatXu, gridBagConstraints);
 
         comboXuatXu.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        comboXuatXu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Việt Nam", "Thái Lan", "Trung Quốc", "Hoa Kỳ", "Đức" }));
+        comboXuatXu.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Việt Nam", "Thái Lan", "Trung Quốc", "Hoa Kỳ", "Đức" }));
         comboXuatXu.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         comboXuatXu.setMaximumSize(new java.awt.Dimension(250, 30));
         comboXuatXu.setMinimumSize(new java.awt.Dimension(250, 30));
@@ -422,7 +402,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         panelNorth.add(lblDonViBan, gridBagConstraints);
 
         comboDVB.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        comboDVB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lon", "Cái", "Dĩa", "Hộp", "Chai", "Bịch" }));
+        comboDVB.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Lon", "Cái", "Dĩa", "Hộp", "Chai", "Bịch" }));
         comboDVB.setMaximumSize(new java.awt.Dimension(250, 30));
         comboDVB.setMinimumSize(new java.awt.Dimension(250, 30));
         comboDVB.setPreferredSize(new java.awt.Dimension(250, 30));
@@ -446,16 +426,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         panelNorth.add(lblSoLuong, gridBagConstraints);
-
-        spinSoLuong.setMaximumSize(new java.awt.Dimension(100, 30));
-        spinSoLuong.setMinimum(0);
-        spinSoLuong.setMinimumSize(new java.awt.Dimension(100, 30));
-        spinSoLuong.setPreferredSize(new java.awt.Dimension(100, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        panelNorth.add(spinSoLuong, gridBagConstraints);
 
         lblTinhTrang.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         lblTinhTrang.setText("Tình trạng");
@@ -775,17 +745,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         panelNorth1.add(lblNgaySinh, gridBagConstraints);
 
-        ngaySinh.setBackground(new java.awt.Color(255, 255, 255));
-        ngaySinh.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        ngaySinh.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        ngaySinh.setMaximumSize(new java.awt.Dimension(250, 30));
-        ngaySinh.setMinimumSize(new java.awt.Dimension(250, 30));
-        ngaySinh.setPreferredSize(new java.awt.Dimension(185, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 0;
-        panelNorth1.add(ngaySinh, gridBagConstraints);
-
         lblGioiTinh.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         lblGioiTinh.setText("Giới tính");
         lblGioiTinh.setMaximumSize(new java.awt.Dimension(110, 40));
@@ -900,7 +859,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         panelNorth1.add(txtChucVu, gridBagConstraints);
 
         comboChucVu.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        comboChucVu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Quản lý", "Lễ tân", "Bảo vệ", "Phục vụ" }));
+        comboChucVu.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Quản lý", "Lễ tân", "Bảo vệ", "Phục vụ" }));
         comboChucVu.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         comboChucVu.setMaximumSize(new java.awt.Dimension(150, 30));
         comboChucVu.setMinimumSize(new java.awt.Dimension(150, 30));
@@ -1310,17 +1269,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel3.add(radioNam1, gridBagConstraints);
 
-        ngaySinh1.setBackground(new java.awt.Color(255, 255, 255));
-        ngaySinh1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        ngaySinh1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        ngaySinh1.setMaximumSize(new java.awt.Dimension(250, 30));
-        ngaySinh1.setMinimumSize(new java.awt.Dimension(250, 30));
-        ngaySinh1.setPreferredSize(new java.awt.Dimension(185, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 0;
-        jPanel3.add(ngaySinh1, gridBagConstraints);
-
         jLabel11.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jLabel11.setText("Giới tính");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1462,7 +1410,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jPanel13.add(jLabel19, gridBagConstraints);
 
         jComboBox1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Đang sử dụng", "Đã đặt trước", "Trống" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Tất cả", "Đang sử dụng", "Đã đặt trước", "Trống" }));
         jComboBox1.setPreferredSize(new java.awt.Dimension(150, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -1470,7 +1418,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jPanel13.add(jComboBox1, gridBagConstraints);
 
         jComboBox2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Phòng thường", "Phòng VIP" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Tất cả", "Phòng thường", "Phòng VIP" }));
         jComboBox2.setPreferredSize(new java.awt.Dimension(150, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -1478,7 +1426,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jPanel13.add(jComboBox2, gridBagConstraints);
 
         jComboBox3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "5", "10" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Tất cả", "5", "10" }));
         jComboBox3.setPreferredSize(new java.awt.Dimension(150, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -1785,7 +1733,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jPanel15.setLayout(jPanel15Layout1);
 
         jComboBox4.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chờ nhận phòng", "Đã nhận" }));
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Chờ nhận phòng", "Đã nhận" }));
         jComboBox4.setMinimumSize(new java.awt.Dimension(200, 30));
         jComboBox4.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1881,23 +1829,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel15.add(jLabel20, gridBagConstraints);
-
-        jDateChooser1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jDateChooser1.setMinimumSize(new java.awt.Dimension(200, 30));
-        jDateChooser1.setPreferredSize(new java.awt.Dimension(200, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 2;
-        jPanel15.add(jDateChooser1, gridBagConstraints);
-
-        jDateChooser2.setEnabled(false);
-        jDateChooser2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jDateChooser2.setMinimumSize(new java.awt.Dimension(200, 30));
-        jDateChooser2.setPreferredSize(new java.awt.Dimension(200, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        jPanel15.add(jDateChooser2, gridBagConstraints);
 
         jButton14.setBackground(new java.awt.Color(121, 188, 215));
         jButton14.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
@@ -2058,14 +1989,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel18.add(jLabel33, gridBagConstraints);
 
-        jDateChooser4.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jDateChooser4.setMinimumSize(new java.awt.Dimension(200, 30));
-        jDateChooser4.setPreferredSize(new java.awt.Dimension(200, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 2;
-        jPanel18.add(jDateChooser4, gridBagConstraints);
-
         jButton17.setBackground(new java.awt.Color(121, 188, 215));
         jButton17.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jButton17.setForeground(new java.awt.Color(255, 255, 255));
@@ -2128,25 +2051,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel18.add(jLabel27, gridBagConstraints);
-
-        jSpinField1.setMaximum(22);
-        jSpinField1.setMinimum(8);
-        jSpinField1.setPreferredSize(new java.awt.Dimension(90, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 18;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel18.add(jSpinField1, gridBagConstraints);
-
-        jSpinField2.setMaximum(59);
-        jSpinField2.setMaximumSize(new java.awt.Dimension(0, 0));
-        jSpinField2.setMinimum(0);
-        jSpinField2.setPreferredSize(new java.awt.Dimension(90, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 18;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        jPanel18.add(jSpinField2, gridBagConstraints);
 
         GD_HoaDon.add(jPanel18, java.awt.BorderLayout.PAGE_START);
 
@@ -2261,7 +2165,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         panelNorth2.add(lblXuatXu1, gridBagConstraints);
 
         comboXuatXu1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        comboXuatXu1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Trống", "Đã được đặt", "Đang sử dụng" }));
+        comboXuatXu1.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Trống", "Đã được đặt", "Đang sử dụng" }));
         comboXuatXu1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         comboXuatXu1.setMaximumSize(new java.awt.Dimension(250, 30));
         comboXuatXu1.setMinimumSize(new java.awt.Dimension(250, 30));
@@ -2283,7 +2187,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         panelNorth2.add(lblDonViBan1, gridBagConstraints);
 
         comboSucChua.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        comboSucChua.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "15", "20" }));
+        comboSucChua.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "10", "15", "20" }));
         comboSucChua.setMaximumSize(new java.awt.Dimension(250, 30));
         comboSucChua.setMinimumSize(new java.awt.Dimension(250, 30));
         comboSucChua.setPreferredSize(new java.awt.Dimension(200, 30));
@@ -3120,7 +3024,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboSucChua;
     private javax.swing.JComboBox<String> comboXuatXu;
     private javax.swing.JComboBox<String> comboXuatXu1;
-    private com.toedter.calendar.JDateChooser hsd;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -3145,9 +3048,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
-    private com.toedter.calendar.JDateChooser jDateChooser4;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -3220,8 +3120,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private com.toedter.components.JSpinField jSpinField1;
-    private com.toedter.components.JSpinField jSpinField2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
@@ -3262,8 +3160,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JLabel lblTrangThai;
     private javax.swing.JLabel lblXuatXu;
     private javax.swing.JLabel lblXuatXu1;
-    private com.toedter.calendar.JDateChooser ngaySinh;
-    private com.toedter.calendar.JDateChooser ngaySinh1;
     private javax.swing.JPanel panelCenter;
     private javax.swing.JPanel panelCenter1;
     private javax.swing.JPanel panelDSNV;
@@ -3285,7 +3181,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JScrollPane scrollPane1;
     private javax.swing.JScrollPane scrollPane2;
-    private com.toedter.components.JSpinField spinSoLuong;
     private javax.swing.JTable tableDSNV;
     private javax.swing.JTable tableDSPhong;
     private javax.swing.JTable tableDichVu;
