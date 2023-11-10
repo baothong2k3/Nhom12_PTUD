@@ -40,6 +40,7 @@ public class GD_KH extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        btngGioiTinh = new javax.swing.ButtonGroup();
         GD_KhachHang = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -218,6 +219,7 @@ public class GD_KH extends javax.swing.JPanel {
         jPanel3.add(jTextField6, gridBagConstraints);
 
         radioNu1.setBackground(new java.awt.Color(255, 255, 255));
+        btngGioiTinh.add(radioNu1);
         radioNu1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         radioNu1.setText("Nữ");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -226,6 +228,7 @@ public class GD_KH extends javax.swing.JPanel {
         jPanel3.add(radioNu1, gridBagConstraints);
 
         radioNam1.setBackground(new java.awt.Color(255, 255, 255));
+        btngGioiTinh.add(radioNam1);
         radioNam1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         radioNam1.setText("Nam");
         radioNam1.addActionListener(new java.awt.event.ActionListener() {
@@ -351,6 +354,7 @@ public class GD_KH extends javax.swing.JPanel {
     private javax.swing.JPanel GD_KhachHang;
     private javax.swing.JButton btnLamMoi2;
     private javax.swing.JButton btnXoa2;
+    private javax.swing.ButtonGroup btngGioiTinh;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

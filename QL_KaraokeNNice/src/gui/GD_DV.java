@@ -61,6 +61,7 @@ public class GD_DV extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        btngTinhTrang = new javax.swing.ButtonGroup();
         GD_DichVu = new javax.swing.JPanel();
         panelNorth = new javax.swing.JPanel();
         lblMaDV = new javax.swing.JLabel();
@@ -283,6 +284,7 @@ public class GD_DV extends javax.swing.JPanel {
         panelNorth.add(lblTinhTrang, gridBagConstraints);
 
         radioDangBan.setBackground(new java.awt.Color(255, 255, 255));
+        btngTinhTrang.add(radioDangBan);
         radioDangBan.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         radioDangBan.setText("Đang bán");
         radioDangBan.addActionListener(new java.awt.event.ActionListener() {
@@ -297,6 +299,7 @@ public class GD_DV extends javax.swing.JPanel {
         panelNorth.add(radioDangBan, gridBagConstraints);
 
         radioNgungBan.setBackground(new java.awt.Color(255, 255, 255));
+        btngTinhTrang.add(radioNgungBan);
         radioNgungBan.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         radioNgungBan.setText("Ngừng bán");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -481,6 +484,7 @@ public class GD_DV extends javax.swing.JPanel {
     private javax.swing.JButton btnThemDV;
     private javax.swing.JButton btnTim;
     private javax.swing.JButton btnXoa;
+    private javax.swing.ButtonGroup btngTinhTrang;
     private javax.swing.JComboBox<String> comboDVB;
     private javax.swing.JComboBox<String> comboXuatXu;
     private com.toedter.calendar.JDateChooser hsd;

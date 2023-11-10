@@ -62,6 +62,8 @@ public class GD_NV extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        btngGioiTinh = new javax.swing.ButtonGroup();
+        btngTrangThai = new javax.swing.ButtonGroup();
         GD_NhanVien = new javax.swing.JPanel();
         panelNorth1 = new javax.swing.JPanel();
         lblMaNV = new javax.swing.JLabel();
@@ -242,6 +244,7 @@ public class GD_NV extends javax.swing.JPanel {
         panelNorth1.add(lblGioiTinh, gridBagConstraints);
 
         radioNam.setBackground(new java.awt.Color(255, 255, 255));
+        btngGioiTinh.add(radioNam);
         radioNam.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         radioNam.setText("Nam");
         radioNam.addActionListener(new java.awt.event.ActionListener() {
@@ -256,6 +259,7 @@ public class GD_NV extends javax.swing.JPanel {
         panelNorth1.add(radioNam, gridBagConstraints);
 
         radioNu.setBackground(new java.awt.Color(255, 255, 255));
+        btngGioiTinh.add(radioNu);
         radioNu.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         radioNu.setText("Nữ");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -389,6 +393,7 @@ public class GD_NV extends javax.swing.JPanel {
         panelNorth1.add(lblTrangThai, gridBagConstraints);
 
         radioDangLam.setBackground(new java.awt.Color(255, 255, 255));
+        btngTrangThai.add(radioDangLam);
         radioDangLam.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         radioDangLam.setText("Đang làm");
         radioDangLam.addActionListener(new java.awt.event.ActionListener() {
@@ -403,6 +408,7 @@ public class GD_NV extends javax.swing.JPanel {
         panelNorth1.add(radioDangLam, gridBagConstraints);
 
         radioDaNghi.setBackground(new java.awt.Color(255, 255, 255));
+        btngTrangThai.add(radioDaNghi);
         radioDaNghi.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         radioDaNghi.setText("Đã nghỉ");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -594,6 +600,8 @@ public class GD_NV extends javax.swing.JPanel {
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTim1;
     private javax.swing.JButton btnXoa1;
+    private javax.swing.ButtonGroup btngGioiTinh;
+    private javax.swing.ButtonGroup btngTrangThai;
     private javax.swing.JComboBox<String> comboChucVu;
     private javax.swing.JLabel lblCCCD;
     private javax.swing.JLabel lblDiaChi;
