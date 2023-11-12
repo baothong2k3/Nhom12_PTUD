@@ -4,29 +4,58 @@
  */
 package gui;
 
+import Form.Form_DatPhong;
+import entity.Phong;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JLabel;
 import javax.swing.Timer;
+import dao.Phong_DAO;
+import connectDB.ConnectDB;
+import entity.LoaiPhong;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
  * @author PC BAO THONG
  */
-public class GD_DatPhong extends javax.swing.JPanel {
+public final class GD_DatPhong extends javax.swing.JPanel {
+
+    private final Phong_DAO phongDAO;
 
     /**
      * Creates new form GD_DatPhong
      */
     public GD_DatPhong() {
+        try {
+            ConnectDB.getInstance().connect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         initComponents();
         hienThiNgay();
+        phongDAO = new Phong_DAO();
+        loadAllPhong();
     }
+
     private void hienThiNgay() {
         // Tạo JLabel để hiển thị ngày và giờ
         jPanel12.setLayout(new GridBagLayout());
@@ -64,6 +93,136 @@ public class GD_DatPhong extends javax.swing.JPanel {
         });
         timer.start();
     }
+
+    //
+    public String layDiaChiIconTheoLoaiVaTrangThaiPhong(String trangThai, String loaiPhong) {
+        if ("PT001".equalsIgnoreCase(loaiPhong)) {
+            if ("Trống".equalsIgnoreCase(trangThai)) {
+                return "/Image/PT_T.png";
+            } else if ("Đã được đặt".equalsIgnoreCase(trangThai)) {
+                return "/Image/PT_D.png";
+            } else {
+                return "/Image/PT_SD.png";
+            }
+        } else {
+            if ("Trống".equalsIgnoreCase(trangThai)) {
+                return "/Image/PV_T.png";
+            } else if ("Đã được đặt".equalsIgnoreCase(trangThai)) {
+                return "/Image/PV_D.png";
+            } else {
+                return "/Image/PV_SD.png";
+            }
+        }
+    }
+
+    public JPanel taoPanelPhong(Phong phong, LoaiPhong lp) {
+        JPanel pnPhong = new JPanel();
+        pnPhong.setPreferredSize(new Dimension(200, 120));
+        pnPhong.setBackground(Color.WHITE);
+        pnPhong.setName(phong.getMaPhong());
+
+        JLabel lblNewLabel = new JLabel("");
+        lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblNewLabel.setIcon(new ImageIcon(getClass().getResource(layDiaChiIconTheoLoaiVaTrangThaiPhong(phong.getTrangThai(), phong.getLoaiPhong().getMaLP()))));
+
+        String soPhong = "Phòng: " + phong.getMaPhong();
+        JLabel lblNewLabel_1 = new JLabel(soPhong);
+        lblNewLabel_1.setAlignmentX(Component.LEFT_ALIGNMENT);
+        lblNewLabel_1.setFont(new Font("Cambria", Font.BOLD, 16));
+
+        String trangThai = phong.getTrangThai();
+        JLabel trangThaiPhong = new JLabel("Trạng thái: " + trangThai);
+        trangThaiPhong.setAlignmentX(Component.LEFT_ALIGNMENT);
+        trangThaiPhong.setFont(new Font("Cambria", Font.PLAIN, 16));
+
+        int soNguoi = phong.getSoNguoi();
+        JLabel nguoi = new JLabel("Số người: " + soNguoi);
+        nguoi.setAlignmentX(Component.LEFT_ALIGNMENT);
+        nguoi.setFont(new Font("Cambria", Font.PLAIN, 16));
+
+        
+        JLabel loaiPhong = new JLabel("Loại phòng: " + lp.getTenLoaiPhong());
+        loaiPhong.setAlignmentX(Component.LEFT_ALIGNMENT);
+        loaiPhong.setFont(new Font("Cambria", Font.PLAIN, 16));
+
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        symbols.setGroupingSeparator('.');
+        DecimalFormat df = new DecimalFormat("#,##0.##", symbols);
+        double giaPhong = lp.getGiaTien();
+        JLabel giaP = new JLabel("Giá: " + df.format(giaPhong) + " vnđ/giờ");
+        giaP.setAlignmentX(Component.LEFT_ALIGNMENT);
+        giaP.setFont(new Font("Cambria", Font.PLAIN, 16));
+        giaP.setForeground(Color.red);
+
+        JLabel lblTieuDe = new JLabel(phong.getMaPhong());
+        lblTieuDe.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblTieuDe.setFont(new Font("Cambria", Font.BOLD, 16));
+
+        pnPhong.setLayout(new BoxLayout(pnPhong, BoxLayout.Y_AXIS));
+        pnPhong.add(lblNewLabel);
+        pnPhong.add(lblTieuDe);
+
+        // Thêm sự kiện khi người dùng nhấp chuột vào phòng
+        pnPhong.addMouseListener(new MouseAdapter() {
+//      @Override
+//      public void mouseClicked(MouseEvent e) {
+//          // Xử lý sự kiện khi phòng được nhấp chuột
+//          // Ví dụ: hiển thị thông tin chi tiết phòng, chuyển đến trang khác, vv.
+//      }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                pnPhong.removeAll();
+                pnPhong.add(lblNewLabel_1);
+                pnPhong.add(loaiPhong);
+                pnPhong.add(trangThaiPhong);
+                pnPhong.add(nguoi);
+                pnPhong.add(giaP);
+                EmptyBorder margin = new EmptyBorder(10, 0, 5, 0);
+                pnPhong.setBorder(margin);
+                pnPhong.setBackground(Color.LIGHT_GRAY);
+                pnPhong.revalidate();
+                pnPhong.repaint();
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                pnPhong.removeAll();
+                pnPhong.setBorder(null);
+                pnPhong.setBackground(Color.WHITE);
+                pnPhong.add(lblNewLabel);
+                pnPhong.add(lblTieuDe);
+                pnPhong.revalidate();
+                pnPhong.repaint();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                // Lấy thông tin JPanel đã được nhấp chuột
+                JPanel panel = (JPanel) e.getSource();
+                // In ra tên JPanel
+                String name = panel.getName();
+                System.out.println("Tên JPanel: " + name);
+                txtMaPhong.setText(name);
+                panel.setBorder(BorderFactory.createLineBorder(Color.red));
+
+            }
+        });
+
+        return pnPhong;
+    }
+
+    //
+    public void loadAllPhong() {
+        ArrayList<Phong> dsP = phongDAO.layDSPhong();
+        for (Phong phong : dsP) {
+            String maLP = phong.getLoaiPhong().getMaLP();
+            LoaiPhong loaiphong = phongDAO.getLoaiPhongTheoMa(maLP);
+            JPanel pnP = taoPanelPhong(phong, loaiphong);
+            panelPhong.add(pnP);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -75,6 +234,8 @@ public class GD_DatPhong extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
 
         GD_Phong = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        panelPhong = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
@@ -83,7 +244,7 @@ public class GD_DatPhong extends javax.swing.JPanel {
         jComboBox1 = new javax.swing.JComboBox<>();
         jComboBox2 = new javax.swing.JComboBox<>();
         jComboBox3 = new javax.swing.JComboBox<>();
-        jTextField5 = new javax.swing.JTextField();
+        txtMaPhong = new javax.swing.JTextField();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
@@ -93,17 +254,13 @@ public class GD_DatPhong extends javax.swing.JPanel {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jPanel14 = new javax.swing.JPanel();
-        panelPhong = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
+        datphong = new javax.swing.JButton();
+        huydatphong = new javax.swing.JButton();
+        nhanphong = new javax.swing.JButton();
+        traphong = new javax.swing.JButton();
+        capnhatdv = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
@@ -113,6 +270,16 @@ public class GD_DatPhong extends javax.swing.JPanel {
         GD_Phong.setMinimumSize(new java.awt.Dimension(1200, 520));
         GD_Phong.setPreferredSize(new java.awt.Dimension(1200, 520));
         GD_Phong.setLayout(new java.awt.BorderLayout(10, 10));
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(970, 270));
+
+        panelPhong.setBackground(new java.awt.Color(255, 255, 255));
+        panelPhong.setPreferredSize(new java.awt.Dimension(840, 840));
+        panelPhong.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 10));
+        jScrollPane1.setViewportView(panelPhong);
+
+        GD_Phong.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel13.setBackground(new java.awt.Color(255, 255, 255));
         jPanel13.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
@@ -153,7 +320,7 @@ public class GD_DatPhong extends javax.swing.JPanel {
         jPanel13.add(jLabel19, gridBagConstraints);
 
         jComboBox1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Đang sử dụng", "Đã đặt trước", "Trống" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Đang sử dụng", "Đã được đặt", "Trống" }));
         jComboBox1.setPreferredSize(new java.awt.Dimension(150, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -169,19 +336,19 @@ public class GD_DatPhong extends javax.swing.JPanel {
         jPanel13.add(jComboBox2, gridBagConstraints);
 
         jComboBox3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "5", "10" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "10", "15", "20" }));
         jComboBox3.setPreferredSize(new java.awt.Dimension(150, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 2;
         jPanel13.add(jComboBox3, gridBagConstraints);
 
-        jTextField5.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField5.setPreferredSize(new java.awt.Dimension(150, 30));
+        txtMaPhong.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtMaPhong.setPreferredSize(new java.awt.Dimension(150, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
-        jPanel13.add(jTextField5, gridBagConstraints);
+        jPanel13.add(txtMaPhong, gridBagConstraints);
 
         jButton12.setBackground(new java.awt.Color(121, 188, 215));
         jButton12.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
@@ -262,15 +429,6 @@ public class GD_DatPhong extends javax.swing.JPanel {
 
         GD_Phong.add(jPanel9, java.awt.BorderLayout.PAGE_END);
 
-        jPanel14.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel14.setMinimumSize(new java.awt.Dimension(970, 370));
-        jPanel14.setLayout(new java.awt.BorderLayout());
-
-        panelPhong.setLayout(new java.awt.GridBagLayout());
-        jPanel14.add(panelPhong, java.awt.BorderLayout.CENTER);
-
-        GD_Phong.add(jPanel14, java.awt.BorderLayout.CENTER);
-
         jPanel8.setBackground(new java.awt.Color(121, 188, 215));
         jPanel8.setMaximumSize(new java.awt.Dimension(300, 2147483647));
         jPanel8.setMinimumSize(new java.awt.Dimension(220, 320));
@@ -281,137 +439,99 @@ public class GD_DatPhong extends javax.swing.JPanel {
         jPanel11.setMaximumSize(new java.awt.Dimension(100, 32767));
         jPanel11.setMinimumSize(new java.awt.Dimension(220, 200));
         java.awt.GridBagLayout jPanel11Layout = new java.awt.GridBagLayout();
-        jPanel11Layout.columnWidths = new int[] {0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0};
-        jPanel11Layout.rowHeights = new int[] {0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0};
+        jPanel11Layout.columnWidths = new int[] {0, 10, 0, 10, 0, 10, 0, 10, 0};
+        jPanel11Layout.rowHeights = new int[] {0, 10, 0, 10, 0, 10, 0, 10, 0};
         jPanel11.setLayout(jPanel11Layout);
 
-        jButton5.setBackground(new java.awt.Color(64, 71, 214));
-        jButton5.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Xem chi tiết (F1)");
-        jButton5.setToolTipText("");
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton5.setMaximumSize(new java.awt.Dimension(200, 30));
-        jButton5.setMinimumSize(new java.awt.Dimension(200, 30));
-        jButton5.setPreferredSize(new java.awt.Dimension(200, 30));
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        datphong.setBackground(new java.awt.Color(64, 71, 214));
+        datphong.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
+        datphong.setForeground(new java.awt.Color(255, 255, 255));
+        datphong.setText("Đặt trước phòng (F1)");
+        datphong.setMaximumSize(new java.awt.Dimension(200, 40));
+        datphong.setMinimumSize(new java.awt.Dimension(200, 40));
+        datphong.setPreferredSize(new java.awt.Dimension(200, 40));
+        datphong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                datphongActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
-        jPanel11.add(jButton5, gridBagConstraints);
+        jPanel11.add(datphong, gridBagConstraints);
 
-        jButton6.setBackground(new java.awt.Color(64, 71, 214));
-        jButton6.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Đặt trước phòng (F2)");
-        jButton6.setMaximumSize(new java.awt.Dimension(200, 30));
-        jButton6.setMinimumSize(new java.awt.Dimension(200, 30));
-        jButton6.setPreferredSize(new java.awt.Dimension(200, 30));
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        huydatphong.setBackground(new java.awt.Color(64, 71, 214));
+        huydatphong.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
+        huydatphong.setForeground(new java.awt.Color(255, 255, 255));
+        huydatphong.setText("Hủy đặt phòng (F2)");
+        huydatphong.setMaximumSize(new java.awt.Dimension(200, 40));
+        huydatphong.setMinimumSize(new java.awt.Dimension(200, 40));
+        huydatphong.setPreferredSize(new java.awt.Dimension(200, 40));
+        huydatphong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                huydatphongActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
-        jPanel11.add(jButton6, gridBagConstraints);
+        jPanel11.add(huydatphong, gridBagConstraints);
 
-        jButton7.setBackground(new java.awt.Color(64, 71, 214));
-        jButton7.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("Hủy đặt phòng (F3)");
-        jButton7.setMaximumSize(new java.awt.Dimension(200, 30));
-        jButton7.setMinimumSize(new java.awt.Dimension(200, 30));
-        jButton7.setPreferredSize(new java.awt.Dimension(200, 30));
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        nhanphong.setBackground(new java.awt.Color(64, 71, 214));
+        nhanphong.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
+        nhanphong.setForeground(new java.awt.Color(255, 255, 255));
+        nhanphong.setText("Nhận phòng (F3)");
+        nhanphong.setMaximumSize(new java.awt.Dimension(200, 40));
+        nhanphong.setMinimumSize(new java.awt.Dimension(200, 40));
+        nhanphong.setPreferredSize(new java.awt.Dimension(200, 40));
+        nhanphong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                nhanphongActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
-        jPanel11.add(jButton7, gridBagConstraints);
+        jPanel11.add(nhanphong, gridBagConstraints);
 
-        jButton8.setBackground(new java.awt.Color(64, 71, 214));
-        jButton8.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jButton8.setForeground(new java.awt.Color(255, 255, 255));
-        jButton8.setText("Nhận phòng (F4)");
-        jButton8.setMaximumSize(new java.awt.Dimension(200, 30));
-        jButton8.setMinimumSize(new java.awt.Dimension(200, 30));
-        jButton8.setPreferredSize(new java.awt.Dimension(200, 30));
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        traphong.setBackground(new java.awt.Color(64, 71, 214));
+        traphong.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
+        traphong.setForeground(new java.awt.Color(255, 255, 255));
+        traphong.setText("Trả phòng (F4)");
+        traphong.setMaximumSize(new java.awt.Dimension(200, 40));
+        traphong.setMinimumSize(new java.awt.Dimension(200, 40));
+        traphong.setPreferredSize(new java.awt.Dimension(200, 40));
+        traphong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                traphongActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
-        jPanel11.add(jButton8, gridBagConstraints);
+        jPanel11.add(traphong, gridBagConstraints);
 
-        jButton9.setBackground(new java.awt.Color(64, 71, 214));
-        jButton9.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jButton9.setForeground(new java.awt.Color(255, 255, 255));
-        jButton9.setText("Trả phòng (F5)");
-        jButton9.setMaximumSize(new java.awt.Dimension(200, 30));
-        jButton9.setMinimumSize(new java.awt.Dimension(200, 30));
-        jButton9.setPreferredSize(new java.awt.Dimension(200, 30));
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        capnhatdv.setBackground(new java.awt.Color(64, 71, 214));
+        capnhatdv.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
+        capnhatdv.setForeground(new java.awt.Color(255, 255, 255));
+        capnhatdv.setText("Cập nhật dịch vụ (F5)");
+        capnhatdv.setMaximumSize(new java.awt.Dimension(200, 40));
+        capnhatdv.setMinimumSize(new java.awt.Dimension(200, 40));
+        capnhatdv.setPreferredSize(new java.awt.Dimension(200, 40));
+        capnhatdv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                capnhatdvActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
-        jPanel11.add(jButton9, gridBagConstraints);
-
-        jButton10.setBackground(new java.awt.Color(64, 71, 214));
-        jButton10.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jButton10.setForeground(new java.awt.Color(255, 255, 255));
-        jButton10.setText("Thêm dịch vụ (F6)");
-        jButton10.setMaximumSize(new java.awt.Dimension(200, 30));
-        jButton10.setMinimumSize(new java.awt.Dimension(200, 30));
-        jButton10.setPreferredSize(new java.awt.Dimension(200, 30));
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
-        jPanel11.add(jButton10, gridBagConstraints);
-
-        jButton11.setBackground(new java.awt.Color(64, 71, 214));
-        jButton11.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jButton11.setForeground(new java.awt.Color(255, 255, 255));
-        jButton11.setText("Cập nhật dịch vụ (F7)");
-        jButton11.setMaximumSize(new java.awt.Dimension(200, 30));
-        jButton11.setMinimumSize(new java.awt.Dimension(200, 30));
-        jButton11.setPreferredSize(new java.awt.Dimension(200, 30));
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
-        jPanel11.add(jButton11, gridBagConstraints);
+        jPanel11.add(capnhatdv, gridBagConstraints);
 
         jPanel8.add(jPanel11, java.awt.BorderLayout.CENTER);
 
@@ -438,46 +558,38 @@ public class GD_DatPhong extends javax.swing.JPanel {
         add(GD_Phong, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void datphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_datphongActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+        String maP = txtMaPhong.getText();
+        Phong phong = phongDAO.getPhongTheoMa(maP);
+        new Form_DatPhong(phong).setVisible(true);
+    }//GEN-LAST:event_datphongActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void huydatphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_huydatphongActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_huydatphongActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void nhanphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nhanphongActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_nhanphongActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void traphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_traphongActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+    }//GEN-LAST:event_traphongActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+    private void capnhatdvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capnhatdvActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton10ActionPerformed
-
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
+        new Form.Form_CapNhatDVP().setVisible(true);
+    }//GEN-LAST:event_capnhatdvActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel GD_Phong;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
+    private javax.swing.JButton capnhatdv;
+    private javax.swing.JButton datphong;
+    private javax.swing.JButton huydatphong;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
@@ -494,10 +606,13 @@ public class GD_DatPhong extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton nhanphong;
     private javax.swing.JPanel panelPhong;
+    private javax.swing.JButton traphong;
+    public javax.swing.JTextField txtMaPhong;
     // End of variables declaration//GEN-END:variables
+
 }

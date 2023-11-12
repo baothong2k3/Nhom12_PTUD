@@ -42,9 +42,9 @@ go
 
 Create table Phong(
 	maPhong varchar(10) primary key,
-	maLP varchar(10),
+	maLP varchar(10) Not null,
 	sucNguoi int NOT NULL,
-	trangThai nvarchar(30),
+	trangThai nvarchar(30) not null,
 	tinhTrang bit NOT NULL
 
 	CONSTRAINT F_P_LP FOREIGN KEY (maLP) REFERENCES LoaiPhong(maLP)
@@ -188,28 +188,28 @@ insert into LoaiPhong values
 go
 
 insert into Phong values
-('P001', 'PV001', 15, null, 0),
-('P002', 'PV001', 15, null, 0),
-('P003', 'PV001', 15, null, 0),
-('P004', 'PV001', 15, null, 0),
-('P005', 'PV001', 15, N'Bảo trì', 0),
-('P006', 'PV001', 15, null, 0),
-('P007', 'PV001', 15, null, 0),
-('P008', 'PV001', 15, null, 0),
-('P009', 'PV001', 15, null, 0),
-('P010', 'PT001', 10, null, 0),
-('P011', 'PT001', 10, null, 0),
-('P012', 'PT001', 10, null, 0),
-('P013', 'PT001', 10, null, 0),
-('P014', 'PT001', 10, null, 0),
-('P015', 'PT001', 10, null, 0),
-('P016', 'PT001', 10, N'Bảo trì', 0),
-('P017', 'PT001', 20, null, 0),
-('P018', 'PT001', 20, null, 0),
-('P019', 'PT001', 20, null, 0),
-('P020', 'PT001', 20, null, 0),
-('P021', 'PT001', 20, null, 0),
-('P022', 'PT001', 20, null, 0)
+('P001', 'PV001', 15, N'Trống', 1),
+('P002', 'PV001', 15, N'Trống', 1),
+('P003', 'PV001', 15, N'Trống', 1),
+('P004', 'PV001', 15, N'Trống', 1),
+('P005', 'PV001', 15, N'Trống', 1),
+('P006', 'PV001', 15, N'Trống', 1),
+('P007', 'PV001', 15, N'Trống', 1),
+('P008', 'PV001', 15, N'Trống', 1),
+('P009', 'PV001', 15, N'Trống', 1),
+('P010', 'PT001', 10, N'Trống', 1),
+('P011', 'PT001', 10, N'Trống', 1),
+('P012', 'PT001', 10, N'Trống', 1),
+('P013', 'PT001', 10, N'Trống', 1),
+('P014', 'PT001', 10, N'Trống', 1),
+('P015', 'PT001', 10, N'Trống', 1),
+('P016', 'PT001', 10, N'Trống', 1),
+('P017', 'PT001', 20, N'Trống', 1),
+('P018', 'PT001', 20, N'Trống', 1),
+('P019', 'PT001', 20, N'Trống', 1),
+('P020', 'PT001', 20, N'Trống', 1),
+('P021', 'PT001', 20, N'Trống', 1),
+('P022', 'PT001', 20, N'Trống', 1)
 go
 Insert into HoaDon values
 ('HD001', 'KH001', 'NV002', '2023-oct-14 21:30:00 ', 0.1, 352000, 0),

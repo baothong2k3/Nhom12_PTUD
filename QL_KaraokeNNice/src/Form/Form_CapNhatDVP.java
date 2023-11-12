@@ -5,8 +5,18 @@
 package Form;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
-import org.jdesktop.swingx.JXTable;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import raven.cell.TableActionCellEditor;
+import raven.cell.TableActionCellEditor1;
+import raven.cell.TableActionCellRender;
+import raven.cell.TableActionCellRender1;
+import raven.cell.TableActionEvent;
+import raven.cell.TableActionEvent1;
 
 /**
  *
@@ -21,20 +31,68 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
-        table();
+        customTable();
+        TableActionEvent event = new TableActionEvent() {
+            @Override
+            public void onAdd(int row) {
+                System.out.println("Add row : " + row);
+            }
+
+            @Override
+            public void onDelete(int row) {
+                if (table.isEditing()) {
+                    table.getCellEditor().stopCellEditing();
+                }
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                model.removeRow(row);
+            }
+
+            @Override
+            public void onLess(int row) {
+                System.out.println("Less row : " + row);
+            }
+        };
+        table.getColumnModel().getColumn(4).setCellRenderer(new TableActionCellRender());
+        table.getColumnModel().getColumn(4).setCellEditor(new TableActionCellEditor(event));
+        table.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
+                setHorizontalAlignment(SwingConstants.RIGHT);
+                return super.getTableCellRendererComponent(jtable, o, bln, bln1, i, i1);
+            }
+        });
+        TableActionEvent1 event1 = new TableActionEvent1() {
+            @Override
+            public void onAdd(int row) {
+                if (table1.isEditing()) {
+                    table1.getCellEditor().stopCellEditing();
+                }
+                DefaultTableModel model = (DefaultTableModel) table1.getModel();
+                model.removeRow(row);
+            }
+        };
+        table1.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender1());
+        table1.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor1(event1));
+        table1.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
+                setHorizontalAlignment(SwingConstants.RIGHT);
+                return super.getTableCellRendererComponent(jtable, o, bln, bln1, i, i1);
+            }
+        });
     }
 
-    private void table() {
-        jTable1.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
-        jTable1.getTableHeader().setOpaque(false);
-        jTable1.getTableHeader().setBackground(new Color(32, 136, 203));
-        jTable1.getTableHeader().setForeground(new Color(255, 255, 255));
+    private void customTable() {
+        table1.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
+        table1.getTableHeader().setOpaque(false);
+        table1.getTableHeader().setBackground(new Color(32, 136, 203));
+        table1.getTableHeader().setForeground(new Color(255, 255, 255));
 //        jTable1.getColumnModel().getColumn(4).setCellEditor(new JXTable.GenericEditor());
-        
-        jTable2.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
-        jTable2.getTableHeader().setOpaque(false);
-        jTable2.getTableHeader().setBackground(new Color(32, 136, 203));
-        jTable2.getTableHeader().setForeground(new Color(255, 255, 255));
+
+        table.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
+        table.getTableHeader().setOpaque(false);
+        table.getTableHeader().setBackground(new Color(32, 136, 203));
+        table.getTableHeader().setForeground(new Color(255, 255, 255));
     }
 
     /**
@@ -51,25 +109,25 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         panelC = new javax.swing.JPanel();
         lblTittle = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table1 = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1200, 650));
         setMinimumSize(new java.awt.Dimension(1200, 650));
         setPreferredSize(new java.awt.Dimension(1200, 650));
@@ -103,41 +161,6 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(590, 350));
         jPanel1.setLayout(new java.awt.BorderLayout(0, 5));
 
-        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setMaximumSize(new java.awt.Dimension(590, 350));
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(590, 350));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(590, 350));
-
-        jTable1.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Mã DV", "Tên DV", "Đơn giá", "Số lượng", "Đơn vị tính", "Thêm"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable1.setRowHeight(25);
-        jTable1.setSelectionBackground(new java.awt.Color(204, 255, 255));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(25);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(15);
-        }
-
-        jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setPreferredSize(new java.awt.Dimension(600, 50));
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING, 10, 10));
@@ -168,6 +191,36 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         jPanel6.add(jTextField3);
 
         jPanel1.add(jPanel6, java.awt.BorderLayout.PAGE_START);
+
+        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane2.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
+        jScrollPane2.setMaximumSize(new java.awt.Dimension(590, 350));
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(590, 350));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(590, 350));
+
+        table.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Tên DV", "Đơn giá", "Đã thêm", "Thành tiền", "Hành động"
+            }
+        ));
+        table.setRowHeight(25);
+        table.setSelectionBackground(new java.awt.Color(204, 255, 255));
+        jScrollPane2.setViewportView(table);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(2).setResizable(false);
+            table.getColumnModel().getColumn(2).setPreferredWidth(30);
+            table.getColumnModel().getColumn(4).setResizable(false);
+            table.getColumnModel().getColumn(4).setPreferredWidth(50);
+        }
+
+        jPanel1.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
 
@@ -219,36 +272,43 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.NORTH);
 
-        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane2.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
-        jScrollPane2.setMaximumSize(new java.awt.Dimension(590, 350));
-        jScrollPane2.setMinimumSize(new java.awt.Dimension(590, 350));
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(590, 350));
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(590, 350));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(590, 350));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(590, 350));
 
-        jTable2.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        table1.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        table1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Tên DV", "Đơn giá", "Đã thêm", "Thành tiền", "Thêm", "Bớt", "Xóa"
+                "Mã DV", "Tên DV", "Đơn giá", "Số lượng", "Đơn vị tính", "Thêm"
             }
-        ));
-        jTable2.setRowHeight(25);
-        jTable2.setSelectionBackground(new java.awt.Color(204, 255, 255));
-        jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(2).setResizable(false);
-            jTable2.getColumnModel().getColumn(2).setPreferredWidth(30);
-            jTable2.getColumnModel().getColumn(4).setResizable(false);
-            jTable2.getColumnModel().getColumn(4).setPreferredWidth(15);
-            jTable2.getColumnModel().getColumn(5).setResizable(false);
-            jTable2.getColumnModel().getColumn(5).setPreferredWidth(15);
-            jTable2.getColumnModel().getColumn(6).setResizable(false);
-            jTable2.getColumnModel().getColumn(6).setPreferredWidth(15);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        table1.setRowHeight(25);
+        table1.setSelectionBackground(new java.awt.Color(204, 255, 255));
+        jScrollPane1.setViewportView(table1);
+        if (table1.getColumnModel().getColumnCount() > 0) {
+            table1.getColumnModel().getColumn(0).setPreferredWidth(20);
+            table1.getColumnModel().getColumn(3).setResizable(false);
+            table1.getColumnModel().getColumn(3).setPreferredWidth(25);
+            table1.getColumnModel().getColumn(5).setResizable(false);
+            table1.getColumnModel().getColumn(5).setPreferredWidth(5);
         }
 
-        jPanel2.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+        jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
 
@@ -350,13 +410,13 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel lblTittle;
     private javax.swing.JPanel panelC;
     private javax.swing.JPanel panelHeader;
+    private javax.swing.JTable table;
+    private javax.swing.JTable table1;
     // End of variables declaration//GEN-END:variables
 }

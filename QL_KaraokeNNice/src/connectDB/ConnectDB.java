@@ -28,7 +28,7 @@ public class ConnectDB {
         con = DriverManager.getConnection(url, user, password);
     }
 
-    public void disconnect() {
+    public static void disconnect() {
         if (con != null)
 			try {
             con.close();
