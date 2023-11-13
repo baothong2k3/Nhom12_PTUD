@@ -18,10 +18,15 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 import dao.Phong_DAO;
 import connectDB.ConnectDB;
+import dao.HoaDon_DAO;
 import dao.KhachHang_DAO;
+import dao.NhanVien_DAO;
 import dao.PhieuDatPhong_DAO;
+import entity.ChiTietHoaDon;
+import entity.HoaDon;
 import entity.KhachHang;
 import entity.LoaiPhong;
+import entity.NhanVien;
 import entity.PhieuDatPhong;
 import java.awt.Color;
 import java.awt.Component;
@@ -48,6 +53,8 @@ public final class GD_DatPhong extends javax.swing.JPanel {
     private final Phong_DAO phongDAO;
     private PhieuDatPhong_DAO phieudatphongdao;
     private KhachHang_DAO khachhangDAO;
+    private HoaDon_DAO hoadonDAO;
+    private NhanVien_DAO nhanvienDAO;
 
     /**
      * Creates new form GD_DatPhong
@@ -62,6 +69,8 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         hienThiNgay();
         phongDAO = new Phong_DAO();
         khachhangDAO = new KhachHang_DAO();
+        hoadonDAO = new HoaDon_DAO();
+        nhanvienDAO = new NhanVien_DAO();
         loadAllPhong();
         datphong.setMnemonic(KeyEvent.VK_1);
         huydatphong.setMnemonic(KeyEvent.VK_2);
@@ -627,6 +636,30 @@ public final class GD_DatPhong extends javax.swing.JPanel {
 
     private void nhanphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nhanphongActionPerformed
         // TODO add your handling code here:
+        phieudatphongdao = new PhieuDatPhong_DAO();
+        PhieuDatPhong phieuDatPhong = phieudatphongdao.getPDPTheoMaPhong(txtMaPhong.getText());
+        KhachHang kh = khachhangDAO.getKhachHangTheoMa(phieuDatPhong.getKhachHang().getMaKH());
+        Phong phong = phongDAO.getPhongTheoMa(txtMaPhong.getText());
+        int xacnhan = JOptionPane.showConfirmDialog(this,
+                "Xác nhận nhận phòng của " + kh.getHoKH() + " " + kh.getTenKH() + "?", "Thông báo",
+                JOptionPane.YES_NO_OPTION);
+        if (xacnhan != JOptionPane.YES_OPTION) {
+            return;
+        }
+        String maHD = hoadonDAO.maHD_Auto();
+        HoaDon hoaDon = null;
+        String maNv = phieuDatPhong.getNhanVienLap().getMaNV();
+        NhanVien nv = nhanvienDAO.getNhanVienTheoMa(maNv);
+        hoaDon = new HoaDon(maHD, kh, nv, new Date(), 0.1, 0, false);
+        ChiTietHoaDon ctHD = null;
+        ctHD = new ChiTietHoaDon(hoaDon, phieuDatPhong.getThoiGianNhan(), new Date(), phong);
+        phieudatphongdao.capNhatTrangThaiPhieuDatPhong(phieuDatPhong.getMaPhieu());
+        phongDAO.capNhatTrangThaiPhong(phong.getMaPhong(), "Đang sử dụng");
+        if (hoadonDAO.themHoaDon(hoaDon)) {
+            System.out.println("add Bill success");
+        } else {
+            System.out.println("add Bill fail");
+        }
     }//GEN-LAST:event_nhanphongActionPerformed
 
     private void traphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_traphongActionPerformed

@@ -19,9 +19,80 @@ import entity.DichVu;
 import entity.HoaDon;
 import entity.KhachHang;
 import entity.NhanVien;
+import entity.PhieuDatPhong;
 import entity.Phong;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 public class HoaDon_DAO {
+
+    public boolean themHoaDon(HoaDon h) {
+        PreparedStatement statement = null;
+        int n = 0;
+//        try {
+            ConnectDB.getInstance();
+            Connection con = ConnectDB.getConnection();
+//            String sql = "INSERT INTO HoaDon (maHD, maKH, maNV, maPhong, thoiGianDat, thoiGianNhan, trangThai) VALUES (?, ?, ?, ?, ?, ?, 0)";
+//            statement = con.prepareStatement(sql);
+//            statement.setString(1, p.getMaPhieu());
+//            statement.setString(2, p.getKhachHang().getMaKH());
+//            statement.setString(3, p.getNhanVienLap().getMaNV());
+//            statement.setString(4, p.getPhong().getMaPhong());
+//            Date thoiGianNhan = p.getThoiGianNhan();
+//            Date thoiGianDat = p.getThoiGianDat();
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            String dateDat = dateFormat.format(thoiGianDat);
+//            String dateNhan = dateFormat.format(thoiGianNhan);
+//            try {
+//                Date date = dateFormat.parse(dateDat);
+//                Date date1 = dateFormat.parse(dateNhan);
+//                Instant instant = date.toInstant();
+//                Instant instant1 = date1.toInstant();
+//                LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneOffset.ofHours(7));
+//                LocalDateTime localDateTime1 = LocalDateTime.ofInstant(instant1, ZoneOffset.ofHours(7));
+//                Timestamp sqlTimestamp = Timestamp.valueOf(localDateTime);
+//                Timestamp sqlTimestamp1 = Timestamp.valueOf(localDateTime1);
+//                statement.setTimestamp(5, sqlTimestamp);
+//                statement.setTimestamp(6, sqlTimestamp1);
+//            } catch (ParseException ex) {
+//                ex.printStackTrace();
+//            }
+//            n = statement.executeUpdate();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return n > 0;
+        return false;
+    }
+
+    public String maHD_Auto() {
+        String maMoi = null;
+        String maHienTai = null;
+        try {
+
+            ConnectDB.getInstance();
+            Connection con = ConnectDB.getConnection();
+            String sql = "SELECT TOP 1 maHD FROM HoaDon ORDER BY maHD DESC";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                maHienTai = rs.getString(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String kyTuCuoi = maHienTai.replaceAll("[^0-9]+", "");
+        String kyTuMoi = Integer.toString(Integer.parseInt(kyTuCuoi) + 1);
+
+        maMoi = "HD" + kyTuMoi;
+        return maMoi;
+    }
 
     public ArrayList<HoaDon> getAllHoaDon() {
         ArrayList<HoaDon> dsHD = new ArrayList<HoaDon>();

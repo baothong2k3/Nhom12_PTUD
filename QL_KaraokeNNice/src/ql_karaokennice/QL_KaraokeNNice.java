@@ -15,8 +15,8 @@ public class QL_KaraokeNNice {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //new GiaoDienChinh().setVisible(true);
-        new  Form.Form_CapNhatDVP().setVisible(true);
+        new GiaoDienChinh().setVisible(true);
+        //new  Form.Form_CapNhatDVP().setVisible(true);
     
     }
 
