@@ -4,9 +4,14 @@
  */
 package Form;
 
+import connectDB.ConnectDB;
+import dao.DichVu_DAO;
+import entity.DichVu;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -24,18 +29,52 @@ import raven.cell.TableActionEvent1;
  */
 public class Form_CapNhatDVP extends javax.swing.JFrame {
 
+    private DichVu_DAO dichvudao;
+    private ArrayList<DichVu> dsDV;
+    private DefaultTableModel modelDV1;
+    private DefaultTableModel modelDV;
+
     /**
      * Creates new form FormThemDVP
      */
     public Form_CapNhatDVP() {
+        try {
+            ConnectDB.getInstance().connect();
+//            System.out.println("Ket noi Database thanh cong");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
         initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
+        modelDV1 = (DefaultTableModel) table1.getModel();
+        modelDV = (DefaultTableModel) table.getModel();
         customTable();
+        TableEvent();
+    }
+
+    private void loadAllDV() {
+        dichvudao = new DichVu_DAO();
+        dsDV = new ArrayList<DichVu>();
+        dsDV = dichvudao.layDSPhong();
+        for (DichVu dichVu : dsDV) {
+            modelDV1.addRow(new Object[]{dichVu.getMaDV(), dichVu.getTenDV(), dichVu.getDonGia(), dichVu.getDonViBan(), dichVu.getSoLuongTon()});
+        }
+    }
+
+    private void TableEvent() {
         TableActionEvent event = new TableActionEvent() {
             @Override
             public void onAdd(int row) {
                 System.out.println("Add row : " + row);
+                int r = table1.getSelectedRow();
+                int soLuong = (int) modelDV.getValueAt(r, 2);
+                soLuong++;
+                Double donGia = (Double) modelDV.getValueAt(r, 1);
+                Double thanhTien = donGia * soLuong;
+                modelDV.setValueAt(soLuong, r, 2);
+                modelDV.setValueAt(thanhTien, r, 3);
+
             }
 
             @Override
@@ -50,6 +89,18 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
             @Override
             public void onLess(int row) {
                 System.out.println("Less row : " + row);
+                int r = table1.getSelectedRow();
+                int soLuong = (int) modelDV.getValueAt(r, 2);
+                soLuong--;
+                Double donGia = (Double) modelDV.getValueAt(r, 1);
+                Double thanhTien = (Double) modelDV.getValueAt(r, 3);
+                thanhTien = thanhTien - donGia;
+                if (soLuong == 0) {
+                    modelDV.removeRow(r);
+                } else {
+                    modelDV.setValueAt(soLuong, r, 2);
+                    modelDV.setValueAt(thanhTien, r, 3);
+                }
             }
         };
         table.getColumnModel().getColumn(4).setCellRenderer(new TableActionCellRender());
@@ -67,8 +118,12 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
                 if (table1.isEditing()) {
                     table1.getCellEditor().stopCellEditing();
                 }
-                DefaultTableModel model = (DefaultTableModel) table1.getModel();
-                model.removeRow(row);
+//              Khi nhấn vào dấu + thì thêm vào table bên kia
+                int r = table1.getSelectedRow();
+                String tenDV = modelDV1.getValueAt(r, 1).toString();
+                Double donGia = (Double) modelDV1.getValueAt(r, 2);
+                Double thanhTien = donGia;
+                modelDV.addRow(new Object[]{tenDV, donGia, 1, thanhTien});
             }
         };
         table1.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender1());
@@ -93,6 +148,7 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         table.getTableHeader().setOpaque(false);
         table.getTableHeader().setBackground(new Color(32, 136, 203));
         table.getTableHeader().setForeground(new Color(255, 255, 255));
+        loadAllDV();
     }
 
     /**
@@ -201,10 +257,7 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         table.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Tên DV", "Đơn giá", "Đã thêm", "Thành tiền", "Hành động"
@@ -280,17 +333,14 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         table1.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         table1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Mã DV", "Tên DV", "Đơn giá", "Số lượng", "Đơn vị tính", "Thêm"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true
+                false, true, true, true, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -301,9 +351,12 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         table1.setSelectionBackground(new java.awt.Color(204, 255, 255));
         jScrollPane1.setViewportView(table1);
         if (table1.getColumnModel().getColumnCount() > 0) {
-            table1.getColumnModel().getColumn(0).setPreferredWidth(20);
+            table1.getColumnModel().getColumn(0).setPreferredWidth(10);
+            table1.getColumnModel().getColumn(2).setResizable(false);
+            table1.getColumnModel().getColumn(2).setPreferredWidth(40);
             table1.getColumnModel().getColumn(3).setResizable(false);
             table1.getColumnModel().getColumn(3).setPreferredWidth(25);
+            table1.getColumnModel().getColumn(4).setPreferredWidth(20);
             table1.getColumnModel().getColumn(5).setResizable(false);
             table1.getColumnModel().getColumn(5).setPreferredWidth(5);
         }

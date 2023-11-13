@@ -18,6 +18,78 @@ import entity.KhachHang;
 
 public class KhachHang_DAO {
 
+    public KhachHang getKhachHangTheoMa(String mKH) {
+        KhachHang kh = null;
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        try {
+
+            String sql = "SELECT TOP 1 * FROM KhachHang WHERE maKH = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, mKH);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                kh = new KhachHang();
+                kh.setMaKH(rs.getString(1));
+                kh.setSoCCCD(rs.getString(2));
+                kh.setHoKH(rs.getString(3));
+                kh.setTenKH(rs.getString(4));
+                kh.setNamSinhKH(rs.getDate(5));
+                kh.setGioiTinhKH(rs.getBoolean(6));
+                kh.setSdtKH(rs.getString(7));
+                kh.setEmailKH(rs.getString(8));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+
+        return kh;
+
+    }
+
+    public KhachHang layKhachHangTheoSDT(String sdt) {
+        KhachHang kh = null;
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+
+        try {
+            String sql = "SELECT * FROM KhachHang WHERE sdtKH = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, sdt);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                kh = new KhachHang();
+                kh.setMaKH(rs.getString(1));
+                kh.setSoCCCD(rs.getString(2));
+                kh.setHoKH(rs.getString(3));
+                kh.setTenKH(rs.getString(4));
+                kh.setNamSinhKH(rs.getDate(5));
+                kh.setGioiTinhKH(rs.getBoolean(6));
+                kh.setSdtKH(rs.getString(7));
+                kh.setEmailKH(rs.getString(8));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+
+        return kh;
+    }
+
     public String maKH_Auto() {
         String maMoi = null;
         String maHienTai = null;
@@ -325,43 +397,6 @@ public class KhachHang_DAO {
         }
 
         return dskh;
-
-    }
-
-    public KhachHang getKhachHangTheoMa(String mKH) {
-        KhachHang kh = null;
-        ConnectDB.getInstance();
-        Connection con = ConnectDB.getConnection();
-        PreparedStatement statement = null;
-        try {
-
-            String sql = "SELECT TOP 1 * FROM KhachHang WHERE maKH = ?";
-            statement = con.prepareStatement(sql);
-            statement.setString(1, mKH);
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                kh = new KhachHang();
-                kh.setMaKH(rs.getString(1));
-                kh.setSoCCCD(rs.getString(2));
-                kh.setHoKH(rs.getString(3));
-                kh.setTenKH(rs.getString(4));
-                kh.setNamSinhKH(rs.getDate(5));
-                kh.setGioiTinhKH(rs.getBoolean(6));
-                kh.setSdtKH(rs.getString(7));
-                kh.setEmailKH(rs.getString(8));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                statement.close();
-            } catch (SQLException e2) {
-                e2.printStackTrace();
-            }
-        }
-
-        return kh;
 
     }
 }

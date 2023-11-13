@@ -12,7 +12,7 @@ import javax.swing.JFrame;
  * @author PC BAO THONG
  */
 public class GiaoDienChinh extends javax.swing.JFrame {
-    private CardLayout card = null;
+    public CardLayout card = null;
     /**
      * Creates new form HomePage
      */
@@ -2866,7 +2866,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         //disableAllPanel();
         GD_Chinh.add(new GD_KH(), "khachhang");
         card.show(this.GD_Chinh, "khachhang");
-        //GD_KhachHang.setVisible(true);
         jLabel2.setText("QUẢN LÝ KHÁCH HÀNG");
         //jPanel1.add(GD_KhachHang, BorderLayout.CENTER);
     }//GEN-LAST:event_jMenuItem10ActionPerformed

@@ -18,10 +18,15 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 import dao.Phong_DAO;
 import connectDB.ConnectDB;
+import dao.KhachHang_DAO;
+import dao.PhieuDatPhong_DAO;
+import entity.KhachHang;
 import entity.LoaiPhong;
+import entity.PhieuDatPhong;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
@@ -30,6 +35,7 @@ import java.util.Locale;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -40,6 +46,8 @@ import javax.swing.border.EmptyBorder;
 public final class GD_DatPhong extends javax.swing.JPanel {
 
     private final Phong_DAO phongDAO;
+    private PhieuDatPhong_DAO phieudatphongdao;
+    private KhachHang_DAO khachhangDAO;
 
     /**
      * Creates new form GD_DatPhong
@@ -53,7 +61,18 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         initComponents();
         hienThiNgay();
         phongDAO = new Phong_DAO();
+        khachhangDAO = new KhachHang_DAO();
         loadAllPhong();
+        datphong.setMnemonic(KeyEvent.VK_1);
+        huydatphong.setMnemonic(KeyEvent.VK_2);
+        nhanphong.setMnemonic(KeyEvent.VK_3);
+        traphong.setMnemonic(KeyEvent.VK_4);
+        capnhatdv.setMnemonic(KeyEvent.VK_5);
+        datphong.setEnabled(false);
+        huydatphong.setEnabled(false);
+        nhanphong.setEnabled(false);
+        traphong.setEnabled(false);
+        capnhatdv.setEnabled(false);
     }
 
     private void hienThiNgay() {
@@ -140,7 +159,6 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         nguoi.setAlignmentX(Component.LEFT_ALIGNMENT);
         nguoi.setFont(new Font("Cambria", Font.PLAIN, 16));
 
-        
         JLabel loaiPhong = new JLabel("Loại phòng: " + lp.getTenLoaiPhong());
         loaiPhong.setAlignmentX(Component.LEFT_ALIGNMENT);
         loaiPhong.setFont(new Font("Cambria", Font.PLAIN, 16));
@@ -204,11 +222,25 @@ public final class GD_DatPhong extends javax.swing.JPanel {
                 String name = panel.getName();
                 System.out.println("Tên JPanel: " + name);
                 txtMaPhong.setText(name);
+                int i = phongDAO.kiemTraTrangThaiPhong(name);
+                if (i == 1) {
+                    datphong.setEnabled(true);
+                    nhanphong.setEnabled(true);
+                } else if (i == 2) {
+                    huydatphong.setEnabled(true);
+                    nhanphong.setEnabled(true);
+                } else {
+                    traphong.setEnabled(true);
+                    capnhatdv.setEnabled(true);
+                }
                 panel.setBorder(BorderFactory.createLineBorder(Color.red));
-
             }
         });
-
+        datphong.setEnabled(false);
+        huydatphong.setEnabled(false);
+        nhanphong.setEnabled(false);
+        traphong.setEnabled(false);
+        capnhatdv.setEnabled(false);
         return pnPhong;
     }
 
@@ -365,6 +397,11 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         jButton13.setForeground(new java.awt.Color(255, 255, 255));
         jButton13.setText("Làm mới");
         jButton13.setPreferredSize(new java.awt.Dimension(120, 30));
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 2;
@@ -446,9 +483,9 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         datphong.setBackground(new java.awt.Color(64, 71, 214));
         datphong.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
         datphong.setForeground(new java.awt.Color(255, 255, 255));
-        datphong.setText("Đặt trước phòng (F1)");
-        datphong.setMaximumSize(new java.awt.Dimension(200, 40));
-        datphong.setMinimumSize(new java.awt.Dimension(200, 40));
+        datphong.setText("Đặt phòng               (1)");
+        datphong.setMaximumSize(new java.awt.Dimension(200, 30));
+        datphong.setMinimumSize(new java.awt.Dimension(200, 30));
         datphong.setPreferredSize(new java.awt.Dimension(200, 40));
         datphong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -464,9 +501,9 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         huydatphong.setBackground(new java.awt.Color(64, 71, 214));
         huydatphong.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
         huydatphong.setForeground(new java.awt.Color(255, 255, 255));
-        huydatphong.setText("Hủy đặt phòng (F2)");
-        huydatphong.setMaximumSize(new java.awt.Dimension(200, 40));
-        huydatphong.setMinimumSize(new java.awt.Dimension(200, 40));
+        huydatphong.setText("Hủy đặt phòng       (2)");
+        huydatphong.setMaximumSize(new java.awt.Dimension(200, 30));
+        huydatphong.setMinimumSize(new java.awt.Dimension(200, 30));
         huydatphong.setPreferredSize(new java.awt.Dimension(200, 40));
         huydatphong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -482,9 +519,9 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         nhanphong.setBackground(new java.awt.Color(64, 71, 214));
         nhanphong.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
         nhanphong.setForeground(new java.awt.Color(255, 255, 255));
-        nhanphong.setText("Nhận phòng (F3)");
-        nhanphong.setMaximumSize(new java.awt.Dimension(200, 40));
-        nhanphong.setMinimumSize(new java.awt.Dimension(200, 40));
+        nhanphong.setText("Nhận phòng            (3)");
+        nhanphong.setMaximumSize(new java.awt.Dimension(200, 30));
+        nhanphong.setMinimumSize(new java.awt.Dimension(200, 30));
         nhanphong.setPreferredSize(new java.awt.Dimension(200, 40));
         nhanphong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -500,9 +537,9 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         traphong.setBackground(new java.awt.Color(64, 71, 214));
         traphong.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
         traphong.setForeground(new java.awt.Color(255, 255, 255));
-        traphong.setText("Trả phòng (F4)");
-        traphong.setMaximumSize(new java.awt.Dimension(200, 40));
-        traphong.setMinimumSize(new java.awt.Dimension(200, 40));
+        traphong.setText("Trả phòng               (4)");
+        traphong.setMaximumSize(new java.awt.Dimension(200, 30));
+        traphong.setMinimumSize(new java.awt.Dimension(200, 30));
         traphong.setPreferredSize(new java.awt.Dimension(200, 40));
         traphong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -518,9 +555,9 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         capnhatdv.setBackground(new java.awt.Color(64, 71, 214));
         capnhatdv.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
         capnhatdv.setForeground(new java.awt.Color(255, 255, 255));
-        capnhatdv.setText("Cập nhật dịch vụ (F5)");
-        capnhatdv.setMaximumSize(new java.awt.Dimension(200, 40));
-        capnhatdv.setMinimumSize(new java.awt.Dimension(200, 40));
+        capnhatdv.setText("Cập nhật dịch vụ   (5)");
+        capnhatdv.setMaximumSize(new java.awt.Dimension(200, 30));
+        capnhatdv.setMinimumSize(new java.awt.Dimension(200, 30));
         capnhatdv.setPreferredSize(new java.awt.Dimension(200, 40));
         capnhatdv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -567,6 +604,25 @@ public final class GD_DatPhong extends javax.swing.JPanel {
 
     private void huydatphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_huydatphongActionPerformed
         // TODO add your handling code here:
+        phieudatphongdao = new PhieuDatPhong_DAO();
+        PhieuDatPhong phieuDatPhong = phieudatphongdao.getPDPTheoMaPhong(txtMaPhong.getText());
+        if (phieuDatPhong == null) {
+            JOptionPane.showMessageDialog(this, "Phòng chưa được đặt");
+            return;
+        }
+        KhachHang kh = khachhangDAO.getKhachHangTheoMa(phieuDatPhong.getKhachHang().getMaKH());
+        int xacnhan = JOptionPane.showConfirmDialog(this,
+                "Bạn có chắc chắn HUỶ phòng đặt của " + kh.getHoKH() + " " + kh.getTenKH() + "?", "Thông báo",
+                JOptionPane.YES_NO_OPTION);
+        if (xacnhan != JOptionPane.YES_OPTION) {
+            return;
+        } else {
+            if (phongDAO.capNhatTrangThaiPhong(phieuDatPhong.getPhong().getMaPhong(), "Trống") && phieudatphongdao.capNhatTrangThaiPhieuDatPhong(phieuDatPhong.getMaPhieu())) {
+                JOptionPane.showMessageDialog(this, "Hủy phòng đặt thành công");
+                return;
+            }
+        }
+
     }//GEN-LAST:event_huydatphongActionPerformed
 
     private void nhanphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nhanphongActionPerformed
@@ -581,6 +637,12 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         // TODO add your handling code here:
         new Form.Form_CapNhatDVP().setVisible(true);
     }//GEN-LAST:event_capnhatdvActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here:
+        panelPhong.removeAll();
+        loadAllPhong();
+    }//GEN-LAST:event_jButton13ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -11,16 +11,206 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.regex.Pattern;
-
 import connectDB.ConnectDB;
 import entity.KhachHang;
 import entity.NhanVien;
 import entity.PhieuDatPhong;
 import entity.Phong;
-import java.security.Timestamp;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PhieuDatPhong_DAO {
+
+    public boolean capNhatTrangThaiPhieuDatPhong(String maPhieu) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        int n = 0;
+        try {
+            String sql = "UPDATE PhieuDatPhong SET trangThai = 1 WHERE maPhieu = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, maPhieu);
+            n = statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return n > 0;
+    }
+
+    public PhieuDatPhong getPDPTheoMaPhong(String mP) {
+        PhieuDatPhong pd = null;
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        try {
+
+            String sql = "SELECT * FROM PhieuDatPhong WHERE maPhong = ? and trangThai = 0";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, mP);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                pd = new PhieuDatPhong();
+                pd.setMaPhieu(rs.getString(1));
+
+                KhachHang kh = new KhachHang(rs.getString(2));
+                pd.setKhachHang(kh);
+
+                NhanVien nv = new NhanVien(rs.getString(3));
+                pd.setNhanVienLap(nv);
+
+                Phong p = new Phong(rs.getString(4));
+                pd.setPhong(p);
+
+                java.sql.Timestamp tsGioDat = rs.getTimestamp(5);
+                long timeGD = tsGioDat.getTime();
+                Date gioDP = new Date(timeGD);
+                pd.setThoiGianDat(gioDP);
+
+                java.sql.Timestamp tsGN = rs.getTimestamp(6);
+                long timeGN = tsGN.getTime();
+                Date gN = new Date(timeGN);
+                pd.setThoiGianNhan(gN);
+
+                pd.setTrangThai(rs.getBoolean(7));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+
+        return pd;
+    }
+
+    public PhieuDatPhong getPDPTheoMa(String mPD) {
+        PhieuDatPhong pd = null;
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        try {
+
+            String sql = "SELECT TOP 1 * FROM PhieuDatPhong WHERE maPhieu = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, mPD);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                pd = new PhieuDatPhong();
+                pd.setMaPhieu(rs.getString(1));
+
+                KhachHang kh = new KhachHang(rs.getString(2));
+                pd.setKhachHang(kh);
+
+                NhanVien nv = new NhanVien(rs.getString(3));
+                pd.setNhanVienLap(nv);
+
+                Phong p = new Phong(rs.getString(4));
+                pd.setPhong(p);
+
+                java.sql.Timestamp tsGioDat = rs.getTimestamp(5);
+                long timeGD = tsGioDat.getTime();
+                Date gioDP = new Date(timeGD);
+                pd.setThoiGianDat(gioDP);
+
+                java.sql.Timestamp tsGN = rs.getTimestamp(6);
+                long timeGN = tsGN.getTime();
+                Date gN = new Date(timeGN);
+                pd.setThoiGianNhan(gN);
+
+                pd.setTrangThai(rs.getBoolean(7));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+
+        return pd;
+    }
+
+    public boolean themPhieuDatPhong(PhieuDatPhong p) {
+        PreparedStatement statement = null;
+        int n = 0;
+        try {
+            ConnectDB.getInstance();
+            Connection con = ConnectDB.getConnection();
+            String sql = "INSERT INTO PhieuDatPhong (maPhieu, maKH, maNV, maPhong, thoiGianDat, thoiGianNhan, trangThai) VALUES (?, ?, ?, ?, ?, ?, 0)";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, p.getMaPhieu());
+            statement.setString(2, p.getKhachHang().getMaKH());
+            statement.setString(3, p.getNhanVienLap().getMaNV());
+            statement.setString(4, p.getPhong().getMaPhong());
+            Date thoiGianNhan = p.getThoiGianNhan();
+            Date thoiGianDat = p.getThoiGianDat();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String dateDat = dateFormat.format(thoiGianDat);
+            String dateNhan = dateFormat.format(thoiGianNhan);
+            try {
+                Date date = dateFormat.parse(dateDat);
+                Date date1 = dateFormat.parse(dateNhan);
+                Instant instant = date.toInstant();
+                Instant instant1 = date1.toInstant();
+                LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneOffset.ofHours(7));
+                LocalDateTime localDateTime1 = LocalDateTime.ofInstant(instant1, ZoneOffset.ofHours(7));
+                Timestamp sqlTimestamp = Timestamp.valueOf(localDateTime);
+                Timestamp sqlTimestamp1 = Timestamp.valueOf(localDateTime1);
+                statement.setTimestamp(5, sqlTimestamp);
+                statement.setTimestamp(6, sqlTimestamp1);
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
+            n = statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return n > 0;
+    }
+
+    public String maPDP_Auto() {
+        String maMoi = null;
+        String maHienTai = null;
+        try {
+
+            ConnectDB.getInstance();
+            Connection con = ConnectDB.getConnection();
+            String sql = "SELECT TOP 1 maPhieu FROM PhieuDatPhong ORDER BY maPhieu DESC";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                maHienTai = rs.getString(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String kyTuCuoi = maHienTai.replaceAll("[^0-9]+", "");
+        String kyTuMoi = Integer.toString(Integer.parseInt(kyTuCuoi) + 1);
+
+        maMoi = "PDP" + kyTuMoi;
+        return maMoi;
+    }
 
     public ArrayList<PhieuDatPhong> getAllPDP() {
         ArrayList<PhieuDatPhong> dsPD = new ArrayList<PhieuDatPhong>();
@@ -97,56 +287,6 @@ public class PhieuDatPhong_DAO {
             e.printStackTrace();
         }
         return dsPD;
-    }
-
-    public PhieuDatPhong getPDPTheoMa(String mPD) {
-        PhieuDatPhong pd = null;
-        ConnectDB.getInstance();
-        Connection con = ConnectDB.getConnection();
-        PreparedStatement statement = null;
-        try {
-
-            String sql = "SELECT TOP 1 * FROM PhieuDatPhong WHERE maPhieu = ?";
-            statement = con.prepareStatement(sql);
-            statement.setString(1, mPD);
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                pd = new PhieuDatPhong();
-                pd.setMaPhieu(rs.getString(1));
-
-                KhachHang kh = new KhachHang(rs.getString(2));
-                pd.setKhachHang(kh);
-
-                NhanVien nv = new NhanVien(rs.getString(3));
-                pd.setNhanVienLap(nv);
-
-                Phong p = new Phong(rs.getString(4));
-                pd.setPhong(p);
-
-                java.sql.Timestamp tsGioDat = rs.getTimestamp(5);
-                long timeGD = tsGioDat.getTime();
-                Date gioDP = new Date(timeGD);
-                pd.setThoiGianDat(gioDP);
-
-                java.sql.Timestamp tsGN = rs.getTimestamp(6);
-                long timeGN = tsGN.getTime();
-                Date gN = new Date(timeGN);
-                pd.setThoiGianNhan(gN);
-
-                pd.setTrangThai(rs.getBoolean(7));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                statement.close();
-            } catch (SQLException e2) {
-                e2.printStackTrace();
-            }
-        }
-
-        return pd;
     }
 
     public boolean updatePDP(PhieuDatPhong pd) {

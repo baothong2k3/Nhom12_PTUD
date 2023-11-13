@@ -11,7 +11,63 @@ import entity.Phong;
 
 public class Phong_DAO {
 
-    public ArrayList<Phong> layDSPhong(){
+    public int kiemTraTrangThaiPhong(String maPhong) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement psm = null;
+        int n = 0;
+        try {
+            String sql = "Select * from PHONG WHERE maPhong = ?";
+            psm = con.prepareStatement(sql);
+            psm.setString(1, maPhong);
+            ResultSet rs = psm.executeQuery();
+            while (rs.next()) {
+                String tt = rs.getString(4);
+                if (tt.equalsIgnoreCase("Trống")) {
+                    n = 1;
+                } else if (tt.equalsIgnoreCase("Đã được đặt")) {
+                    n = 2;
+                } else {
+                    n = 3;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                psm.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return n;
+    }
+
+    public boolean capNhatTrangThaiPhong(String maPhong, String trangThai) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        int n = 0;
+        try {
+            String sql = "UPDATE Phong SET trangThai = ? WHERE maPhong = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, trangThai);
+            statement.setString(2, maPhong);
+            n = statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return n > 0;
+    }
+
+    public ArrayList<Phong> layDSPhong() {
         ArrayList<Phong> dsP = new ArrayList<Phong>();
         ConnectDB.getInstance();
         Connection con = ConnectDB.getConnection();
