@@ -235,12 +235,21 @@ public final class GD_DatPhong extends javax.swing.JPanel {
                 if (i == 1) {
                     datphong.setEnabled(true);
                     nhanphong.setEnabled(true);
+                    huydatphong.setEnabled(false);
+                    traphong.setEnabled(false);
+                    capnhatdv.setEnabled(false);
                 } else if (i == 2) {
                     huydatphong.setEnabled(true);
                     nhanphong.setEnabled(true);
+                    datphong.setEnabled(false);
+                    traphong.setEnabled(false);
+                    capnhatdv.setEnabled(false);
                 } else {
                     traphong.setEnabled(true);
                     capnhatdv.setEnabled(true);
+                    datphong.setEnabled(false);
+                    huydatphong.setEnabled(false);
+                    nhanphong.setEnabled(false);
                 }
                 panel.setBorder(BorderFactory.createLineBorder(Color.red));
             }
@@ -647,33 +656,52 @@ public final class GD_DatPhong extends javax.swing.JPanel {
             return;
         }
         String maHD = hoadonDAO.maHD_Auto();
-        HoaDon hoaDon = null;
+        HoaDon hoaDon;
         String maNv = phieuDatPhong.getNhanVienLap().getMaNV();
         NhanVien nv = nhanvienDAO.getNhanVienTheoMa(maNv);
         hoaDon = new HoaDon(maHD, kh, nv, new Date(), 0.1, 0, false);
-        ChiTietHoaDon ctHD = null;
+        ChiTietHoaDon ctHD;
         ctHD = new ChiTietHoaDon(hoaDon, phieuDatPhong.getThoiGianNhan(), new Date(), phong);
         phieudatphongdao.capNhatTrangThaiPhieuDatPhong(phieuDatPhong.getMaPhieu());
         phongDAO.capNhatTrangThaiPhong(phong.getMaPhong(), "Đang sử dụng");
+
+        System.out.println(ctHD.getHoaDon().getMaHD());
+        System.out.println(ctHD.getGioNhanPhong());
+        System.out.println(ctHD.getGioKetThuc());
+        System.out.println(ctHD.getPhong().getMaPhong());
+
         if (hoadonDAO.themHoaDon(hoaDon)) {
-            System.out.println("add Bill success");
+            JOptionPane.showMessageDialog(null, "Nhận phòng thành công");
         } else {
-            System.out.println("add Bill fail");
+            JOptionPane.showMessageDialog(null, "Đã có lỗi");
         }
+
+        hoadonDAO.themChiTietHoaDon(ctHD);
     }//GEN-LAST:event_nhanphongActionPerformed
 
     private void traphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_traphongActionPerformed
         // TODO add your handling code here:
+        int xacnhan = JOptionPane.showConfirmDialog(this,
+                "Xác nhận trả phòng?", "Thông báo",
+                JOptionPane.YES_NO_OPTION);
+        if (xacnhan != JOptionPane.YES_OPTION) {
+            return;
+        }
+        String ma = txtMaPhong.getText();
+        HoaDon hd = hoadonDAO.getHoaDonTheoMaPhong_TrangThai(ma);
+        phongDAO.capNhatTrangThaiPhong(ma, "Trống");
+        new Form.Form_HoaDon(hd).setVisible(true);
     }//GEN-LAST:event_traphongActionPerformed
 
     private void capnhatdvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capnhatdvActionPerformed
         // TODO add your handling code here:
-        new Form.Form_CapNhatDVP().setVisible(true);
+        new Form.Form_CapNhatDVP(txtMaPhong.getText()).setVisible(true);
     }//GEN-LAST:event_capnhatdvActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
         panelPhong.removeAll();
+        panelPhong.resetKeyboardActions();
         loadAllPhong();
     }//GEN-LAST:event_jButton13ActionPerformed
 

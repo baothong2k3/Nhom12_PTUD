@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -18,40 +19,6 @@ import java.util.Date;
  * @author PC BAO THONG
  */
 public class DichVu_DAO {
-
-    public ArrayList<DichVu> layDSPhong() {
-        ArrayList<DichVu> dsDV = new ArrayList<DichVu>();
-        ConnectDB.getInstance();
-        Connection con = ConnectDB.getConnection();
-        PreparedStatement psm = null;
-        try {
-            String sql = "Select * from DichVu";
-            psm = con.prepareStatement(sql);
-            ResultSet rs = psm.executeQuery();
-            while (rs.next()) {
-                String maDV = rs.getString(1);
-                String tenDV = rs.getString(2);
-                String donViBan = rs.getString(3);
-                int soLuong = rs.getInt(4);
-                double donGia = rs.getDouble(5);
-                Date hsd = rs.getDate(6);
-                String xuatXu = rs.getString(7);
-                Boolean tinhTrang = rs.getBoolean(8);
-                DichVu dv = new DichVu(maDV, tenDV, donViBan, soLuong, donGia, hsd, xuatXu, tinhTrang);
-                dsDV.add(dv);
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                psm.close();
-            } catch (SQLException e2) {
-                e2.printStackTrace();
-            }
-        }
-        return dsDV;
-    }
 
     public DichVu getDichVuTheoMa(String mDV) {
         DichVu dv = null;
@@ -89,4 +56,146 @@ public class DichVu_DAO {
         return dv;
 
     }
+
+    public ArrayList<DichVu> getAllDichVu() {
+
+        ArrayList<DichVu> dsdv = new ArrayList<DichVu>();
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+
+        try {
+            String sql = "SELECT * FROM DichVu ORDER BY hsd DESC";
+            statement = con.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String ma = rs.getString(1);
+                String tendv = rs.getString(2);
+                String dvban = rs.getString(3);
+                int slton = rs.getInt(4);
+                float dongia = rs.getFloat(5);
+                Date hsd = rs.getDate(6);
+                String xuatxu = rs.getString(7);
+                Boolean tinhTrang = rs.getBoolean(8);
+                DichVu dv = new DichVu(ma, tendv, dvban, slton, dongia, hsd, xuatxu, tinhTrang);
+                dsdv.add(dv);
+            }
+        } catch (SQLException e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return dsdv;
+    }
+
+    public ArrayList<DichVu> getBangDichVuTheoMa(String mDV) {
+        ArrayList<DichVu> dsdv = new ArrayList<DichVu>();
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        try {
+
+            String sql = "SELECT * FROM DichVu WHERE maDV = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, mDV);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String ma = rs.getString(1);
+                String tendv = rs.getString(2);
+                String dvban = rs.getString(3);
+                int slton = rs.getInt(4);
+                float dongia = rs.getFloat(5);
+                Date hsd = rs.getDate(6);
+                String xuatxu = rs.getString(7);
+                Boolean tinhTrang = rs.getBoolean(8);
+
+                DichVu dv = new DichVu(ma, tendv, dvban, slton, dongia, hsd, xuatxu, tinhTrang);
+                dsdv.add(dv);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+
+        return dsdv;
+    }
+
+    public boolean insertDichVu(DichVu dv) {
+
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement stmt = null;
+        int n = 0;
+
+        try {
+
+            stmt = con.prepareStatement("INSERT INTO" + " DichVu VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+            stmt.setString(1, dv.getMaDV());
+            stmt.setString(2, dv.getTenDV());
+            stmt.setString(3, dv.getDonViBan());
+            stmt.setInt(4, dv.getSoLuongTon());
+            stmt.setDouble(5, dv.getDonGia());
+            stmt.setDate(6, (java.sql.Date) dv.getHsd());
+            stmt.setString(7, dv.getXuatXu());
+            stmt.setBoolean(8, dv.isTinhTrang());
+
+            n = stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            try {
+                stmt.close();
+
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+
+            }
+        }
+        return n > 0;
+    }
+
+    public boolean updateDV(DichVu dv) {
+        PreparedStatement stmt = null;
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        int n = 0;
+        try {
+            String sql = "update DichVu set tenDV = ?, donViBan = ? , soLuongTon = ?, donGia = ?, hsd = ?, xuatXu = ?, tinhTrang = ? where maDV = ?";
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, dv.getTenDV());
+            stmt.setString(2, dv.getDonViBan());
+            stmt.setInt(3, dv.getSoLuongTon());
+            stmt.setDouble(4, dv.getDonGia());
+            long time = dv.getHsd().getTime();
+            java.sql.Date sqlDate = new java.sql.Date(time);
+            stmt.setDate(5, sqlDate);
+            stmt.setString(6, dv.getXuatXu());
+            stmt.setBoolean(7, dv.isTinhTrang());
+            stmt.setString(8, dv.getMaDV());
+            n = stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return n > 0;
+    }
+
 }

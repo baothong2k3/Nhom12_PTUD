@@ -5,10 +5,21 @@
 package gui;
 
 import com.toedter.calendar.JDateChooserCellEditor;
+import connectDB.ConnectDB;
+import dao.NhanVien_DAO;
+import entity.NhanVien;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.prompt.PromptSupport;
 
 /**
@@ -17,13 +28,25 @@ import org.jdesktop.swingx.prompt.PromptSupport;
  */
 public class GD_NV extends javax.swing.JPanel {
 
+    private NhanVien_DAO nv_dao;
+    private DefaultTableModel modelNV;
+    private DefaultTableModel dm;
+
     /**
      * Creates new form GD_NV
      */
     public GD_NV() {
+        try {
+            ConnectDB.getInstance().connect();
+            System.out.println("Ket noi Database thanh cong");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        nv_dao = new NhanVien_DAO();
         initComponents();
         tableNhanVien();
     }
+
     private void tableNhanVien() {
         PromptSupport.setPrompt("Nhập số điện thoại", txtTim1);
         tableDSNV.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
@@ -50,6 +73,31 @@ public class GD_NV extends javax.swing.JPanel {
         tableDSNV.getColumnModel().getColumn(11).setCellEditor(new DefaultCellEditor(comboBoxTT));
         //ngày sinh
         tableDSNV.getColumnModel().getColumn(4).setCellEditor(new JDateChooserCellEditor());
+        modelNV = (DefaultTableModel) tableDSNV.getModel();
+        napDuLieuNV();
+    }
+
+    private void napDuLieuNV() {
+        ArrayList<NhanVien> dsNV;
+        dsNV = nv_dao.getAllNhanVien();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        for (NhanVien nv : dsNV) {
+            modelNV.addRow(new Object[]{nv.getMaNV(), nv.getSoCCCD(), nv.getHoNV(), nv.getTenNV(), nv.getNamSinh(), chuyenGTSangString(nv), nv.getSdtNV(), nv.getEmailNV(), nv.getDiaChiNV(), nv.getChucVu(), nv.getMatKhau(), chuyenTTLVSangString(nv)});
+        }
+    }
+
+    public String chuyenGTSangString(NhanVien nv) {
+        if (nv.isGioiTinhNV() == true) {
+            return "Nam";
+        }
+        return "Nữ";
+    }
+
+    public String chuyenTTLVSangString(NhanVien nv) {
+        if (nv.isTrangThaiLamViec() == true) {
+            return "Đang làm";
+        }
+        return "Đã nghỉ";
     }
 
     /**
@@ -444,6 +492,11 @@ public class GD_NV extends javax.swing.JPanel {
         btnCapNhat.setMaximumSize(new java.awt.Dimension(190, 40));
         btnCapNhat.setMinimumSize(new java.awt.Dimension(190, 30));
         btnCapNhat.setPreferredSize(new java.awt.Dimension(190, 30));
+        btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCapNhatActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 10;
@@ -542,6 +595,11 @@ public class GD_NV extends javax.swing.JPanel {
         tableDSNV.setSelectionBackground(new java.awt.Color(204, 255, 255));
         tableDSNV.setShowHorizontalLines(true);
         tableDSNV.getTableHeader().setReorderingAllowed(false);
+        tableDSNV.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableDSNVMouseClicked(evt);
+            }
+        });
         scrollPane1.setViewportView(tableDSNV);
 
         panelDSNV.add(scrollPane1, java.awt.BorderLayout.CENTER);
@@ -577,6 +635,7 @@ public class GD_NV extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
+        them();
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnTim1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTim1ActionPerformed
@@ -585,11 +644,63 @@ public class GD_NV extends javax.swing.JPanel {
 
     private void btnLamMoi1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoi1ActionPerformed
         // TODO add your handling code here:
+        lamMoi();
     }//GEN-LAST:event_btnLamMoi1ActionPerformed
 
     private void btnXoa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoa1ActionPerformed
         // TODO add your handling code here:
+        xoaTrang();
     }//GEN-LAST:event_btnXoa1ActionPerformed
+
+    private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
+        // TODO add your handling code here:
+        update();
+    }//GEN-LAST:event_btnCapNhatActionPerformed
+
+    private void tableDSNVMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDSNVMouseClicked
+        // TODO add your handling code here:
+        int row = tableDSNV.getSelectedRow();
+        txtMaNV.setText(modelNV.getValueAt(row, 1).toString());
+        txtCCCD.setText(modelNV.getValueAt(row, 2).toString());
+        txtHo.setText(modelNV.getValueAt(row, 3).toString());
+        txtTen.setText(modelNV.getValueAt(row, 4).toString());
+        txtSDT.setText(modelNV.getValueAt(row, 6).toString());
+        txtEmail.setText(modelNV.getValueAt(row, 7).toString());
+        txtDiaChi.setText(modelNV.getValueAt(row, 8).toString());
+        comboChucVu.setSelectedItem(modelNV.getValueAt(row, 9).toString());
+        pwMatKhau.setText(modelNV.getValueAt(row, 10).toString());
+        String gt = modelNV.getValueAt(row, 5).toString();
+        if (gt == "Nam") {
+            radioNam.setSelected(true);
+            radioNu.setSelected(false);
+        } else {
+            radioNu.setSelected(true);
+            radioNam.setSelected(false);
+        }
+        String tt = modelNV.getValueAt(row, 11).toString();
+        if (tt == "Đang làm") {
+            radioDangLam.setSelected(true);
+            radioDaNghi.setSelected(false);
+        } else {
+            radioDangLam.setSelected(false);
+            radioDaNghi.setSelected(true);
+        }
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            try {
+                date = (Date) format.parse(modelNV.getValueAt(row, 4).toString());
+            } catch (java.text.ParseException e2) {
+                // TODO: handle exception
+                e2.printStackTrace();
+            }
+        } catch (Exception e2) {
+            // TODO: handle exception
+            e2.printStackTrace();
+        }
+        ngaySinh.setDate(date);
+
+    }//GEN-LAST:event_tableDSNVMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -633,4 +744,127 @@ public class GD_NV extends javax.swing.JPanel {
     private javax.swing.JTextField txtTen;
     private javax.swing.JTextField txtTim1;
     // End of variables declaration//GEN-END:variables
+
+    public void xoaTrang() {
+        txtMaNV.setText("");
+        txtCCCD.setText("");
+        txtHo.setText("");
+        txtTen.setText("");
+        txtSDT.setText("");
+        txtEmail.setText("");
+        txtDiaChi.setText("");
+        txtChucVu.setText("");
+        radioNu.setSelected(false);
+        radioNam.setSelected(false);
+        radioDaNghi.setSelected(false);
+        radioDangLam.setSelected(false);
+        ngaySinh.setDate(null);
+        pwMatKhau.setText("");
+        txtMaNV.requestFocus();
+
+    }
+
+    private void lamMoi() {
+        xoaTrang();
+        dm.setRowCount(0);
+        napDuLieuNV();
+    }
+
+    private void update() {
+        int r = tableDSNV.getSelectedRow();
+        if (r == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần sửa!!");
+
+        }
+        if (r >= 0) {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String gt = "Nữ";
+            if (radioNam.isSelected() && !radioNu.isSelected()) {
+                gt = "Nam";
+            }
+            String t = "Đã nghỉ ";
+            if (radioDangLam.isSelected() && !radioDaNghi.isSelected()) {
+                t = "Đang làm ";
+            }
+            String ngaySinh1 = dateFormat.format(ngaySinh.getDate());
+            NhanVien nv = reverSPFromTextFielde();
+            if (nv_dao.updateNhanVien(nv)) {
+                tableDSNV.setValueAt(txtCCCD.getText(), r, 2);
+                tableDSNV.setValueAt(txtChucVu, r, 10);
+                tableDSNV.setValueAt(txtDiaChi.getText(), r, 9);
+                tableDSNV.setValueAt(txtEmail, r, 8);
+                tableDSNV.setValueAt(txtHo, r, 3);
+                tableDSNV.setValueAt(txtTen, r, 4);
+                tableDSNV.setValueAt(txtMaNV, r, 7);
+                tableDSNV.setValueAt(gt, r, 5);
+                tableDSNV.setValueAt(t, r, 11);
+                tableDSNV.setValueAt(ngaySinh1, r, 6);
+                JOptionPane.showMessageDialog(this, "Sửa thành công!!!");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Sửa không thành công!!");
+            }
+        }
+
+    }
+
+    private NhanVien reverSPFromTextFielde() {
+        // TODO Auto-generated method stub
+        NhanVien nv = new NhanVien();
+
+        radioNu.setSelected(false);
+        radioNam.setSelected(false);
+        radioDaNghi.setSelected(false);
+        radioDangLam.setSelected(false);
+        String ma = txtMaNV.getText().toString();
+        String cccd = txtCCCD.getText().toString();
+        String ho = txtHo.getText().toString();
+        String ten = txtTen.getText().toString();
+        String sdt = txtSDT.getText().toString();
+        String email = txtEmail.getText().toString();
+        String diachi = txtDiaChi.getText().toString();
+        String chucvu = txtChucVu.getText().toString();
+        String matkhau = pwMatKhau.getText().toString();
+        Date ngaySinh1 = (Date) ngaySinh.getDate();
+        boolean gt = true;
+        boolean t = true;
+        if (radioNu.isSelected()) {
+            gt = false;
+        }
+        if (radioDaNghi.isSelected()) {
+            t = false;
+        }
+        return new NhanVien(ma, cccd, ho, ten, ngaySinh1, t, sdt, email, diachi, chucvu, matkhau, gt);
+
+    }
+
+    public void them() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        NhanVien nv = reverSPFromTextFielde();
+        String ma = txtMaNV.getText().toString();
+        String cccd = txtCCCD.getText().toString();
+        String ho = txtHo.getText().toString();
+        String ten = txtTen.getText().toString();
+        String sdt = txtSDT.getText().toString();
+        String email = txtEmail.getText().toString();
+        String diachi = txtDiaChi.getText().toString();
+        String chucvu = txtChucVu.getText().toString();
+        String matkhau = pwMatKhau.getText().toString();
+        String ngaySinh1 = dateFormat.format(ngaySinh.getDate());
+        String gt = "Nam";
+        if (radioNu.isSelected()) {
+            gt = "Nữ";
+        }
+        String t = "Đang làm ";
+        if (radioDaNghi.isSelected()) {
+            t = "Đã nghỉ ";
+        }
+
+        if (nv_dao.insertNhanVien(nv)) {
+            String[] data = {ma, cccd, ho, ten, ngaySinh1, sdt, email, diachi, chucvu};
+            dm.addRow(data);
+            JOptionPane.showMessageDialog(this, "Thêm Thành Công !");
+        }
+
+    }
 }

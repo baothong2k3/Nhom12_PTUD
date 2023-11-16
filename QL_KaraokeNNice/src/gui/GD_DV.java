@@ -4,11 +4,28 @@
  */
 package gui;
 
-import com.toedter.calendar.JDateChooserCellEditor;
+import connectDB.ConnectDB;
+import dao.DichVu_DAO;
+import entity.DichVu;
+import entity.KhachHang;
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.prompt.PromptSupport;
 
 /**
@@ -17,40 +34,50 @@ import org.jdesktop.swingx.prompt.PromptSupport;
  */
 public class GD_DV extends javax.swing.JPanel {
 
+    private DichVu_DAO dichvudao;
+    private ArrayList<DichVu> dsDV;
+    private DefaultTableModel modelDV;
+
     /**
      * Creates new form GD_DV
      */
     public GD_DV() {
+        try {
+            ConnectDB.getInstance().connect();
+//            System.out.println("Ket noi Database thanh cong");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
         initComponents();
         tableDichVu();
     }
+
     private void tableDichVu() {
         PromptSupport.setPrompt("Nhập mã dịch vụ", txtTim);
         tableDichVu.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
         tableDichVu.getTableHeader().setOpaque(false);
         tableDichVu.getTableHeader().setBackground(new Color(32, 136, 203));
         tableDichVu.getTableHeader().setForeground(new Color(255, 255, 255));
-        //đơn vị bán
-        String[] donVi = {"Lon", "Cái", "Đĩa", "Hộp"};
-        JComboBox comboBoxDV = new JComboBox(donVi);
-        comboBoxDV.setFont(new Font("Cambria", Font.PLAIN, 16));
-        comboBoxDV.setBackground(new Color(255, 255, 255));
-        tableDichVu.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(comboBoxDV));
-        //xuất xứ
-        String[] xuatXu = {"Việt Nam", "Thái Lan", "Trung Quốc", "Hoa Kỳ", "Đức"};
-        JComboBox comboBoxXX = new JComboBox(xuatXu);
-        comboBoxXX.setFont(new Font("Cambria", Font.PLAIN, 16));
-        comboBoxXX.setBackground(new Color(255, 255, 255));
-        tableDichVu.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(comboBoxXX));
-        //tình trạng
-        String[] tinhTrang = {"Đang bán", "Ngừng bán"};
-        JComboBox comboBoxTT = new JComboBox(tinhTrang);
-        comboBoxTT.setFont(new Font("Cambria", Font.PLAIN, 16));
-        comboBoxTT.setBackground(new Color(255, 255, 255));
-        tableDichVu.getColumnModel().getColumn(7).setCellEditor(new DefaultCellEditor(comboBoxTT));
-        //HSD
-        tableDichVu.getColumnModel().getColumn(5).setCellEditor(new JDateChooserCellEditor());
+        modelDV = (DefaultTableModel) tableDichVu.getModel();
+        loadAllDV();
     }
+
+    private void loadAllDV() {
+        dichvudao = new DichVu_DAO();
+        dsDV = dichvudao.getAllDichVu();
+        String tinhtrang;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        for (DichVu dichVu : dsDV) {
+            if (dichVu.isTinhTrang()) {
+                tinhtrang = "Đang bán";
+            } else {
+                tinhtrang = "Ngừng bán";
+            }
+            Double tien = dichVu.getDonGia();
+            modelDV.addRow(new Object[]{dichVu.getMaDV(), dichVu.getTenDV(), dichVu.getDonViBan(), dichVu.getSoLuongTon(), tien, dichVu.getHsd(), dichVu.getXuatXu(), tinhtrang});
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -194,7 +221,7 @@ public class GD_DV extends javax.swing.JPanel {
 
         hsd.setBackground(new java.awt.Color(255, 255, 255));
         hsd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        hsd.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        hsd.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         hsd.setMaximumSize(new java.awt.Dimension(250, 30));
         hsd.setMinimumSize(new java.awt.Dimension(250, 30));
         hsd.setPreferredSize(new java.awt.Dimension(250, 30));
@@ -262,6 +289,7 @@ public class GD_DV extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         panelNorth.add(lblSoLuong, gridBagConstraints);
 
+        spinSoLuong.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         spinSoLuong.setMaximumSize(new java.awt.Dimension(100, 30));
         spinSoLuong.setMinimum(0);
         spinSoLuong.setMinimumSize(new java.awt.Dimension(100, 30));
@@ -335,6 +363,11 @@ public class GD_DV extends javax.swing.JPanel {
         btnCapNhatDV.setMaximumSize(new java.awt.Dimension(210, 40));
         btnCapNhatDV.setMinimumSize(new java.awt.Dimension(210, 30));
         btnCapNhatDV.setPreferredSize(new java.awt.Dimension(250, 30));
+        btnCapNhatDV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCapNhatDVActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 16;
@@ -428,12 +461,25 @@ public class GD_DV extends javax.swing.JPanel {
             new String [] {
                 "Mã dịch vụ", "Tên dịch vụ", "Đơn vị bán", "Số lượng tồn", "Đơn giá", "Hạn sử dụng", "Xuất xứ", "Tình trạng"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableDichVu.setMinimumSize(new java.awt.Dimension(1200, 300));
         tableDichVu.setRowHeight(25);
         tableDichVu.setSelectionBackground(new java.awt.Color(204, 255, 255));
         tableDichVu.setShowHorizontalLines(true);
         tableDichVu.getTableHeader().setReorderingAllowed(false);
+        tableDichVu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableDichVuMouseClicked(evt);
+            }
+        });
         scrollPane.setViewportView(tableDichVu);
 
         panelCenter.add(scrollPane, java.awt.BorderLayout.CENTER);
@@ -461,19 +507,55 @@ public class GD_DV extends javax.swing.JPanel {
 
     private void btnThemDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemDVActionPerformed
         // TODO add your handling code here:
+
     }//GEN-LAST:event_btnThemDVActionPerformed
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
         // TODO add your handling code here:
+        xoaTrang();
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
+        xoaTrang();
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTimActionPerformed
+
+    private void tableDichVuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDichVuMouseClicked
+        // TODO add your handling code here:
+        int row = tableDichVu.getSelectedRow();
+        txtMaDV.setText(modelDV.getValueAt(row, 0).toString());
+        txtTenDV.setText(modelDV.getValueAt(row, 1).toString());
+        comboDVB.setSelectedItem(modelDV.getValueAt(row, 2).toString());
+        spinSoLuong.setValue((int) modelDV.getValueAt(row, 3));
+        Double gia = (Double) modelDV.getValueAt(row, 4);
+        txtDonGia.setText(gia + "");
+        try {
+            //date = new SimpleDateFormat("yyy/MM/dd").parse((String) );
+            String han = modelDV.getValueAt(row, 5).toString();
+            Date date = new SimpleDateFormat("dd-MM-yyyy").parse(han);
+            hsd.setDate(date);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        comboXuatXu.setSelectedItem(modelDV.getValueAt(row, 6).toString());
+        String tinhtrang = modelDV.getValueAt(row, 7).toString();
+        if (tinhtrang.equalsIgnoreCase("Đang bán")) {
+            radioDangBan.setSelected(true);
+            radioNgungBan.setSelected(false);
+        } else {
+            radioDangBan.setSelected(false);
+            radioNgungBan.setSelected(true);
+        }
+    }//GEN-LAST:event_tableDichVuMouseClicked
+
+    private void btnCapNhatDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatDVActionPerformed
+        // TODO add your handling code here:
+        update();
+    }//GEN-LAST:event_btnCapNhatDVActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -507,4 +589,51 @@ public class GD_DV extends javax.swing.JPanel {
     private javax.swing.JTextField txtTenDV;
     private javax.swing.JTextField txtTim;
     // End of variables declaration//GEN-END:variables
+    public void xoaTrang() {
+        txtMaDV.setText("");
+        txtTenDV.setText("");
+        txtDonGia.setText("");
+        radioDangBan.setSelected(false);
+        radioNgungBan.setSelected(false);
+        hsd.setDate(null);
+        spinSoLuong.setValue(0);
+    }
+
+    private void lamMoi() {
+        xoaTrang();
+        modelDV.setRowCount(0);
+        loadAllDV();
+    }
+
+    private void update() {
+        // TODO Auto-generated method stub
+
+        int row = tableDichVu.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần sửa!!");
+        }
+        if (row >= 0) {
+            String ma = txtMaDV.getText();
+            String ten = txtTenDV.getText();
+            Double gia = Double.parseDouble(txtDonGia.getText());
+            Date han = hsd.getDate();
+            String dvb = comboDVB.getSelectedItem().toString();
+            String xuatxu = comboXuatXu.getSelectedItem().toString();
+            int soluong = spinSoLuong.getValue();
+            Boolean tinhtrang = false;
+            if (radioDangBan.isSelected()) {
+                tinhtrang = true;
+            }
+            DichVu dv = new DichVu(ma, ten, dvb, soluong, gia, han, xuatxu, tinhtrang);
+            if (dichvudao.updateDV(dv)) {
+                JOptionPane.showMessageDialog(this, "Sửa thành công!!!");
+                modelDV.setRowCount(0);
+                loadAllDV();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Sửa không thành công!!");
+        }
+
+    }
+
 }

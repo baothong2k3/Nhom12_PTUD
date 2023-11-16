@@ -4,7 +4,6 @@
  */
 package gui;
 
-import com.toedter.calendar.JDateChooserCellEditor;
 import connectDB.ConnectDB;
 import dao.KhachHang_DAO;
 import dao.NhanVien_DAO;
@@ -16,8 +15,6 @@ import entity.PhieuDatPhong;
 import entity.Phong;
 import java.awt.Color;
 import java.awt.Font;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

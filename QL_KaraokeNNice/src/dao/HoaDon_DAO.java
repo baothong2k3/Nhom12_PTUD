@@ -30,43 +30,39 @@ import java.time.ZoneOffset;
 
 public class HoaDon_DAO {
 
-    public boolean themHoaDon(HoaDon h) {
-        PreparedStatement statement = null;
+    public boolean themHoaDon(HoaDon hd) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement stmt = null;
         int n = 0;
-//        try {
-            ConnectDB.getInstance();
-            Connection con = ConnectDB.getConnection();
-//            String sql = "INSERT INTO HoaDon (maHD, maKH, maNV, maPhong, thoiGianDat, thoiGianNhan, trangThai) VALUES (?, ?, ?, ?, ?, ?, 0)";
-//            statement = con.prepareStatement(sql);
-//            statement.setString(1, p.getMaPhieu());
-//            statement.setString(2, p.getKhachHang().getMaKH());
-//            statement.setString(3, p.getNhanVienLap().getMaNV());
-//            statement.setString(4, p.getPhong().getMaPhong());
-//            Date thoiGianNhan = p.getThoiGianNhan();
-//            Date thoiGianDat = p.getThoiGianDat();
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//            String dateDat = dateFormat.format(thoiGianDat);
-//            String dateNhan = dateFormat.format(thoiGianNhan);
-//            try {
-//                Date date = dateFormat.parse(dateDat);
-//                Date date1 = dateFormat.parse(dateNhan);
-//                Instant instant = date.toInstant();
-//                Instant instant1 = date1.toInstant();
-//                LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneOffset.ofHours(7));
-//                LocalDateTime localDateTime1 = LocalDateTime.ofInstant(instant1, ZoneOffset.ofHours(7));
-//                Timestamp sqlTimestamp = Timestamp.valueOf(localDateTime);
-//                Timestamp sqlTimestamp1 = Timestamp.valueOf(localDateTime1);
-//                statement.setTimestamp(5, sqlTimestamp);
-//                statement.setTimestamp(6, sqlTimestamp1);
-//            } catch (ParseException ex) {
-//                ex.printStackTrace();
-//            }
-//            n = statement.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return n > 0;
-        return false;
+        try {
+            stmt = con.prepareStatement("INSERT INTO" + " HoaDon VALUES(?, ?, ?, ?, ?, ?, ?)");
+            stmt.setString(1, hd.getMaHD());
+            stmt.setString(2, hd.getKhachHang().getMaKH());
+            stmt.setString(3, hd.getNhanVienLap().getMaNV());
+
+            Date uTGN = hd.getNgayLap();
+            java.sql.Timestamp sqlTGN = new java.sql.Timestamp(uTGN.getTime());
+            stmt.setTimestamp(4, sqlTGN);
+
+            stmt.setDouble(5, hd.getVAT());
+            stmt.setDouble(6, hd.getTongTien());
+            stmt.setBoolean(7, hd.isTrangThai());
+
+            n = stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            try {
+                stmt.close();
+
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+
+            }
+        }
+        return n > 0;
     }
 
     public String maHD_Auto() {
@@ -137,6 +133,49 @@ public class HoaDon_DAO {
             String sql = "SELECT TOP 1 * FROM HoaDon WHERE maHD = ?";
             statement = con.prepareStatement(sql);
             statement.setString(1, mHD);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                hd = new HoaDon();
+                hd.setMaHD(rs.getString(1));
+
+                KhachHang kh = new KhachHang(rs.getString(2));
+                hd.setKhachHang(kh);
+                NhanVien nv = new NhanVien(rs.getString(3));
+                hd.setNhanVienLap(nv);
+
+                java.sql.Timestamp tsGioNhanPhong = rs.getTimestamp(4);
+                long timeGNP = tsGioNhanPhong.getTime();
+                Date dateGioNhanPhong = new Date(timeGNP);
+                hd.setNgayLap(dateGioNhanPhong);
+
+                hd.setVAT(rs.getDouble(5));
+                hd.setTongTien(rs.getDouble(6));
+                hd.setTrangThai(rs.getBoolean(7));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+
+        return hd;
+    }
+
+    public HoaDon getHoaDonTheoMaPhong_TrangThai(String mP) {
+        HoaDon hd = null;
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        try {
+
+            String sql = "SELECT TOP 1 * FROM HoaDon hd join ChiTietHoaDon cthd on hd.maHD = cthd.maHD join Phong p on cthd.maPhong = p.maPhong WHERE p.maPhong = ? and hd.trangThai = 0";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, mP);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 hd = new HoaDon();
@@ -348,5 +387,67 @@ public class HoaDon_DAO {
             }
         }
         return n > 0;
+    }
+
+    public boolean themChiTietHoaDon(ChiTietHoaDon cthd) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement stmt = null;
+        int n = 0;
+        try {
+            stmt = con.prepareStatement("INSERT INTO ChiTietHoaDon VALUES(?, ?, ?, ?)");
+            stmt.setString(1, cthd.getHoaDon().getMaHD());
+
+            Date uTGN = cthd.getGioNhanPhong();
+            java.sql.Timestamp sqlTGN = new java.sql.Timestamp(uTGN.getTime());
+            stmt.setTimestamp(2, sqlTGN);
+
+            Date uGKT = cthd.getGioKetThuc();
+            java.sql.Timestamp sqlGKT = new java.sql.Timestamp(uGKT.getTime());
+            stmt.setTimestamp(3, sqlGKT);
+            stmt.setString(4, cthd.getPhong().getMaPhong());
+
+            n = stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            try {
+                stmt.close();
+
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+
+            }
+        }
+        return n > 0;
+    }
+
+    public boolean themChiTietDichVu(ArrayList<ChiTietDichVu> dsCTDV) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement stmt = null;
+        int n = 0;
+        try {
+            for (ChiTietDichVu ctdv : dsCTDV) {             
+                stmt = con.prepareStatement("INSERT INTO ChiTietDichVu VALUES(?, ?, ?)");
+                stmt.setString(1, ctdv.getDichVu().getMaDV());
+                stmt.setInt(2, ctdv.getSoLuong());
+                stmt.setString(3, ctdv.getHoaDon().getMaHD());
+                n = stmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            try {
+                stmt.close();
+
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+
+            }
+        }
+        return true;
     }
 }

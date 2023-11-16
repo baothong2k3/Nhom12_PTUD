@@ -6,7 +6,10 @@ package Form;
 
 import connectDB.ConnectDB;
 import dao.DichVu_DAO;
+import dao.HoaDon_DAO;
+import entity.ChiTietDichVu;
 import entity.DichVu;
+import entity.HoaDon;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -22,6 +25,9 @@ import raven.cell.TableActionCellRender;
 import raven.cell.TableActionCellRender1;
 import raven.cell.TableActionEvent;
 import raven.cell.TableActionEvent1;
+import java.math.BigDecimal;
+import java.util.Vector;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -30,14 +36,15 @@ import raven.cell.TableActionEvent1;
 public class Form_CapNhatDVP extends javax.swing.JFrame {
 
     private DichVu_DAO dichvudao;
+    private HoaDon_DAO hoaDonDao;
     private ArrayList<DichVu> dsDV;
-    private DefaultTableModel modelDV1;
-    private DefaultTableModel modelDV;
+    private DefaultTableModel modelDVDaThem;
+    private DefaultTableModel modelDSDV;
 
     /**
      * Creates new form FormThemDVP
      */
-    public Form_CapNhatDVP() {
+    public Form_CapNhatDVP(String maPhong) {
         try {
             ConnectDB.getInstance().connect();
 //            System.out.println("Ket noi Database thanh cong");
@@ -47,65 +54,78 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
-        modelDV1 = (DefaultTableModel) table1.getModel();
-        modelDV = (DefaultTableModel) table.getModel();
+        modelDSDV = (DefaultTableModel) tableDSDV.getModel();
+        modelDVDaThem = (DefaultTableModel) tableDVDaThem.getModel();
         customTable();
         TableEvent();
+        capNhatLable(maPhong);
+    }
+
+    private void capNhatLable(String maPhong) {
+        txtMaPhong.setText(maPhong);
+
+        BigDecimal totalAmount = modelDVDaThem
+                .getDataVector()
+                .stream()
+                .map(row -> (BigDecimal) ((Vector<?>) row).get(1))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        System.out.println("Total amount: " + totalAmount);
     }
 
     private void loadAllDV() {
         dichvudao = new DichVu_DAO();
         dsDV = new ArrayList<DichVu>();
-        dsDV = dichvudao.layDSPhong();
+        dsDV = dichvudao.getAllDichVu();
         for (DichVu dichVu : dsDV) {
-            modelDV1.addRow(new Object[]{dichVu.getMaDV(), dichVu.getTenDV(), dichVu.getDonGia(), dichVu.getDonViBan(), dichVu.getSoLuongTon()});
+            modelDSDV.addRow(new Object[]{dichVu.getMaDV(), dichVu.getTenDV(), dichVu.getDonGia(), dichVu.getDonViBan(), dichVu.getSoLuongTon()});
         }
     }
 
     private void TableEvent() {
         TableActionEvent event = new TableActionEvent() {
             @Override
+            //Nút thêm bên Danh sách dịch vụ đã thêm
             public void onAdd(int row) {
                 System.out.println("Add row : " + row);
-                int r = table1.getSelectedRow();
-                int soLuong = (int) modelDV.getValueAt(r, 2);
+                int r = tableDVDaThem.getSelectedRow();
+                int soLuong = (int) modelDVDaThem.getValueAt(r, 2);
                 soLuong++;
-                Double donGia = (Double) modelDV.getValueAt(r, 1);
+                Double donGia = (Double) modelDVDaThem.getValueAt(r, 1);
                 Double thanhTien = donGia * soLuong;
-                modelDV.setValueAt(soLuong, r, 2);
-                modelDV.setValueAt(thanhTien, r, 3);
-
+                modelDVDaThem.setValueAt(soLuong, r, 2);
+                modelDVDaThem.setValueAt(thanhTien, r, 3);
             }
 
             @Override
             public void onDelete(int row) {
-                if (table.isEditing()) {
-                    table.getCellEditor().stopCellEditing();
+                if (tableDVDaThem.isEditing()) {
+                    tableDVDaThem.getCellEditor().stopCellEditing();
                 }
-                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                DefaultTableModel model = (DefaultTableModel) tableDVDaThem.getModel();
                 model.removeRow(row);
             }
 
             @Override
             public void onLess(int row) {
                 System.out.println("Less row : " + row);
-                int r = table1.getSelectedRow();
-                int soLuong = (int) modelDV.getValueAt(r, 2);
+                int r = tableDVDaThem.getSelectedRow();
+                int soLuong = (int) modelDVDaThem.getValueAt(r, 2);
                 soLuong--;
-                Double donGia = (Double) modelDV.getValueAt(r, 1);
-                Double thanhTien = (Double) modelDV.getValueAt(r, 3);
+                Double donGia = (Double) modelDVDaThem.getValueAt(r, 1);
+                Double thanhTien = (Double) modelDVDaThem.getValueAt(r, 3);
                 thanhTien = thanhTien - donGia;
                 if (soLuong == 0) {
-                    modelDV.removeRow(r);
+                    modelDVDaThem.removeRow(r);
                 } else {
-                    modelDV.setValueAt(soLuong, r, 2);
-                    modelDV.setValueAt(thanhTien, r, 3);
+                    modelDVDaThem.setValueAt(soLuong, r, 2);
+                    modelDVDaThem.setValueAt(thanhTien, r, 3);
                 }
             }
         };
-        table.getColumnModel().getColumn(4).setCellRenderer(new TableActionCellRender());
-        table.getColumnModel().getColumn(4).setCellEditor(new TableActionCellEditor(event));
-        table.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
+        tableDVDaThem.getColumnModel().getColumn(4).setCellRenderer(new TableActionCellRender());
+        tableDVDaThem.getColumnModel().getColumn(4).setCellEditor(new TableActionCellEditor(event));
+        tableDVDaThem.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
                 setHorizontalAlignment(SwingConstants.RIGHT);
@@ -115,20 +135,20 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         TableActionEvent1 event1 = new TableActionEvent1() {
             @Override
             public void onAdd(int row) {
-                if (table1.isEditing()) {
-                    table1.getCellEditor().stopCellEditing();
+                if (tableDSDV.isEditing()) {
+                    tableDSDV.getCellEditor().stopCellEditing();
                 }
 //              Khi nhấn vào dấu + thì thêm vào table bên kia
-                int r = table1.getSelectedRow();
-                String tenDV = modelDV1.getValueAt(r, 1).toString();
-                Double donGia = (Double) modelDV1.getValueAt(r, 2);
+                int r = tableDSDV.getSelectedRow();
+                String tenDV = modelDSDV.getValueAt(r, 1).toString();
+                Double donGia = (Double) modelDSDV.getValueAt(r, 2);
                 Double thanhTien = donGia;
-                modelDV.addRow(new Object[]{tenDV, donGia, 1, thanhTien});
+                modelDVDaThem.addRow(new Object[]{tenDV, donGia, 1, thanhTien});
             }
         };
-        table1.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender1());
-        table1.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor1(event1));
-        table1.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
+        tableDSDV.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender1());
+        tableDSDV.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor1(event1));
+        tableDSDV.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
                 setHorizontalAlignment(SwingConstants.RIGHT);
@@ -138,16 +158,16 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
     }
 
     private void customTable() {
-        table1.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
-        table1.getTableHeader().setOpaque(false);
-        table1.getTableHeader().setBackground(new Color(32, 136, 203));
-        table1.getTableHeader().setForeground(new Color(255, 255, 255));
+        tableDSDV.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
+        tableDSDV.getTableHeader().setOpaque(false);
+        tableDSDV.getTableHeader().setBackground(new Color(32, 136, 203));
+        tableDSDV.getTableHeader().setForeground(new Color(255, 255, 255));
 //        jTable1.getColumnModel().getColumn(4).setCellEditor(new JXTable.GenericEditor());
 
-        table.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
-        table.getTableHeader().setOpaque(false);
-        table.getTableHeader().setBackground(new Color(32, 136, 203));
-        table.getTableHeader().setForeground(new Color(255, 255, 255));
+        tableDVDaThem.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 16));
+        tableDVDaThem.getTableHeader().setOpaque(false);
+        tableDVDaThem.getTableHeader().setBackground(new Color(32, 136, 203));
+        tableDVDaThem.getTableHeader().setForeground(new Color(255, 255, 255));
         loadAllDV();
     }
 
@@ -167,11 +187,11 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtMaPhong = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
+        tableDVDaThem = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -179,7 +199,7 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table1 = new javax.swing.JTable();
+        tableDSDV = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
 
@@ -225,16 +245,16 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         jLabel2.setText("Mã phòng");
         jPanel6.add(jLabel2);
 
-        jTextField2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField2.setEnabled(false);
-        jTextField2.setMinimumSize(new java.awt.Dimension(120, 20));
-        jTextField2.setPreferredSize(new java.awt.Dimension(120, 30));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txtMaPhong.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtMaPhong.setEnabled(false);
+        txtMaPhong.setMinimumSize(new java.awt.Dimension(120, 20));
+        txtMaPhong.setPreferredSize(new java.awt.Dimension(120, 30));
+        txtMaPhong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txtMaPhongActionPerformed(evt);
             }
         });
-        jPanel6.add(jTextField2);
+        jPanel6.add(txtMaPhong);
 
         jLabel3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jLabel3.setText("Tổng tiền");
@@ -254,8 +274,8 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         jScrollPane2.setMinimumSize(new java.awt.Dimension(590, 350));
         jScrollPane2.setPreferredSize(new java.awt.Dimension(590, 350));
 
-        table.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        table.setModel(new javax.swing.table.DefaultTableModel(
+        tableDVDaThem.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        tableDVDaThem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -263,14 +283,14 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
                 "Tên DV", "Đơn giá", "Đã thêm", "Thành tiền", "Hành động"
             }
         ));
-        table.setRowHeight(25);
-        table.setSelectionBackground(new java.awt.Color(204, 255, 255));
-        jScrollPane2.setViewportView(table);
-        if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(2).setResizable(false);
-            table.getColumnModel().getColumn(2).setPreferredWidth(30);
-            table.getColumnModel().getColumn(4).setResizable(false);
-            table.getColumnModel().getColumn(4).setPreferredWidth(50);
+        tableDVDaThem.setRowHeight(25);
+        tableDVDaThem.setSelectionBackground(new java.awt.Color(204, 255, 255));
+        jScrollPane2.setViewportView(tableDVDaThem);
+        if (tableDVDaThem.getColumnModel().getColumnCount() > 0) {
+            tableDVDaThem.getColumnModel().getColumn(2).setResizable(false);
+            tableDVDaThem.getColumnModel().getColumn(2).setPreferredWidth(30);
+            tableDVDaThem.getColumnModel().getColumn(4).setResizable(false);
+            tableDVDaThem.getColumnModel().getColumn(4).setPreferredWidth(50);
         }
 
         jPanel1.add(jScrollPane2, java.awt.BorderLayout.CENTER);
@@ -330,8 +350,8 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         jScrollPane1.setMinimumSize(new java.awt.Dimension(590, 350));
         jScrollPane1.setPreferredSize(new java.awt.Dimension(590, 350));
 
-        table1.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        table1.setModel(new javax.swing.table.DefaultTableModel(
+        tableDSDV.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        tableDSDV.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -347,18 +367,18 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        table1.setRowHeight(25);
-        table1.setSelectionBackground(new java.awt.Color(204, 255, 255));
-        jScrollPane1.setViewportView(table1);
-        if (table1.getColumnModel().getColumnCount() > 0) {
-            table1.getColumnModel().getColumn(0).setPreferredWidth(10);
-            table1.getColumnModel().getColumn(2).setResizable(false);
-            table1.getColumnModel().getColumn(2).setPreferredWidth(40);
-            table1.getColumnModel().getColumn(3).setResizable(false);
-            table1.getColumnModel().getColumn(3).setPreferredWidth(25);
-            table1.getColumnModel().getColumn(4).setPreferredWidth(20);
-            table1.getColumnModel().getColumn(5).setResizable(false);
-            table1.getColumnModel().getColumn(5).setPreferredWidth(5);
+        tableDSDV.setRowHeight(25);
+        tableDSDV.setSelectionBackground(new java.awt.Color(204, 255, 255));
+        jScrollPane1.setViewportView(tableDSDV);
+        if (tableDSDV.getColumnModel().getColumnCount() > 0) {
+            tableDSDV.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tableDSDV.getColumnModel().getColumn(2).setResizable(false);
+            tableDSDV.getColumnModel().getColumn(2).setPreferredWidth(40);
+            tableDSDV.getColumnModel().getColumn(3).setResizable(false);
+            tableDSDV.getColumnModel().getColumn(3).setPreferredWidth(25);
+            tableDSDV.getColumnModel().getColumn(4).setPreferredWidth(20);
+            tableDSDV.getColumnModel().getColumn(5).setResizable(false);
+            tableDSDV.getColumnModel().getColumn(5).setPreferredWidth(5);
         }
 
         jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -403,51 +423,32 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txtMaPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaPhongActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txtMaPhongActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        HoaDon hd = hoaDonDao.getHoaDonTheoMa(txtMaPhong.getText().trim());
+        ArrayList<ChiTietDichVu> dsCTDV = new ArrayList<ChiTietDichVu>();
+        for (int i = 0; i < modelDVDaThem.getRowCount(); i++) {
+            String maDV = modelDVDaThem.getValueAt(i, 0).toString();
+            DichVu dv = dichvudao.getDichVuTheoMa(maDV);
+            String sSL = modelDVDaThem.getValueAt(i, 3).toString();
+            int sl = Integer.parseInt(sSL);
+            ChiTietDichVu ctdv = new ChiTietDichVu(dv, sl, hd);
+            dsCTDV.add(ctdv);
+        }
+        if (hoaDonDao.themChiTietDichVu(dsCTDV)) {
+            JOptionPane.showMessageDialog(null, "Thêm thành công");
+        } else {
+            JOptionPane.showMessageDialog(null, "Đã có lỗi");
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Form_CapNhatDVP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Form_CapNhatDVP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Form_CapNhatDVP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Form_CapNhatDVP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Form_CapNhatDVP().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -464,12 +465,12 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel lblTittle;
     private javax.swing.JPanel panelC;
     private javax.swing.JPanel panelHeader;
-    private javax.swing.JTable table;
-    private javax.swing.JTable table1;
+    private javax.swing.JTable tableDSDV;
+    private javax.swing.JTable tableDVDaThem;
+    private javax.swing.JTextField txtMaPhong;
     // End of variables declaration//GEN-END:variables
 }

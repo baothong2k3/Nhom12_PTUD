@@ -22,8 +22,6 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class PhieuDatPhong_DAO {
 

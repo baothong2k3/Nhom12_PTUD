@@ -4,6 +4,8 @@
  */
 package gui;
 
+import entity.KhachHang;
+import entity.NhanVien;
 import java.awt.CardLayout;
 import javax.swing.JFrame;
 
@@ -16,29 +18,18 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     /**
      * Creates new form HomePage
      */
-    public GiaoDienChinh() {
+    public GiaoDienChinh(NhanVien nv) {
+        
         initComponents();
         setLocationRelativeTo(null);
         //setResizable(false);
         setTitle("Quản lý karaoke NNice");
         card = (CardLayout) this.GD_Chinh.getLayout();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        String chucvu = nv.getChucVu();
+        String tenNV = nv.getHoNV() + " " + nv.getTenNV();
+        lblThongTin.setText(chucvu + " - "+tenNV);
     }
-//    private void disableAllPanel() {
-//        GD_Chinh.setVisible(false);
-//        GD_DichVu.setVisible(false);
-//        GD_NhanVien.setVisible(false);
-//        GD_KhachHang.setVisible(false);
-//        GD_Phong.setVisible(false);
-//        GD_PhieuDatPhong.setVisible(false);
-//        GD_HoaDon.setVisible(false);
-//        GD_DSPhong.setVisible(false);
-//    }
-//    private void dsPhong() {
-//        for (int i = 0; i < 10; i++) {
-////            panelPhong.add(new JButton("VCC"));
-//        }
-//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,9 +51,9 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         txtTenDV = new javax.swing.JTextField();
         lblHsd = new javax.swing.JLabel();
         lblXuatXu = new javax.swing.JLabel();
-        comboXuatXu = new javax.swing.JComboBox<String>();
+        comboXuatXu = new javax.swing.JComboBox<>();
         lblDonViBan = new javax.swing.JLabel();
-        comboDVB = new javax.swing.JComboBox<String>();
+        comboDVB = new javax.swing.JComboBox<>();
         lblSoLuong = new javax.swing.JLabel();
         lblTinhTrang = new javax.swing.JLabel();
         radioDangBan = new javax.swing.JRadioButton();
@@ -97,7 +88,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         lblDiaChi = new javax.swing.JLabel();
         txtDiaChi = new javax.swing.JTextField();
         txtChucVu = new javax.swing.JLabel();
-        comboChucVu = new javax.swing.JComboBox<String>();
+        comboChucVu = new javax.swing.JComboBox<>();
         lblMatKhau = new javax.swing.JLabel();
         pwMatKhau = new javax.swing.JPasswordField();
         lblTrangThai = new javax.swing.JLabel();
@@ -143,9 +134,9 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<String>();
-        jComboBox2 = new javax.swing.JComboBox<String>();
-        jComboBox3 = new javax.swing.JComboBox<String>();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox3 = new javax.swing.JComboBox<>();
         jTextField5 = new javax.swing.JTextField();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
@@ -173,7 +164,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablePhieu = new javax.swing.JTable();
         jPanel15 = new javax.swing.JPanel();
-        jComboBox4 = new javax.swing.JComboBox<String>();
+        jComboBox4 = new javax.swing.JComboBox<>();
         jTextField10 = new javax.swing.JTextField();
         jTextField9 = new javax.swing.JTextField();
         txtTimPhieu = new javax.swing.JTextField();
@@ -219,9 +210,9 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         txtTenDV1 = new javax.swing.JTextField();
         lblHsd1 = new javax.swing.JLabel();
         lblXuatXu1 = new javax.swing.JLabel();
-        comboXuatXu1 = new javax.swing.JComboBox<String>();
+        comboXuatXu1 = new javax.swing.JComboBox<>();
         lblDonViBan1 = new javax.swing.JLabel();
-        comboSucChua = new javax.swing.JComboBox<String>();
+        comboSucChua = new javax.swing.JComboBox<>();
         lblTinhTrang1 = new javax.swing.JLabel();
         radioDangBan1 = new javax.swing.JRadioButton();
         radioNgungBan1 = new javax.swing.JRadioButton();
@@ -245,8 +236,8 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        lblThongTin = new javax.swing.JLabel();
+        btnDangXuat = new javax.swing.JButton();
         GD_Chinh = new javax.swing.JPanel();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -380,7 +371,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         panelNorth.add(lblXuatXu, gridBagConstraints);
 
         comboXuatXu.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        comboXuatXu.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Việt Nam", "Thái Lan", "Trung Quốc", "Hoa Kỳ", "Đức" }));
+        comboXuatXu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Việt Nam", "Thái Lan", "Trung Quốc", "Hoa Kỳ", "Đức" }));
         comboXuatXu.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         comboXuatXu.setMaximumSize(new java.awt.Dimension(250, 30));
         comboXuatXu.setMinimumSize(new java.awt.Dimension(250, 30));
@@ -402,7 +393,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         panelNorth.add(lblDonViBan, gridBagConstraints);
 
         comboDVB.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        comboDVB.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Lon", "Cái", "Dĩa", "Hộp", "Chai", "Bịch" }));
+        comboDVB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lon", "Cái", "Dĩa", "Hộp", "Chai", "Bịch" }));
         comboDVB.setMaximumSize(new java.awt.Dimension(250, 30));
         comboDVB.setMinimumSize(new java.awt.Dimension(250, 30));
         comboDVB.setPreferredSize(new java.awt.Dimension(250, 30));
@@ -859,7 +850,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         panelNorth1.add(txtChucVu, gridBagConstraints);
 
         comboChucVu.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        comboChucVu.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Quản lý", "Lễ tân", "Bảo vệ", "Phục vụ" }));
+        comboChucVu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Quản lý", "Lễ tân", "Bảo vệ", "Phục vụ" }));
         comboChucVu.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         comboChucVu.setMaximumSize(new java.awt.Dimension(150, 30));
         comboChucVu.setMinimumSize(new java.awt.Dimension(150, 30));
@@ -1410,7 +1401,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jPanel13.add(jLabel19, gridBagConstraints);
 
         jComboBox1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Tất cả", "Đang sử dụng", "Đã đặt trước", "Trống" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Đang sử dụng", "Đã đặt trước", "Trống" }));
         jComboBox1.setPreferredSize(new java.awt.Dimension(150, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -1418,7 +1409,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jPanel13.add(jComboBox1, gridBagConstraints);
 
         jComboBox2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Tất cả", "Phòng thường", "Phòng VIP" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Phòng thường", "Phòng VIP" }));
         jComboBox2.setPreferredSize(new java.awt.Dimension(150, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -1426,7 +1417,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jPanel13.add(jComboBox2, gridBagConstraints);
 
         jComboBox3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Tất cả", "5", "10" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "5", "10" }));
         jComboBox3.setPreferredSize(new java.awt.Dimension(150, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -1733,7 +1724,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jPanel15.setLayout(jPanel15Layout1);
 
         jComboBox4.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Chờ nhận phòng", "Đã nhận" }));
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chờ nhận phòng", "Đã nhận" }));
         jComboBox4.setMinimumSize(new java.awt.Dimension(200, 30));
         jComboBox4.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -2165,7 +2156,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         panelNorth2.add(lblXuatXu1, gridBagConstraints);
 
         comboXuatXu1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        comboXuatXu1.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Trống", "Đã được đặt", "Đang sử dụng" }));
+        comboXuatXu1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Trống", "Đã được đặt", "Đang sử dụng" }));
         comboXuatXu1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         comboXuatXu1.setMaximumSize(new java.awt.Dimension(250, 30));
         comboXuatXu1.setMinimumSize(new java.awt.Dimension(250, 30));
@@ -2187,7 +2178,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         panelNorth2.add(lblDonViBan1, gridBagConstraints);
 
         comboSucChua.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        comboSucChua.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "10", "15", "20" }));
+        comboSucChua.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "15", "20" }));
         comboSucChua.setMaximumSize(new java.awt.Dimension(250, 30));
         comboSucChua.setMinimumSize(new java.awt.Dimension(250, 30));
         comboSucChua.setPreferredSize(new java.awt.Dimension(200, 30));
@@ -2439,28 +2430,28 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jPanel4Layout.rowHeights = new int[] {0};
         jPanel4.setLayout(jPanel4Layout);
 
-        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/user.png"))); // NOI18N
-        jLabel3.setText("Quản lý - Đặng Bảo Thông");
-        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblThongTin.setBackground(new java.awt.Color(255, 255, 255));
+        lblThongTin.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        lblThongTin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/user.png"))); // NOI18N
+        lblThongTin.setText("Quản lý - Đặng Bảo Thông");
+        lblThongTin.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        jPanel4.add(jLabel3, gridBagConstraints);
+        jPanel4.add(lblThongTin, gridBagConstraints);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/logout.png"))); // NOI18N
-        jButton1.setBorder(null);
-        jButton1.setContentAreaFilled(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnDangXuat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/logout.png"))); // NOI18N
+        btnDangXuat.setBorder(null);
+        btnDangXuat.setContentAreaFilled(false);
+        btnDangXuat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnDangXuatActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        jPanel4.add(jButton1, gridBagConstraints);
+        jPanel4.add(btnDangXuat, gridBagConstraints);
 
         jPanel2.add(jPanel4);
 
@@ -2493,16 +2484,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jMenu11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/building.png"))); // NOI18N
         jMenu11.setText("Phòng");
         jMenu11.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jMenu11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu11MouseClicked(evt);
-            }
-        });
-        jMenu11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu11ActionPerformed(evt);
-            }
-        });
 
         jMenuItem7.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jMenuItem7.setText("Đặt - Trả phòng");
@@ -2527,19 +2508,9 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jMenu12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/paper.png"))); // NOI18N
         jMenu12.setText("Tài liệu ");
         jMenu12.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jMenu12.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu12MouseClicked(evt);
-            }
-        });
 
         jMenuItem11.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jMenuItem11.setText("Quản lý hóa đơn");
-        jMenuItem11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuItem11MouseClicked(evt);
-            }
-        });
         jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem11ActionPerformed(evt);
@@ -2549,11 +2520,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
         jMenuItem12.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jMenuItem12.setText("Quản lý phiếu đặt phòng");
-        jMenuItem12.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuItem12MouseClicked(evt);
-            }
-        });
         jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem12ActionPerformed(evt);
@@ -2566,16 +2532,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jMenu10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/food.png"))); // NOI18N
         jMenu10.setText("Dịch vụ");
         jMenu10.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jMenu10.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu10MouseClicked(evt);
-            }
-        });
-        jMenu10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu10ActionPerformed(evt);
-            }
-        });
 
         jMenuItem5.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jMenuItem5.setText("Quản lý dịch vụ");
@@ -2596,19 +2552,9 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icon_nv.png"))); // NOI18N
         jMenu4.setText("Nhân viên");
         jMenu4.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jMenu4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu4MouseClicked(evt);
-            }
-        });
 
         jMenuItem9.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jMenuItem9.setText("Quản lý nhân viên");
-        jMenuItem9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuItem9MouseClicked(evt);
-            }
-        });
         jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem9ActionPerformed(evt);
@@ -2621,19 +2567,9 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/people.png"))); // NOI18N
         jMenu5.setText("Khách hàng");
         jMenu5.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jMenu5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu5MouseClicked(evt);
-            }
-        });
 
         jMenuItem10.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jMenuItem10.setText("Quản lý khách hàng");
-        jMenuItem10.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuItem10MouseClicked(evt);
-            }
-        });
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem10ActionPerformed(evt);
@@ -2676,23 +2612,11 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jMenu11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu11ActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jMenu11ActionPerformed
-
-    private void jMenu10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu10ActionPerformed
-
-    }//GEN-LAST:event_jMenu10ActionPerformed
-
-    private void jMenu10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu10MouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jMenu10MouseClicked
+        this.setVisible(false);
+        new LoginForm().setVisible(true);
+    }//GEN-LAST:event_btnDangXuatActionPerformed
 
     private void txtMaDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaDVActionPerformed
         // TODO add your handling code here:
@@ -2769,11 +2693,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_pwMatKhauActionPerformed
 
-    private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jMenu5MouseClicked
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -2818,38 +2737,9 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton11ActionPerformed
 
-    private void jMenu11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu11MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenu11MouseClicked
-
-    private void jMenu12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu12MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenu12MouseClicked
-
-    private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jMenu4MouseClicked
-
-    private void jMenuItem9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem9MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem9MouseClicked
-
-    private void jMenuItem10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem10MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem10MouseClicked
-
     private void jMenuItem5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem5MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem5MouseClicked
-
-    private void jMenuItem11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem11MouseClicked
-        // TODO add your handling code here: 
-    }//GEN-LAST:event_jMenuItem11MouseClicked
-
-    private void jMenuItem12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem12MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem12MouseClicked
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         // TODO add your handling code here:
@@ -2955,38 +2845,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GiaoDienChinh.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GiaoDienChinh.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GiaoDienChinh.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GiaoDienChinh.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GiaoDienChinh().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel GD_Chinh;
@@ -3000,6 +2859,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JButton btnCapNhat;
     private javax.swing.JButton btnCapNhatDV;
     private javax.swing.JButton btnCapNhatDV1;
+    private javax.swing.JButton btnDangXuat;
     private javax.swing.ButtonGroup btnGPhong;
     private javax.swing.ButtonGroup btnGTTDV;
     private javax.swing.ButtonGroup btnGTTNV;
@@ -3023,7 +2883,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboSucChua;
     private javax.swing.JComboBox<String> comboXuatXu;
     private javax.swing.JComboBox<String> comboXuatXu1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
@@ -3067,7 +2926,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
@@ -3154,6 +3012,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JLabel lblTen;
     private javax.swing.JLabel lblTenDV;
     private javax.swing.JLabel lblTenDV1;
+    private javax.swing.JLabel lblThongTin;
     private javax.swing.JLabel lblTinhTrang;
     private javax.swing.JLabel lblTinhTrang1;
     private javax.swing.JLabel lblTrangThai;

@@ -209,6 +209,11 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
         btnCapNhat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/system-update.png"))); // NOI18N
         btnCapNhat.setText("Cập nhật thông tin");
         btnCapNhat.setPreferredSize(new java.awt.Dimension(200, 30));
+        btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCapNhatActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 12;
@@ -394,6 +399,8 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
+        them();
+        
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void radioNam1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioNam1ActionPerformed
@@ -435,6 +442,11 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
             Logger.getLogger(GD_KH.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_tableKHMouseClicked
+
+    private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
+        // TODO add your handling code here:
+        update();
+    }//GEN-LAST:event_btnCapNhatActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -563,8 +575,7 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
             String[] data = {ma, cccd, ho,
                 ten, ngaySinh, gt, sdt};
             modelKH.addRow(data);
-            JOptionPane.showMessageDialog(this, "Thêm thuốc Thành Công !");
-
+            JOptionPane.showMessageDialog(this, "Thêm khách hàng thành Công !");
         }
     }
 

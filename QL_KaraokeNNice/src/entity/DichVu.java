@@ -98,7 +98,7 @@ public class DichVu {
 		if(isTinhTrang()) {
 			tinhTrang = "Đang bán";
 		}else {
-			tinhTrang = "Ngừng cung cấp";
+			tinhTrang = "Ngừng bán";
 		}
 		Object[] obj = {getMaDV(), getTenDV(), getDonViBan(), getSoLuongTon(), getDonGia(), getHsd(), getXuatXu(), tinhTrang};
 		return obj;
