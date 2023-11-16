@@ -231,26 +231,26 @@ public final class GD_DatPhong extends javax.swing.JPanel {
                 String name = panel.getName();
                 System.out.println("Tên JPanel: " + name);
                 txtMaPhong.setText(name);
-                int i = phongDAO.kiemTraTrangThaiPhong(name);
-                if (i == 1) {
-                    datphong.setEnabled(true);
-                    nhanphong.setEnabled(true);
-                    huydatphong.setEnabled(false);
-                    traphong.setEnabled(false);
-                    capnhatdv.setEnabled(false);
-                } else if (i == 2) {
-                    huydatphong.setEnabled(true);
-                    nhanphong.setEnabled(true);
-                    datphong.setEnabled(false);
-                    traphong.setEnabled(false);
-                    capnhatdv.setEnabled(false);
-                } else {
-                    traphong.setEnabled(true);
-                    capnhatdv.setEnabled(true);
-                    datphong.setEnabled(false);
-                    huydatphong.setEnabled(false);
-                    nhanphong.setEnabled(false);
-                }
+//                int i = phongDAO.kiemTraTrangThaiPhong(name);
+//                if (i == 1) {
+//                    datphong.setEnabled(true);
+//                    nhanphong.setEnabled(true);
+//                    huydatphong.setEnabled(false);
+//                    traphong.setEnabled(false);
+//                    capnhatdv.setEnabled(false);
+//                } else if (i == 2) {
+//                    huydatphong.setEnabled(true);
+//                    nhanphong.setEnabled(true);
+//                    datphong.setEnabled(false);
+//                    traphong.setEnabled(false);
+//                    capnhatdv.setEnabled(false);
+//                } else {
+//                    traphong.setEnabled(true);
+//                    capnhatdv.setEnabled(true);
+//                    datphong.setEnabled(false);
+//                    huydatphong.setEnabled(false);
+//                    nhanphong.setEnabled(false);
+//                }
                 panel.setBorder(BorderFactory.createLineBorder(Color.red));
             }
         });
