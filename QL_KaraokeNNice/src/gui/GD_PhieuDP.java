@@ -43,7 +43,7 @@ public class GD_PhieuDP extends javax.swing.JPanel {
     private ArrayList<KhachHang> dsKH;
     private ArrayList<NhanVien> dsNV;
     private ArrayList<PhieuDatPhong> dsPDP;
-    
+
     public GD_PhieuDP() {
         try {
             ConnectDB.getInstance().connect();
@@ -68,7 +68,7 @@ public class GD_PhieuDP extends javax.swing.JPanel {
         modelPDP = (DefaultTableModel) tablePhieu.getModel();
         napDuLieuPDP();
     }
-    
+
     private void napDuLieuPDP() {
         dsPDP = pdp_dao.getAllPDP();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -374,7 +374,7 @@ public class GD_PhieuDP extends javax.swing.JPanel {
     }//GEN-LAST:event_txtTGNActionPerformed
 
     private void tablePhieuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePhieuMouseClicked
-         int r = tablePhieu.getSelectedRow();
+        int r = tablePhieu.getSelectedRow();
         txtMaPhieu.setText(modelPDP.getValueAt(r, 0).toString());
         txtTenKH.setText(modelPDP.getValueAt(r, 1).toString());
         txtSDT.setText(modelPDP.getValueAt(r, 2).toString());
@@ -395,7 +395,7 @@ public class GD_PhieuDP extends javax.swing.JPanel {
         modelPDP.getDataVector().removeAllElements();
         napDuLieuPDP();
     }//GEN-LAST:event_txtLamMoiActionPerformed
-    
+
     private PhieuDatPhong LayDuLieuTxtPDP() throws ParseException {
         String maPhieu = txtMaPhieu.getText().trim();
         String maPhong = txtMaPhong.getText().trim();
@@ -414,7 +414,7 @@ public class GD_PhieuDP extends javax.swing.JPanel {
         }
         return new PhieuDatPhong(maPhieu, p, dateGioNhan, trangThai);
     }
-    
+
     private void btnTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimActionPerformed
         String sdt = txtTimSDT.getText().trim();
         dsPDP = pdp_dao.getAllPDPTheoSDT(sdt);
@@ -460,7 +460,8 @@ public class GD_PhieuDP extends javax.swing.JPanel {
                     try {
                         if (pdp_dao.updatePDP(pd)) {
                             JOptionPane.showMessageDialog(null, "Cập nhật thành công");
-                            modelPDP.removeRow(r);
+                            modelPDP.setRowCount(0);
+                            napDuLieuPDP();
                         } else {
                             JOptionPane.showMessageDialog(null, "Không thể sửa, hãy kiểm tra lại");
                         }
@@ -469,7 +470,7 @@ public class GD_PhieuDP extends javax.swing.JPanel {
                     }
                 }
             } catch (ParseException ex) {
-                
+
             }
         }
     }//GEN-LAST:event_btnCapNhatActionPerformed
@@ -478,25 +479,21 @@ public class GD_PhieuDP extends javax.swing.JPanel {
         String maPhieu = txtMaPhieu.getText().trim();
         String maPhong = txtMaPhong.getText().trim();
         String gioNhan = txtTGN.getText().trim();
-        
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date dateGioNhan = dateFormat.parse(gioNhan);
-        
+
         PhieuDatPhong pd = pdp_dao.getPDPTheoMa(maPhieu);
-        
+
         if (!(maPhong.length() > 0 && maPhong.matches("(P)\\d{3}"))) {
             JOptionPane.showMessageDialog(null, "Định dạng mã phòng là P và 3 kí số (Pxxx)");
             txtMaPhong.requestFocus();
             return false;
-        }
-        
-        else if (!(gioNhan.length() > 0 && gioNhan.matches("^\\d{1,2}/\\d{1,2}/\\d{4} \\d{1,2}:\\d{1,2}:\\d{1,2}$"))) {
+        } else if (!(gioNhan.length() > 0 && gioNhan.matches("^\\d{1,2}/\\d{1,2}/\\d{4} \\d{1,2}:\\d{1,2}:\\d{1,2}$"))) {
             JOptionPane.showMessageDialog(null, "Ngày giờ theo định dạng dd/MM/yyyy HH:mm:ss");
             txtTGN.requestFocus();
             return false;
-        }
-        
-        else if (dateGioNhan.compareTo(pd.getThoiGianDat()) <= 0) {
+        } else if (dateGioNhan.compareTo(pd.getThoiGianDat()) <= 0) {
             JOptionPane.showMessageDialog(null, "Thời gian nhận phải lớn hơn thời gian đặt");
             return false;
         }

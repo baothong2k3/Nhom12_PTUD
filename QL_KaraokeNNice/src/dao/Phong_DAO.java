@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import connectDB.ConnectDB;
 import entity.LoaiPhong;
 import entity.Phong;
+import java.sql.Statement;
 
 public class Phong_DAO {
 
@@ -42,6 +43,32 @@ public class Phong_DAO {
             }
         }
         return n;
+    }
+
+    public ArrayList<Phong> getAllPhong() {
+        ArrayList<Phong> dsPhong = new ArrayList<Phong>();
+        try {
+            ConnectDB.getInstance();
+            Connection con = ConnectDB.getConnection();
+            String sql = "SELECT * FROM Phong order by trangThai";
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                String maPhong = rs.getString(1);
+                String loaiPhong = rs.getString(2);
+                LoaiPhong lp = new LoaiPhong(loaiPhong);
+                int soNguoi = rs.getInt(3);
+                String trangThai = rs.getString(4);
+                boolean tinhTrang = rs.getBoolean(5);
+
+                Phong p = new Phong(maPhong, lp, soNguoi, trangThai, tinhTrang);
+                dsPhong.add(p);
+            }
+        } catch (SQLException e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return dsPhong;
     }
 
     public boolean capNhatTrangThaiPhong(String maPhong, String trangThai) {
@@ -125,6 +152,34 @@ public class Phong_DAO {
         return false;
     }
 
+    public boolean kiemTraMaLoaiPhong(String mLP) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+
+        try {
+
+            String sql = "SELECT * FROM LoaiPhong WHERE maLP = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, mLP);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+
+        return false;
+    }
+
     public Phong getPhongTheoMa(String mP) {
         Phong p = null;
         ConnectDB.getInstance();
@@ -186,5 +241,34 @@ public class Phong_DAO {
             }
         }
         return lp;
+    }
+
+    public boolean updatePhong(Phong p) {
+
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement stmt = null;
+        int n = 0;
+
+        try {
+            stmt = con.prepareStatement("UPDATE Phong SET maLP = ?, sucNguoi = ?, trangThai = ?, tinhTrang = ? WHERE maPhong = ?");
+            stmt.setString(1, p.getLoaiPhong().getMaLP());
+            stmt.setInt(2, p.getSoNguoi());
+            stmt.setString(3, p.getTrangThai());
+            stmt.setBoolean(4, p.isTinhTrang());
+            stmt.setString(5, p.getMaPhong());
+            n = stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+
+            }
+        }
+        return n > 0;
     }
 }

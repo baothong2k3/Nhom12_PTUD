@@ -26,8 +26,11 @@ import raven.cell.TableActionCellRender1;
 import raven.cell.TableActionEvent;
 import raven.cell.TableActionEvent1;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 import javax.swing.JOptionPane;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 /**
  *
@@ -155,6 +158,21 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
                 return super.getTableCellRendererComponent(jtable, o, bln, bln1, i, i1);
             }
         });
+        
+        //Tinh Thanh tien tren txt
+        modelDVDaThem.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                int totalAmountColumnIndex = 3;
+                BigDecimal totalAmount = BigDecimal.ZERO;
+                for (int i = 0; i < modelDVDaThem.getRowCount(); i++) {
+                    Double priceDouble = (Double) modelDVDaThem.getValueAt(i, totalAmountColumnIndex);
+                    BigDecimal price = BigDecimal.valueOf(priceDouble);
+                    totalAmount = totalAmount.add(price);
+                }
+                txtTongTien.setText("" + totalAmount);
+            }
+        });
     }
 
     private void customTable() {
@@ -179,7 +197,6 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         panelHeader = new javax.swing.JPanel();
         panelC = new javax.swing.JPanel();
@@ -189,19 +206,19 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtMaPhong = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtTongTien = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableDVDaThem = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        txtTim = new javax.swing.JTextField();
+        btnTim = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableDSDV = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
+        btnThem = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1200, 650));
@@ -260,11 +277,11 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         jLabel3.setText("Tổng tiền");
         jPanel6.add(jLabel3);
 
-        jTextField3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField3.setEnabled(false);
-        jTextField3.setMinimumSize(new java.awt.Dimension(120, 30));
-        jTextField3.setPreferredSize(new java.awt.Dimension(120, 30));
-        jPanel6.add(jTextField3);
+        txtTongTien.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtTongTien.setEnabled(false);
+        txtTongTien.setMinimumSize(new java.awt.Dimension(120, 30));
+        txtTongTien.setPreferredSize(new java.awt.Dimension(120, 30));
+        jPanel6.add(txtTongTien);
 
         jPanel1.add(jPanel6, java.awt.BorderLayout.PAGE_START);
 
@@ -313,35 +330,35 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         jLabel1.setText("Mã dịch vụ");
         jPanel3.add(jLabel1);
 
-        jTextField1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jTextField1.setToolTipText("");
-        jTextField1.setMinimumSize(new java.awt.Dimension(0, 30));
-        jTextField1.setPreferredSize(new java.awt.Dimension(100, 30));
-        jPanel3.add(jTextField1);
+        txtTim.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtTim.setToolTipText("");
+        txtTim.setMinimumSize(new java.awt.Dimension(0, 30));
+        txtTim.setPreferredSize(new java.awt.Dimension(100, 30));
+        jPanel3.add(txtTim);
 
-        jButton1.setBackground(new java.awt.Color(153, 255, 204));
-        jButton1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jButton1.setText("Tìm");
-        jButton1.setMinimumSize(new java.awt.Dimension(0, 30));
-        jButton1.setPreferredSize(new java.awt.Dimension(100, 30));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnTim.setBackground(new java.awt.Color(153, 255, 204));
+        btnTim.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        btnTim.setText("Tìm");
+        btnTim.setMinimumSize(new java.awt.Dimension(0, 30));
+        btnTim.setPreferredSize(new java.awt.Dimension(100, 30));
+        btnTim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnTimActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton1);
+        jPanel3.add(btnTim);
 
-        jButton2.setBackground(new java.awt.Color(204, 204, 204));
-        jButton2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jButton2.setText("Xóa");
-        jButton2.setMinimumSize(new java.awt.Dimension(0, 30));
-        jButton2.setPreferredSize(new java.awt.Dimension(100, 30));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnXoa.setBackground(new java.awt.Color(204, 204, 204));
+        btnXoa.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        btnXoa.setText("Xóa");
+        btnXoa.setMinimumSize(new java.awt.Dimension(0, 30));
+        btnXoa.setPreferredSize(new java.awt.Dimension(100, 30));
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnXoaActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton2);
+        jPanel3.add(btnXoa);
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.NORTH);
 
@@ -394,66 +411,88 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         jPanel5Layout.rowHeights = new int[] {0};
         jPanel5.setLayout(jPanel5Layout);
 
-        jButton4.setBackground(new java.awt.Color(153, 204, 255));
-        jButton4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/back.png"))); // NOI18N
-        jButton4.setText("Quay lại");
-        jButton4.setPreferredSize(new java.awt.Dimension(140, 40));
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnThem.setBackground(new java.awt.Color(153, 204, 255));
+        btnThem.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnThem.setText("Thêm");
+        btnThem.setPreferredSize(new java.awt.Dimension(140, 40));
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnThemActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 20;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        jPanel5.add(jButton4, gridBagConstraints);
+        jPanel5.add(btnThem, new java.awt.GridBagConstraints());
 
         getContentPane().add(jPanel5, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimActionPerformed
+        String maDV = txtTim.getText().trim();
+        DichVu dichVu = dichvudao.getDichVuTheoMa(maDV);
+        modelDSDV.getDataVector().removeAllElements();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String tinhTrang;
+        if (dichVu.isTinhTrang()) {
+            tinhTrang = "Đang bán";
+        } else {
+            tinhTrang = "Ngừng bán";
+        }
+        String sHSD;
+        if (dichVu.getHsd() != null) {
+            sHSD = formatter.format(dichVu.getHsd());
+        } else {
+            sHSD = "";
+        }
+        Double tien = dichVu.getDonGia();
+        modelDSDV.addRow(new Object[]{dichVu.getMaDV(), dichVu.getTenDV(), dichVu.getDonViBan(), dichVu.getSoLuongTon(), tien, sHSD, dichVu.getXuatXu(), tinhTrang});
+    }//GEN-LAST:event_btnTimActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        txtTim.setText("");
+        txtTim.requestFocus();
+    }//GEN-LAST:event_btnXoaActionPerformed
 
     private void txtMaPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaPhongActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMaPhongActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        HoaDon hd = hoaDonDao.getHoaDonTheoMa(txtMaPhong.getText().trim());
+        HoaDon hd = hoaDonDao.getHoaDonTheoMaPhong_TrangThai(txtMaPhong.getText().trim());
         ArrayList<ChiTietDichVu> dsCTDV = new ArrayList<ChiTietDichVu>();
+        int slTonMoi;
         for (int i = 0; i < modelDVDaThem.getRowCount(); i++) {
-            String maDV = modelDVDaThem.getValueAt(i, 0).toString();
-            DichVu dv = dichvudao.getDichVuTheoMa(maDV);
-            String sSL = modelDVDaThem.getValueAt(i, 3).toString();
+            String tenDV = modelDVDaThem.getValueAt(i, 0).toString();
+            DichVu dv = dichvudao.getDichVuTheoTen(tenDV);
+            String sSL = modelDVDaThem.getValueAt(i, 2).toString();
             int sl = Integer.parseInt(sSL);
+            slTonMoi = dv.getSoLuongTon() - sl;
+            if(slTonMoi < 0){
+                JOptionPane.showMessageDialog(null, "Kho không đủ số lượng");
+                return;
+            }else{
+                 dichvudao.updateSLTon(slTonMoi, dv.getMaDV());
+            }
             ChiTietDichVu ctdv = new ChiTietDichVu(dv, sl, hd);
             dsCTDV.add(ctdv);
         }
+        
         if (hoaDonDao.themChiTietDichVu(dsCTDV)) {
             JOptionPane.showMessageDialog(null, "Thêm thành công");
         } else {
             JOptionPane.showMessageDialog(null, "Đã có lỗi");
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btnThemActionPerformed
 
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnTim;
+    private javax.swing.JButton btnXoa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -464,13 +503,13 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel lblTittle;
     private javax.swing.JPanel panelC;
     private javax.swing.JPanel panelHeader;
     private javax.swing.JTable tableDSDV;
     private javax.swing.JTable tableDVDaThem;
     private javax.swing.JTextField txtMaPhong;
+    private javax.swing.JTextField txtTim;
+    private javax.swing.JTextField txtTongTien;
     // End of variables declaration//GEN-END:variables
 }

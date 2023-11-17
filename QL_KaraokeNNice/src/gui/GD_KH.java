@@ -197,6 +197,11 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
         btnTim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/search-user.png"))); // NOI18N
         btnTim.setText("Tìm");
         btnTim.setPreferredSize(new java.awt.Dimension(100, 30));
+        btnTim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 12;
@@ -398,9 +403,10 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
-        them();
-        
+        if (valid()) {
+            them();
+        }
+
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void radioNam1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioNam1ActionPerformed
@@ -408,7 +414,7 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
     }//GEN-LAST:event_radioNam1ActionPerformed
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
-        // TODO add your handling code here:
+        lamMoi();
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
@@ -445,8 +451,23 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
 
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
         // TODO add your handling code here:
-        update();
+        if (valid()) {
+            update();
+        }
     }//GEN-LAST:event_btnCapNhatActionPerformed
+
+    private void btnTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimActionPerformed
+        Object o = evt.getSource();
+        if (o.equals(btnTim)) {
+            String sdt = txtTimKH.getText().trim();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            KhachHang kh = kh_dao.layKhachHangTheoSDT(sdt);
+            xoaTrang();
+            modelKH.getDataVector().removeAllElements();
+            String[] data = {kh.getMaKH(), kh.getSoCCCD(), kh.getHoKH(), kh.getTenKH(), formatter.format(kh.getNamSinhKH()), chuyenGTSangString(kh), kh.getSdtKH(), kh.getEmailKH()};
+            modelKH.addRow(data);
+        }
+    }//GEN-LAST:event_btnTimActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -520,6 +541,7 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
 
             String ngaySinh = dateFormat.format(dateNgaySinh.getDate());
             KhachHang kh = reverSPFromTextField();
+
             if (kh_dao.updateKhachHang(kh)) {
 
                 tableKH.setValueAt(txtCCCD.getText(), row, 1);
@@ -538,12 +560,38 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
 
     }
 
+    private boolean valid() {
+        String ho, ten, cccd, sdt;
+        ho = txtHoKH.getText().trim();
+        ten = txtTenKH.getText().trim();
+        cccd = txtCCCD.getText().trim();
+        sdt = txtSDT.getText().trim();
+        if (!(ho.length() > 0 && ho.matches("^[\\p{L}]*(?:\\h+[\\p{L}]*)*$"))) {
+            JOptionPane.showMessageDialog(null, "Error: Họ khách hàng không có số hay kí tự đặc biệt");
+            txtHoKH.requestFocus();
+            return false;
+        } else if (!(ten.length() > 0 && ten.matches("^[\\p{L}]*$"))) {
+            JOptionPane.showMessageDialog(null, "Error: Tên khách hàng là 1 từ, không có số, hay kí tự đặc biệt");
+            txtTenKH.requestFocus();
+            return false;
+        } else if (!(sdt.length() > 0 && sdt.matches("^\\d{10}$"))) {
+            JOptionPane.showMessageDialog(null, "Error: Số điện thoại là 1 dãy số nguyên có 10 số");
+            txtSDT.requestFocus();
+            return false;
+        } else if (!(cccd.length() >= 0 && cccd.matches("^\\d{12}$"))) {
+            JOptionPane.showMessageDialog(null, "CCCD phải 12 số");
+            txtCCCD.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
     public KhachHang reverSPFromTextField() {
         KhachHang kh = new KhachHang();
 
         radioNu1.setSelected(false);
         radioNam1.setSelected(false);
-        String ma = txtMaKH.getText().toString();
+        String ma = txtMaKH.getText();
         String ho = txtHoKH.getText().toString();
         String ten = txtTenKH.getText().toString();
         String sdt = txtSDT.getText().toString();
@@ -558,19 +606,22 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
     }
 
     public void them() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        KhachHang kh = reverSPFromTextField();
-        String ma = txtMaKH.getText().toString();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String ma = kh_dao.maKH_Auto();
         String ho = txtHoKH.getText().toString();
         String ten = txtTenKH.getText().toString();
         String sdt = txtSDT.getText().toString();
         String cccd = txtCCCD.getText().toString();
         String ngaySinh = dateFormat.format(dateNgaySinh.getDate());
+        Date dNgaySinh = dateNgaySinh.getDate();
         String gt = "Nam";
+        boolean bgt = true;
         if (radioNu1.isSelected()) {
             gt = "Nữ";
+            bgt = false;
         }
 
+        KhachHang kh = new KhachHang(ma, cccd, ho, ten, dNgaySinh, bgt, sdt);
         if (kh_dao.insertKhachHang(kh)) {
             String[] data = {ma, cccd, ho,
                 ten, ngaySinh, gt, sdt};

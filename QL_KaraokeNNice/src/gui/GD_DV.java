@@ -48,6 +48,7 @@ public class GD_DV extends javax.swing.JPanel {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        dichvudao = new DichVu_DAO();
         initComponents();
         tableDichVu();
     }
@@ -63,18 +64,23 @@ public class GD_DV extends javax.swing.JPanel {
     }
 
     private void loadAllDV() {
-        dichvudao = new DichVu_DAO();
         dsDV = dichvudao.getAllDichVu();
         String tinhtrang;
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         for (DichVu dichVu : dsDV) {
             if (dichVu.isTinhTrang()) {
                 tinhtrang = "Đang bán";
             } else {
                 tinhtrang = "Ngừng bán";
             }
+            String sHSD;
+            if (dichVu.getHsd() != null) {
+                sHSD = formatter.format(dichVu.getHsd());
+            } else {
+                sHSD = "";
+            }
             Double tien = dichVu.getDonGia();
-            modelDV.addRow(new Object[]{dichVu.getMaDV(), dichVu.getTenDV(), dichVu.getDonViBan(), dichVu.getSoLuongTon(), tien, dichVu.getHsd(), dichVu.getXuatXu(), tinhtrang});
+            modelDV.addRow(new Object[]{dichVu.getMaDV(), dichVu.getTenDV(), dichVu.getDonViBan(), dichVu.getSoLuongTon(), tien, sHSD, dichVu.getXuatXu(), tinhtrang});
         }
     }
 
@@ -506,13 +512,31 @@ public class GD_DV extends javax.swing.JPanel {
     }//GEN-LAST:event_radioDangBanActionPerformed
 
     private void btnThemDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemDVActionPerformed
-        // TODO add your handling code here:
-
+        if (validDV()) {
+            String ma = dichvudao.maDV_Auto();
+            String ten = txtTenDV.getText();
+            Double gia = Double.parseDouble(txtDonGia.getText());
+            Date han = hsd.getDate();
+            String dvb = comboDVB.getSelectedItem().toString();
+            String xuatxu = comboXuatXu.getSelectedItem().toString();
+            int soluong = spinSoLuong.getValue();
+            Boolean tinhtrang = false;
+            if (radioDangBan.isSelected()) {
+                tinhtrang = true;
+            }
+            DichVu dv = new DichVu(ma, ten, dvb, soluong, gia, han, xuatxu, tinhtrang);
+            if (dichvudao.insertDichVu(dv)) {
+                JOptionPane.showMessageDialog(this, "Thêm thành công!!!");
+                modelDV.setRowCount(0);
+                loadAllDV();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Thêm không thành công!!");
+        }
     }//GEN-LAST:event_btnThemDVActionPerformed
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
-        // TODO add your handling code here:
-        xoaTrang();
+        lamMoi();
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
@@ -521,7 +545,27 @@ public class GD_DV extends javax.swing.JPanel {
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimActionPerformed
-        // TODO add your handling code here:
+        Object o = evt.getSource();
+        if (o.equals(btnTim)) {
+            String maDV = txtTim.getText().trim();
+            DichVu dichVu = dichvudao.getDichVuTheoMa(maDV);
+            modelDV.getDataVector().removeAllElements();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            String tinhTrang;
+            if (dichVu.isTinhTrang()) {
+                tinhTrang = "Đang bán";
+            } else {
+                tinhTrang = "Ngừng bán";
+            }
+            String sHSD;
+            if (dichVu.getHsd() != null) {
+                sHSD = formatter.format(dichVu.getHsd());
+            } else {
+                sHSD = "";
+            }
+            Double tien = dichVu.getDonGia();
+            modelDV.addRow(new Object[]{dichVu.getMaDV(), dichVu.getTenDV(), dichVu.getDonViBan(), dichVu.getSoLuongTon(), tien, sHSD, dichVu.getXuatXu(), tinhTrang});
+        }
     }//GEN-LAST:event_btnTimActionPerformed
 
     private void tableDichVuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDichVuMouseClicked
@@ -533,13 +577,28 @@ public class GD_DV extends javax.swing.JPanel {
         spinSoLuong.setValue((int) modelDV.getValueAt(row, 3));
         Double gia = (Double) modelDV.getValueAt(row, 4);
         txtDonGia.setText(gia + "");
-        try {
-            //date = new SimpleDateFormat("yyy/MM/dd").parse((String) );
+//        try {
+//            //date = new SimpleDateFormat("yyy/MM/dd").parse((String) );
+//            String han = modelDV.getValueAt(row, 5).toString();
+//            Date date = new SimpleDateFormat("dd-MM-yyyy").parse(han);
+//            hsd.setDate(date);
+//        } catch (ParseException ex) {
+//            ex.printStackTrace();
+//        }
+
+        if (modelDV.getValueAt(row, 5) == "") {
+            hsd.setDate(null);
+        } else {
             String han = modelDV.getValueAt(row, 5).toString();
-            Date date = new SimpleDateFormat("dd-MM-yyyy").parse(han);
-            hsd.setDate(date);
-        } catch (ParseException ex) {
-            ex.printStackTrace();
+            Date date;
+            try {
+                date = new SimpleDateFormat("dd-MM-yyyy").parse(han);
+                hsd.setDate(date);
+
+            } catch (ParseException ex) {
+                Logger.getLogger(GD_DV.class
+                        .getName()).log(Level.SEVERE, null, ex);
+            }
         }
         comboXuatXu.setSelectedItem(modelDV.getValueAt(row, 6).toString());
         String tinhtrang = modelDV.getValueAt(row, 7).toString();
@@ -611,8 +670,13 @@ public class GD_DV extends javax.swing.JPanel {
         int row = tableDichVu.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần sửa!!");
+            return;
         }
-        if (row >= 0) {
+        if (tableDichVu.getSelectedRowCount() > 1) {
+            JOptionPane.showMessageDialog(null, "Chỉ được chọn 1 dòng để sửa");
+            return;
+        }
+        if (validDV()) {
             String ma = txtMaDV.getText();
             String ten = txtTenDV.getText();
             Double gia = Double.parseDouble(txtDonGia.getText());
@@ -634,6 +698,55 @@ public class GD_DV extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Sửa không thành công!!");
         }
 
+    }
+
+    public boolean isNumber(String str) {
+        try {
+            double d = Double.parseDouble(str);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validDV() {
+        String tenDV = txtTenDV.getText().trim();
+        if (!(tenDV.length() > 0)) {
+            JOptionPane.showMessageDialog(null, "Tên dịch vụ không trống");
+            txtTenDV.requestFocus();
+            return false;
+        }
+        String sDonGia = txtDonGia.getText().trim();
+        double donGia = Double.parseDouble(sDonGia);
+        if (!(sDonGia.length() > 0)) {
+            JOptionPane.showMessageDialog(null, "Đơn giá không trống");
+            txtDonGia.requestFocus();
+            return false;
+        } else if (!(isNumber(sDonGia))) {
+            JOptionPane.showMessageDialog(null, "Đơn giá phải là số");
+            txtDonGia.requestFocus();
+            return false;
+        } else if (donGia < 0) {
+            JOptionPane.showMessageDialog(null, "Đơn giá phải lớn hơn hoặc bằng 0");
+            txtDonGia.requestFocus();
+            return false;
+        }
+        int sl = spinSoLuong.getValue();
+        String sSL = "" + sl;
+        if (!(sSL.length() > 0)) {
+            JOptionPane.showMessageDialog(null, "số lượng không trống");
+            spinSoLuong.requestFocus();
+            return false;
+        } else if (!(isNumber(sSL))) {
+            JOptionPane.showMessageDialog(null, "Số lượng phải là số");
+            spinSoLuong.requestFocus();
+            return false;
+        } else if (sl < 0) {
+            JOptionPane.showMessageDialog(null, "số lượng phải lớn hơn hoặc bằng 0");
+            spinSoLuong.requestFocus();
+            return false;
+        }
+        return true;
     }
 
 }

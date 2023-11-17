@@ -541,11 +541,12 @@
                   <Font name="Cambria" size="16" style="0"/>
                 </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
+                  <StringArray count="5">
                     <StringItem index="0" value="Qu&#x1ea3;n l&#xfd;"/>
                     <StringItem index="1" value="L&#x1ec5; t&#xe2;n"/>
                     <StringItem index="2" value="B&#x1ea3;o v&#x1ec7;"/>
                     <StringItem index="3" value="Ph&#x1ee5;c v&#x1ee5;"/>
+                    <StringItem index="4" value="&#x110;&#x1ea7;u b&#x1ebf;p"/>
                   </StringArray>
                 </Property>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">

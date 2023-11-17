@@ -62,7 +62,7 @@ public class KhachHang_DAO {
         PreparedStatement statement = null;
 
         try {
-            String sql = "SELECT * FROM KhachHang WHERE sdtKH = ?";
+            String sql = "SELECT Top 1 * FROM KhachHang WHERE sdtKH = ?";
             statement = con.prepareStatement(sql);
             statement.setString(1, sdt);
             ResultSet rs = statement.executeQuery();
@@ -167,7 +167,9 @@ public class KhachHang_DAO {
             stmt.setString(2, kh.getSoCCCD());
             stmt.setString(3, kh.getHoKH());
             stmt.setString(4, kh.getTenKH());
-            stmt.setDate(5, (java.sql.Date) kh.getNamSinhKH());
+            long time = kh.getNamSinhKH().getTime();
+            java.sql.Date sqlDate = new java.sql.Date(time);
+            stmt.setDate(5, sqlDate);
             stmt.setBoolean(6, kh.isGioiTinhKH());
             stmt.setString(7, kh.getSdtKH());
             stmt.setString(8, kh.getEmailKH());
@@ -197,11 +199,13 @@ public class KhachHang_DAO {
         int n = 0;
 
         try {
-            stmt = con.prepareStatement("UPDATE KhachHang SET CCCD= ?, ho = ?, ten = ?, namSinhKH = ?, gioitinh = ?, sdtKH = ?, emailKH = ? WHERE maKH = ?");
+            stmt = con.prepareStatement("UPDATE KhachHang SET CCCD= ?, hoKH = ?, tenKH = ?, namSinhKH = ?, gioitinh = ?, sdtKH = ?, emailKH = ? WHERE maKH = ?");
             stmt.setString(1, kh.getSoCCCD());
             stmt.setString(2, kh.getHoKH());
             stmt.setString(3, kh.getTenKH());
-            stmt.setDate(4, (java.sql.Date) kh.getNamSinhKH());
+            long time = kh.getNamSinhKH().getTime();
+            java.sql.Date sqlDate = new java.sql.Date(time);
+            stmt.setDate(4, sqlDate);
             stmt.setBoolean(5, kh.isGioiTinhKH());
             stmt.setString(6, kh.getSdtKH());
             stmt.setString(7, kh.getEmailKH());

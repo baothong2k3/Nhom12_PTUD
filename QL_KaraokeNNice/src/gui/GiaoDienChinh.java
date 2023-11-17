@@ -259,6 +259,8 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
 
         GD_DichVu.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
         GD_DichVu.setMinimumSize(new java.awt.Dimension(1200, 520));
@@ -2606,6 +2608,16 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
         jMenuBar2.add(jMenu13);
 
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/info.png"))); // NOI18N
+        jMenu2.setText("Thông tin");
+        jMenu2.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jMenuBar2.add(jMenu2);
+
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/question.png"))); // NOI18N
+        jMenu3.setText("Trợ giúp");
+        jMenu3.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jMenuBar2.add(jMenu3);
+
         setJMenuBar(jMenuBar2);
         jMenuBar2.getAccessibleContext().setAccessibleName("");
 
@@ -2941,6 +2953,8 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu12;
     private javax.swing.JMenu jMenu13;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu7;

@@ -99,7 +99,9 @@ public class NhanVien_DAO {
             stmt.setString(2, nv.getSoCCCD());
             stmt.setString(3, nv.getHoNV());
             stmt.setString(4, nv.getTenNV());
-            stmt.setDate(5, (java.sql.Date) nv.getNamSinh());
+            long time = nv.getNamSinh().getTime();
+            java.sql.Date sqlDate = new java.sql.Date(time);
+            stmt.setDate(5, sqlDate);
             stmt.setBoolean(6, nv.isGioiTinhNV());
             stmt.setString(7, nv.getSdtNV());
             stmt.setString(8, nv.getEmailNV());
@@ -133,18 +135,20 @@ public class NhanVien_DAO {
         int n = 0;
 
         try {
-            stmt = con.prepareStatement("UPDATE NhanVien SET CCCD= ?, hoNV = ?, tenNV = ?, namSinhNV = ?, gioitinh = ?, sdtNV = ?, emailNV = ?, diaChiNV = ?, chucvu = ?, matkhau = ?, trangThaiLamViec = ? WHERE maNV = ?");
+            stmt = con.prepareStatement("UPDATE NhanVien SET CCCD= ?, hoNV = ?, tenNV = ?, namSinhNV = ?, gioiTinhNV = ?, sdtNV = ?, emailNV = ?, diaChiNV = ?, chucvu = ?, matkhau = ?, trangThaiLamViec = ? WHERE maNV = ?");
             stmt.setString(1, nv.getSoCCCD());
             stmt.setString(2, nv.getHoNV());
             stmt.setString(3, nv.getTenNV());
-            stmt.setDate(4, (java.sql.Date) nv.getNamSinh());
+            long time = nv.getNamSinh().getTime();
+            java.sql.Date sqlDate = new java.sql.Date(time);
+            stmt.setDate(4, sqlDate);
             stmt.setBoolean(5, nv.isGioiTinhNV());
             stmt.setString(6, nv.getSdtNV());
             stmt.setString(7, nv.getEmailNV());
             stmt.setString(8, nv.getDiaChiNV());
-            stmt.setString(8, nv.getChucVu());
-            stmt.setString(8, nv.getMatKhau());
-            stmt.setBoolean(8, nv.isTrangThaiLamViec());
+            stmt.setString(9, nv.getChucVu());
+            stmt.setString(10, nv.getMatKhau());
+            stmt.setBoolean(11, nv.isTrangThaiLamViec());
             stmt.setString(12, nv.getMaNV());
 
             n = stmt.executeUpdate();
@@ -290,6 +294,47 @@ public class NhanVien_DAO {
             String sql = "SELECT TOP 1 * FROM NhanVien WHERE maNV = ?";
             statement = con.prepareStatement(sql);
             statement.setString(1, mNV);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                nv = new NhanVien();
+                nv.setMaNV(rs.getString(1));
+                nv.setSoCCCD(rs.getString(2));
+                nv.setHoNV(rs.getString(3));
+                nv.setTenNV(rs.getString(4));
+                nv.setNamSinh(rs.getDate(5));
+                nv.setGioiTinhNV(rs.getBoolean(6));
+                nv.setSdtNV(rs.getString(7));
+                nv.setEmailNV(rs.getString(8));
+                nv.setDiaChiNV(rs.getString(9));
+                nv.setChucVu(rs.getString(10));
+                nv.setMatKhau(rs.getString(11));
+                nv.setTrangThaiLamViec(rs.getBoolean(12));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+
+        return nv;
+
+    }
+    
+    public NhanVien getNVTheoSDT(String sdt) {
+        NhanVien nv = null;
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        try {
+
+            String sql = "SELECT TOP 1 * FROM NhanVien WHERE sdtNV = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, sdt);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 nv = new NhanVien();

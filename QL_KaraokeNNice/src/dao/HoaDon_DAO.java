@@ -95,7 +95,7 @@ public class HoaDon_DAO {
         try {
             ConnectDB.getInstance();
             Connection con = ConnectDB.getConnection();
-            String sql = "SELECT * FROM HoaDon";
+            String sql = "SELECT * FROM HoaDon order by trangThai";
             Statement statement = con.createStatement();
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
