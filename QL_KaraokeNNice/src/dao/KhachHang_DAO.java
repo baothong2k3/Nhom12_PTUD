@@ -110,9 +110,17 @@ public class KhachHang_DAO {
         }
 
         String kyTuCuoi = maHienTai.replaceAll("[^0-9]+", "");
-        String kyTuMoi = Integer.toString(Integer.parseInt(kyTuCuoi) + 1);
-
-        maMoi = "KH" + kyTuMoi;
+        int kySoMoi = Integer.parseInt(kyTuCuoi) + 1;
+        if (kySoMoi < 10) {
+            String kyTuMoi = Integer.toString(kySoMoi);
+            maMoi = "KH00" + kyTuMoi;
+        } else if (kySoMoi < 100) {
+            String kyTuMoi = Integer.toString(kySoMoi);
+            maMoi = "KH0" + kyTuMoi;
+        } else {
+            String kyTuMoi = Integer.toString(Integer.parseInt(kyTuCuoi) + 1);
+            maMoi = "KH" + kyTuMoi;
+        }
         return maMoi;
     }
 

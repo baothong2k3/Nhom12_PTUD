@@ -84,9 +84,17 @@ public class HoaDon_DAO {
         }
 
         String kyTuCuoi = maHienTai.replaceAll("[^0-9]+", "");
-        String kyTuMoi = Integer.toString(Integer.parseInt(kyTuCuoi) + 1);
-
-        maMoi = "HD" + kyTuMoi;
+        int kySoMoi = Integer.parseInt(kyTuCuoi) + 1;
+        if (kySoMoi < 10) {
+            String kyTuMoi = Integer.toString(kySoMoi);
+            maMoi = "HD00" + kyTuMoi;
+        } else if (kySoMoi < 100) {
+            String kyTuMoi = Integer.toString(kySoMoi);
+            maMoi = "HD0" + kyTuMoi;
+        } else {
+            String kyTuMoi = Integer.toString(Integer.parseInt(kyTuCuoi) + 1);
+            maMoi = "HD" + kyTuMoi;
+        }
         return maMoi;
     }
 
@@ -167,7 +175,7 @@ public class HoaDon_DAO {
     }
 
     public HoaDon getHoaDonTheoMaPhong_TrangThai(String mP) {
-        HoaDon hd = null;
+        HoaDon hd = new HoaDon();
         ConnectDB.getInstance();
         Connection con = ConnectDB.getConnection();
         PreparedStatement statement = null;
@@ -178,7 +186,7 @@ public class HoaDon_DAO {
             statement.setString(1, mP);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                hd = new HoaDon();
+
                 hd.setMaHD(rs.getString(1));
 
                 KhachHang kh = new KhachHang(rs.getString(2));
@@ -201,6 +209,7 @@ public class HoaDon_DAO {
         } finally {
             try {
                 statement.close();
+                System.out.println(hd.getMaHD());
             } catch (SQLException e2) {
                 e2.printStackTrace();
             }
@@ -429,7 +438,7 @@ public class HoaDon_DAO {
         PreparedStatement stmt = null;
         int n = 0;
         try {
-            for (ChiTietDichVu ctdv : dsCTDV) {             
+            for (ChiTietDichVu ctdv : dsCTDV) {
                 stmt = con.prepareStatement("INSERT INTO ChiTietDichVu VALUES(?, ?, ?)");
                 stmt.setString(1, ctdv.getDichVu().getMaDV());
                 stmt.setInt(2, ctdv.getSoLuong());
@@ -449,5 +458,33 @@ public class HoaDon_DAO {
             }
         }
         return true;
+    }
+
+    public boolean updateCTHD_GKT(String mHD, Date gkt) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement stmt = null;
+        int n = 0;
+        try {
+            stmt = con.prepareStatement("Update ChiTietHoaDon set gioKetThuc = ? where maHD = ?");
+
+            java.sql.Timestamp sqlGKT = new java.sql.Timestamp(gkt.getTime());
+            stmt.setTimestamp(1, sqlGKT);
+
+            stmt.setString(2, mHD);
+            n = stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            try {
+                stmt.close();
+
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+
+            }
+        }
+        return n > 0;
     }
 }

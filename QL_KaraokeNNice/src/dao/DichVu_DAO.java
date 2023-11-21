@@ -270,7 +270,8 @@ public class DichVu_DAO {
         Connection con = ConnectDB.getConnection();
         int n = 0;
         try {
-            String sql = "update DichVu set soLuongTon = ? where maDV = ?";         
+            String sql = "update DichVu set soLuongTon = ? where maDV = ?";
+            stmt = con.prepareStatement(sql);
             stmt.setInt(1, slTonMoi);           
             stmt.setString(2, mDV);
             n = stmt.executeUpdate();

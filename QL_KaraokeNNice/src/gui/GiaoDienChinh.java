@@ -28,7 +28,8 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         String chucvu = nv.getChucVu();
         String tenNV = nv.getHoNV() + " " + nv.getTenNV();
-        lblThongTin.setText(chucvu + " - "+tenNV);
+        lblThongTin.setText(chucvu + " - "+tenNV+" - ");
+        lbl_maNV.setText(nv.getMaNV());
     }
 
     /**
@@ -238,6 +239,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         lblThongTin = new javax.swing.JLabel();
         btnDangXuat = new javax.swing.JButton();
+        lbl_maNV = new javax.swing.JLabel();
         GD_Chinh = new javax.swing.JPanel();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -259,8 +261,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
 
         GD_DichVu.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
         GD_DichVu.setMinimumSize(new java.awt.Dimension(1200, 520));
@@ -2451,9 +2451,17 @@ public class GiaoDienChinh extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
         jPanel4.add(btnDangXuat, gridBagConstraints);
+
+        lbl_maNV.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        lbl_maNV.setText("jLabel1");
+        lbl_maNV.setPreferredSize(new java.awt.Dimension(204, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        jPanel4.add(lbl_maNV, gridBagConstraints);
 
         jPanel2.add(jPanel4);
 
@@ -2607,16 +2615,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jMenu13.add(jMenuItem8);
 
         jMenuBar2.add(jMenu13);
-
-        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/info.png"))); // NOI18N
-        jMenu2.setText("Thông tin");
-        jMenu2.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jMenuBar2.add(jMenu2);
-
-        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/question.png"))); // NOI18N
-        jMenu3.setText("Trợ giúp");
-        jMenu3.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        jMenuBar2.add(jMenu3);
 
         setJMenuBar(jMenuBar2);
         jMenuBar2.getAccessibleContext().setAccessibleName("");
@@ -2785,7 +2783,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         // TODO add your handling code here:
         //disableAllPanel();
-        GD_Chinh.add(new GD_DatPhong(), "datphong");
+        GD_Chinh.add(new GD_DatPhong(lbl_maNV.getText().trim()), "datphong");
         jLabel2.setText("ĐẶT - TRẢ PHÒNG");
         card.show(this.GD_Chinh, "datphong");
         //jPanel1.add(GD_DSPhong, BorderLayout.CENTER);
@@ -2953,8 +2951,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu12;
     private javax.swing.JMenu jMenu13;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu7;
@@ -3032,6 +3028,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JLabel lblTrangThai;
     private javax.swing.JLabel lblXuatXu;
     private javax.swing.JLabel lblXuatXu1;
+    private javax.swing.JLabel lbl_maNV;
     private javax.swing.JPanel panelCenter;
     private javax.swing.JPanel panelCenter1;
     private javax.swing.JPanel panelDSNV;

@@ -204,9 +204,17 @@ public class PhieuDatPhong_DAO {
         }
 
         String kyTuCuoi = maHienTai.replaceAll("[^0-9]+", "");
-        String kyTuMoi = Integer.toString(Integer.parseInt(kyTuCuoi) + 1);
-
-        maMoi = "PDP" + kyTuMoi;
+        int kySoMoi = Integer.parseInt(kyTuCuoi) + 1;
+        if (kySoMoi < 10) {
+            String kyTuMoi = Integer.toString(kySoMoi);
+            maMoi = "PDP00" + kyTuMoi;
+        } else if (kySoMoi < 100) {
+            String kyTuMoi = Integer.toString(kySoMoi);
+            maMoi = "PDP0" + kyTuMoi;
+        } else {
+            String kyTuMoi = Integer.toString(Integer.parseInt(kyTuCuoi) + 1);
+            maMoi = "PDP" + kyTuMoi;
+        }
         return maMoi;
     }
 

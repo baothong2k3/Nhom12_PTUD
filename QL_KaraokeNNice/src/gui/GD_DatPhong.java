@@ -55,11 +55,12 @@ public final class GD_DatPhong extends javax.swing.JPanel {
     private KhachHang_DAO khachhangDAO;
     private HoaDon_DAO hoadonDAO;
     private NhanVien_DAO nhanvienDAO;
+    String maNV;
 
     /**
      * Creates new form GD_DatPhong
      */
-    public GD_DatPhong() {
+    public GD_DatPhong(String maNV_GDC) {
         try {
             ConnectDB.getInstance().connect();
         } catch (Exception e) {
@@ -67,10 +68,12 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         }
         initComponents();
         hienThiNgay();
+        maNV = maNV_GDC;
         phongDAO = new Phong_DAO();
         khachhangDAO = new KhachHang_DAO();
         hoadonDAO = new HoaDon_DAO();
         nhanvienDAO = new NhanVien_DAO();
+        phieudatphongdao = new PhieuDatPhong_DAO();
         loadAllPhong();
         datphong.setMnemonic(KeyEvent.VK_1);
         huydatphong.setMnemonic(KeyEvent.VK_2);
@@ -231,25 +234,45 @@ public final class GD_DatPhong extends javax.swing.JPanel {
                 String name = panel.getName();
                 System.out.println("Tên JPanel: " + name);
                 txtMaPhong.setText(name);
-//                int i = phongDAO.kiemTraTrangThaiPhong(name);
-//                if (i == 1) {
+                int i = phongDAO.kiemTraTrangThaiPhong(name);
+           
+                if (i == 1) {
+                    datphong.setEnabled(true);
+                    nhanphong.setEnabled(true);
+                    huydatphong.setEnabled(false);
+                    traphong.setEnabled(false);
+                    capnhatdv.setEnabled(false);
+                } else if (i == 2) {
+                    huydatphong.setEnabled(true);
+                    nhanphong.setEnabled(true);
+                    datphong.setEnabled(false);   //mod
+                    traphong.setEnabled(false);
+                    capnhatdv.setEnabled(false);
+                } else {
+                    traphong.setEnabled(true);
+                    capnhatdv.setEnabled(true);
+                    datphong.setEnabled(false);
+                    huydatphong.setEnabled(false);
+                    nhanphong.setEnabled(false);
+                }
+                
+                //tinh thoi luong giua gio dat hien tai va gio nhan truoc do
+//                Date gioHienTai = new Date();
+//                PhieuDatPhong pdp = phieudatphongdao.getPDPTheoMaPhong(name);
+//                long khoangCachThoiGian = gioHienTai.getTime() - pdp.getThoiGianNhan().getTime();
+//                double thoiLuong = khoangCachThoiGian / (60 * 60 * 1000);
+//                if(thoiLuong >= 1.5){
 //                    datphong.setEnabled(true);
 //                    nhanphong.setEnabled(true);
 //                    huydatphong.setEnabled(false);
 //                    traphong.setEnabled(false);
 //                    capnhatdv.setEnabled(false);
-//                } else if (i == 2) {
-//                    huydatphong.setEnabled(true);
-//                    nhanphong.setEnabled(true);
+//                }else{
 //                    datphong.setEnabled(false);
+//                    nhanphong.setEnabled(true);
+//                    huydatphong.setEnabled(false);
 //                    traphong.setEnabled(false);
 //                    capnhatdv.setEnabled(false);
-//                } else {
-//                    traphong.setEnabled(true);
-//                    capnhatdv.setEnabled(true);
-//                    datphong.setEnabled(false);
-//                    huydatphong.setEnabled(false);
-//                    nhanphong.setEnabled(false);
 //                }
                 panel.setBorder(BorderFactory.createLineBorder(Color.red));
             }
@@ -614,10 +637,9 @@ public final class GD_DatPhong extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void datphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_datphongActionPerformed
-        // TODO add your handling code here:
         String maP = txtMaPhong.getText();
         Phong phong = phongDAO.getPhongTheoMa(maP);
-        new Form_DatPhong(phong).setVisible(true);
+        new Form_DatPhong(phong, maNV).setVisible(true);
     }//GEN-LAST:event_datphongActionPerformed
 
     private void huydatphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_huydatphongActionPerformed
@@ -680,7 +702,6 @@ public final class GD_DatPhong extends javax.swing.JPanel {
     }//GEN-LAST:event_nhanphongActionPerformed
 
     private void traphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_traphongActionPerformed
-        // TODO add your handling code here:
         int xacnhan = JOptionPane.showConfirmDialog(this,
                 "Xác nhận trả phòng?", "Thông báo",
                 JOptionPane.YES_NO_OPTION);
@@ -689,7 +710,8 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         }
         String ma = txtMaPhong.getText();
         HoaDon hd = hoadonDAO.getHoaDonTheoMaPhong_TrangThai(ma);
-        phongDAO.capNhatTrangThaiPhong(ma, "Trống");
+        Date gkt = new Date();
+        hoadonDAO.updateCTHD_GKT(hd.getMaHD(), gkt);
         new Form.Form_HoaDon(hd).setVisible(true);
     }//GEN-LAST:event_traphongActionPerformed
 

@@ -99,6 +99,7 @@ public class Form_HoaDon extends javax.swing.JFrame {
         table(hd);
         updateLable(hd);
     }
+
     private void table(HoaDon hd) {
         java.awt.Font fo = new java.awt.Font("Cambria", Font.BOLD, 18);
         tableCTHD.getTableHeader().setFont(fo);
@@ -510,6 +511,12 @@ public class Form_HoaDon extends javax.swing.JFrame {
         if (o.equals(btnThanhToan)) {
             String maHD = lblMaHD.getText().trim();
             HoaDon hd = hd_dao.getHoaDonTheoMa(maHD);
+            dsCTHD = hd_dao.getAllCTHDTheoMaHD(maHD);
+            for (ChiTietHoaDon cthd : dsCTHD) {
+                Phong p = phong_dao.getPhongTheoMa(cthd.getPhong().getMaPhong());
+                LoaiPhong lp = phong_dao.getLoaiPhongTheoMa(p.getLoaiPhong().getMaLP());
+                phong_dao.capNhatTrangThaiPhong(p.getMaPhong(), "Trống");
+            }
 
             if (hd.isTrangThai()) {
                 JOptionPane.showMessageDialog(null, "Hóa đơn đã thanh toán");
@@ -595,6 +602,9 @@ public class Form_HoaDon extends javax.swing.JFrame {
         Document doc = new Document();
         doc.setPageSize(PageSize._11X17);
         try {
+            Locale localeVN = new Locale("vi", "VN");
+            NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
+            
             PdfWriter.getInstance(doc, new FileOutputStream(path));
 
             BaseFont bf = BaseFont.createFont(fontFile.getAbsolutePath(), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
@@ -691,12 +701,21 @@ public class Form_HoaDon extends javax.swing.JFrame {
             doc.add(new Paragraph("Tổng tiền (VAT): " + lblTongTienVAT.getText().trim(), font));
             String maHD = lblMaHD.getText().trim();
             HoaDon hd = hd_dao.getHoaDonTheoMa(maHD);
-            if (!hd.isTrangThai()) {
+            
+            if(txtTienNhan.getText().trim().length()>0){
+                Double tienNhan = Double.parseDouble(txtTienNhan.getText().trim());
+                String sTienNhan = currencyVN.format(tienNhan);
+                doc.add(new Paragraph("Tiền nhận: " + sTienNhan, font));
+            }else{
                 doc.add(new Paragraph("Tiền nhận: " + txtTienNhan.getText().trim(), font));
-                doc.add(new Paragraph("Tiền thừa: " + lblTienThua.getText().trim(), font));
-            } else {
-                doc.add(new Paragraph("Đã thanh toán: " + lblTongTienVAT.getText().trim(), font));
             }
+            doc.add(new Paragraph("Tiền thừa: " + lblTienThua.getText().trim(), font));
+//            if (!hd.isTrangThai()) {
+//                doc.add(new Paragraph("Tiền nhận: " + txtTienNhan.getText().trim(), font));
+//                doc.add(new Paragraph("Tiền thừa: " + lblTienThua.getText().trim(), font));
+//            } else {
+//                doc.add(new Paragraph("Đã thanh toán: " + lblTongTienVAT.getText().trim(), font));
+//            }
 
             doc.close();
             if (xacNhan == JOptionPane.YES_OPTION) {

@@ -39,11 +39,12 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
     private PhieuDatPhong_DAO phieudatphongdao;
     private NhanVien_DAO nhanviendao;
     private Phong phong;
-
+    String maNV_use;
     /**
      * Creates new form FormDatPhong
      */
-    public Form_DatPhong(Phong phong) {
+    public Form_DatPhong(Phong phong, String maNV) {
+        maNV_use = maNV;
         this.phong = phong;
         initComponents();
         setLocationRelativeTo(null);
@@ -95,16 +96,22 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
     public KhachHang kiemTraSDTKhach() {
         khachhangdao = new KhachHang_DAO();
         nhanviendao = new NhanVien_DAO();
-        String sdt = txtSDT.getText();
-        if (sdt.trim().length() == 0) {
-            JOptionPane.showMessageDialog(this, "Bạn chưa nhập số điện thoại Khách");
-            txtSDT.selectAll();
-            txtSDT.requestFocus();
-            return null;
-        }
-        if (!sdt.matches(
-                "(^(03)[2-9]\\d{7})|(^(07)[06-9]\\d{7})|(^(08)[1-5]\\d{7})|(^(056)\\d{7})|(^(058)\\d{7})|(^(059)\\d{7})|(^(09)[0-46-9]\\d{7})")) {
-            JOptionPane.showMessageDialog(this, "Số điện thoại không đúng địng dạng");
+        String sdt = txtSDT.getText().trim();
+//        if (sdt.trim().length() == 0) {
+//            JOptionPane.showMessageDialog(this, "Bạn chưa nhập số điện thoại Khách");
+//            txtSDT.selectAll();
+//            txtSDT.requestFocus();
+//            return null;
+//        }
+//        if (!sdt.matches(
+//                "(^(03)[2-9]\\d{7})|(^(07)[06-9]\\d{7})|(^(08)[1-5]\\d{7})|(^(056)\\d{7})|(^(058)\\d{7})|(^(059)\\d{7})|(^(09)[0-46-9]\\d{7})")) {
+//            JOptionPane.showMessageDialog(this, "Số điện thoại không đúng địng dạng");
+//            txtSDT.selectAll();
+//            txtSDT.requestFocus();
+//            return null;
+//        }
+        if (!(sdt.length() > 0 && sdt.matches("^\\d{10}$"))) {
+            JOptionPane.showMessageDialog(null, "Error: Số điện thoại là 1 dãy số nguyên có 10 số");
             txtSDT.selectAll();
             txtSDT.requestFocus();
             return null;
@@ -469,7 +476,7 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
             return;
         }
         String maphieu = phieudatphongdao.maPDP_Auto();
-        NhanVien nv = nhanviendao.getNhanVienTheoMa("NV002");
+        NhanVien nv = nhanviendao.getNhanVienTheoMa(maNV_use);
         PhieuDatPhong phieuDatPhong = new PhieuDatPhong(maphieu, khachHang, nv, phong, new Date(), date, false);
         if (!phongdao.capNhatTrangThaiPhong(phong.getMaPhong(),"Đã được đặt")
                 || !phieudatphongdao.themPhieuDatPhong(phieuDatPhong)) {

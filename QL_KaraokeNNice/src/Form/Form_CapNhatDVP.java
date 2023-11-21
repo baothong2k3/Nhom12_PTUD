@@ -54,6 +54,7 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        hoaDonDao = new HoaDon_DAO();
         initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
@@ -158,7 +159,7 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
                 return super.getTableCellRendererComponent(jtable, o, bln, bln1, i, i1);
             }
         });
-        
+
         //Tinh Thanh tien tren txt
         modelDVDaThem.addTableModelListener(new TableModelListener() {
             @Override
@@ -458,7 +459,7 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMaPhongActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
+        System.out.println(txtMaPhong.getText().trim());
         HoaDon hd = hoaDonDao.getHoaDonTheoMaPhong_TrangThai(txtMaPhong.getText().trim());
         ArrayList<ChiTietDichVu> dsCTDV = new ArrayList<ChiTietDichVu>();
         int slTonMoi;
@@ -468,16 +469,18 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
             String sSL = modelDVDaThem.getValueAt(i, 2).toString();
             int sl = Integer.parseInt(sSL);
             slTonMoi = dv.getSoLuongTon() - sl;
-            if(slTonMoi < 0){
+            if (slTonMoi < 0) {
                 JOptionPane.showMessageDialog(null, "Kho không đủ số lượng");
                 return;
-            }else{
-                 dichvudao.updateSLTon(slTonMoi, dv.getMaDV());
+            } else {
+                dichvudao.updateSLTon(slTonMoi, dv.getMaDV());
+                modelDSDV.setRowCount(0);
+                loadAllDV();
             }
             ChiTietDichVu ctdv = new ChiTietDichVu(dv, sl, hd);
             dsCTDV.add(ctdv);
         }
-        
+
         if (hoaDonDao.themChiTietDichVu(dsCTDV)) {
             JOptionPane.showMessageDialog(null, "Thêm thành công");
         } else {
