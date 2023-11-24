@@ -124,6 +124,37 @@ public class Phong_DAO {
         return dsP;
     }
 
+    public ArrayList<Phong> layDSPhongTheoTrangThai(String strangThai) {
+        ArrayList<Phong> dsP = new ArrayList<Phong>();
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement psm = null;
+        try {
+            String sql = "Select * from PHONG where trangThai = ?";
+            psm = con.prepareStatement(sql);
+            psm.setString(1, strangThai);
+            ResultSet rs = psm.executeQuery();
+            while (rs.next()) {
+                String maPhong = rs.getString(1);
+                String maLP = rs.getString(2);
+                int sucNguoi = rs.getInt(3);
+                String trangThai = rs.getString(4);
+                boolean tinhTrang = rs.getBoolean(5);
+                Phong p = new Phong(maPhong, new LoaiPhong(maLP), sucNguoi, trangThai, tinhTrang);
+                dsP.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                psm.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return dsP;
+    }
+
     public boolean kiemTraMaPhong(String mP) {
         ConnectDB.getInstance();
         Connection con = ConnectDB.getConnection();

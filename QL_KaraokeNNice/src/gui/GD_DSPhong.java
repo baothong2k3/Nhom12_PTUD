@@ -74,7 +74,7 @@ public class GD_DSPhong extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        btngTrangThai = new javax.swing.ButtonGroup();
+        btngTinhTrang = new javax.swing.ButtonGroup();
         GD_DSPhong = new javax.swing.JPanel();
         panelNorth2 = new javax.swing.JPanel();
         lblMaDV1 = new javax.swing.JLabel();
@@ -268,7 +268,7 @@ public class GD_DSPhong extends javax.swing.JPanel {
         panelNorth2.add(lblTinhTrang, gridBagConstraints);
 
         radioBaoTri.setBackground(new java.awt.Color(255, 255, 255));
-        btngTrangThai.add(radioBaoTri);
+        btngTinhTrang.add(radioBaoTri);
         radioBaoTri.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         radioBaoTri.setText("Bảo trì");
         radioBaoTri.addActionListener(new java.awt.event.ActionListener() {
@@ -283,7 +283,7 @@ public class GD_DSPhong extends javax.swing.JPanel {
         panelNorth2.add(radioBaoTri, gridBagConstraints);
 
         radioSanSang.setBackground(new java.awt.Color(255, 255, 255));
-        btngTrangThai.add(radioSanSang);
+        btngTinhTrang.add(radioSanSang);
         radioSanSang.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         radioSanSang.setText("Sẵn sàng");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -602,7 +602,7 @@ public class GD_DSPhong extends javax.swing.JPanel {
     private javax.swing.JButton btnLamMoi;
     private javax.swing.JButton btnTim;
     private javax.swing.JButton btnXoa;
-    private javax.swing.ButtonGroup btngTrangThai;
+    private javax.swing.ButtonGroup btngTinhTrang;
     private javax.swing.JComboBox<String> comboSucChua;
     private javax.swing.JComboBox<String> comboTrangThai;
     private javax.swing.JLabel lblDonGia1;

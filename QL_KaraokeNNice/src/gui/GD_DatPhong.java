@@ -235,7 +235,7 @@ public final class GD_DatPhong extends javax.swing.JPanel {
                 System.out.println("Tên JPanel: " + name);
                 txtMaPhong.setText(name);
                 int i = phongDAO.kiemTraTrangThaiPhong(name);
-           
+
                 if (i == 1) {
                     datphong.setEnabled(true);
                     nhanphong.setEnabled(true);
@@ -255,7 +255,7 @@ public final class GD_DatPhong extends javax.swing.JPanel {
                     huydatphong.setEnabled(false);
                     nhanphong.setEnabled(false);
                 }
-                
+
                 //tinh thoi luong giua gio dat hien tai va gio nhan truoc do
 //                Date gioHienTai = new Date();
 //                PhieuDatPhong pdp = phieudatphongdao.getPDPTheoMaPhong(name);
@@ -288,6 +288,16 @@ public final class GD_DatPhong extends javax.swing.JPanel {
     //
     public void loadAllPhong() {
         ArrayList<Phong> dsP = phongDAO.layDSPhong();
+        for (Phong phong : dsP) {
+            String maLP = phong.getLoaiPhong().getMaLP();
+            LoaiPhong loaiphong = phongDAO.getLoaiPhongTheoMa(maLP);
+            JPanel pnP = taoPanelPhong(phong, loaiphong);
+            panelPhong.add(pnP);
+        }
+    }
+
+    public void loadDSPhongTheoTrangThai(String trangThai) {
+        ArrayList<Phong> dsP = phongDAO.layDSPhongTheoTrangThai(trangThai);
         for (Phong phong : dsP) {
             String maLP = phong.getLoaiPhong().getMaLP();
             LoaiPhong loaiphong = phongDAO.getLoaiPhongTheoMa(maLP);
@@ -395,6 +405,11 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         jComboBox1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Đang sử dụng", "Đã được đặt", "Trống" }));
         jComboBox1.setPreferredSize(new java.awt.Dimension(150, 30));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -723,10 +738,25 @@ public final class GD_DatPhong extends javax.swing.JPanel {
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
         panelPhong.removeAll();
-        panelPhong.resetKeyboardActions();
+        panelPhong.repaint();
+        panelPhong.revalidate();
         loadAllPhong();
     }//GEN-LAST:event_jButton13ActionPerformed
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        String trangThai = jComboBox1.getSelectedItem().toString();
+        panelPhong.removeAll();
+        if (trangThai.equalsIgnoreCase("Tất cả")) {
+            panelPhong.repaint();
+            panelPhong.revalidate();
+            loadAllPhong();
+        } else {
+            panelPhong.repaint();
+            panelPhong.revalidate();
+            loadDSPhongTheoTrangThai(trangThai);
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel GD_Phong;
