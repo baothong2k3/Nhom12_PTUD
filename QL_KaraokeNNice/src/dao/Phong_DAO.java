@@ -124,6 +124,68 @@ public class Phong_DAO {
         return dsP;
     }
 
+    public ArrayList<Phong> layDSPhongTheoSoNguoi(int soNguoi) {
+        ArrayList<Phong> dsP = new ArrayList<Phong>();
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement psm = null;
+        try {
+            String sql = "Select * from PHONG where sucNguoi = ?";
+            psm = con.prepareStatement(sql);
+            psm.setInt(1, soNguoi);
+            ResultSet rs = psm.executeQuery();
+            while (rs.next()) {
+                String maPhong = rs.getString(1);
+                String maLP = rs.getString(2);
+                int sucNguoi = rs.getInt(3);
+                String trangThai = rs.getString(4);
+                boolean tinhTrang = rs.getBoolean(5);
+                Phong p = new Phong(maPhong, new LoaiPhong(maLP), sucNguoi, trangThai, tinhTrang);
+                dsP.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                psm.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return dsP;
+    }
+
+    public ArrayList<Phong> layDSPhongTheoLoaiPhong(String loaiP) {
+        ArrayList<Phong> dsP = new ArrayList<Phong>();
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement psm = null;
+        try {
+            String sql = "Select * from PHONG where maLP = ?";
+            psm = con.prepareStatement(sql);
+            psm.setString(1, loaiP);
+            ResultSet rs = psm.executeQuery();
+            while (rs.next()) {
+                String maPhong = rs.getString(1);
+                String maLP = rs.getString(2);
+                int sucNguoi = rs.getInt(3);
+                String trangThai = rs.getString(4);
+                boolean tinhTrang = rs.getBoolean(5);
+                Phong p = new Phong(maPhong, new LoaiPhong(maLP), sucNguoi, trangThai, tinhTrang);
+                dsP.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                psm.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return dsP;
+    }
+
     public ArrayList<Phong> layDSPhongTheoTrangThai(String strangThai) {
         ArrayList<Phong> dsP = new ArrayList<Phong>();
         ConnectDB.getInstance();
@@ -133,6 +195,100 @@ public class Phong_DAO {
             String sql = "Select * from PHONG where trangThai = ?";
             psm = con.prepareStatement(sql);
             psm.setString(1, strangThai);
+            ResultSet rs = psm.executeQuery();
+            while (rs.next()) {
+                String maPhong = rs.getString(1);
+                String maLP = rs.getString(2);
+                int sucNguoi = rs.getInt(3);
+                String trangThai = rs.getString(4);
+                boolean tinhTrang = rs.getBoolean(5);
+                Phong p = new Phong(maPhong, new LoaiPhong(maLP), sucNguoi, trangThai, tinhTrang);
+                dsP.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                psm.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return dsP;
+    }
+
+    public ArrayList<Phong> layDSPhongTheoTrangThaiSoNguoi(String strangThai, int soNguoi) {
+        ArrayList<Phong> dsP = new ArrayList<Phong>();
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement psm = null;
+        try {
+            String sql = "Select * from PHONG where trangThai = ? and sucNguoi = ?";
+            psm = con.prepareStatement(sql);
+            psm.setString(1, strangThai);
+            psm.setInt(2, soNguoi);
+            ResultSet rs = psm.executeQuery();
+            while (rs.next()) {
+                String maPhong = rs.getString(1);
+                String maLP = rs.getString(2);
+                int sucNguoi = rs.getInt(3);
+                String trangThai = rs.getString(4);
+                boolean tinhTrang = rs.getBoolean(5);
+                Phong p = new Phong(maPhong, new LoaiPhong(maLP), sucNguoi, trangThai, tinhTrang);
+                dsP.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                psm.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return dsP;
+    }
+
+    public ArrayList<Phong> layDSPhongTheoTieuChi(String strangThai, String soNguoi, String loaiP) {
+        ArrayList<Phong> dsP = new ArrayList<Phong>();
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement psm = null;
+        String sql;
+        String lphong;
+        int soN = 0;
+        if (!soNguoi.equalsIgnoreCase("Tất cả")) {
+            soN = Integer.parseInt(soNguoi);
+        }
+        if (loaiP.equalsIgnoreCase("Phòng thường")) {
+            lphong = "PT001";
+        } else {
+            lphong = "PV001";
+        }
+        try {
+            if (strangThai.equalsIgnoreCase("Tất cả") && !soNguoi.equalsIgnoreCase("Tất cả") && !loaiP.equalsIgnoreCase("Tất cả")) {
+                sql = "Select * from PHONG where sucNguoi = ? and maLP = ?";
+                psm = con.prepareStatement(sql);
+                psm.setInt(1, soN);
+                psm.setString(2, lphong);
+
+            } else if (!strangThai.equalsIgnoreCase("Tất cả") && soNguoi.equalsIgnoreCase("Tất cả") && !loaiP.equalsIgnoreCase("Tất cả")) {
+                sql = "Select * from PHONG where trangThai = ? and maLP = ?";
+                psm = con.prepareStatement(sql);
+                psm.setString(1, strangThai);
+                psm.setString(2, lphong);
+            } else if (!strangThai.equalsIgnoreCase("Tất cả") && !soNguoi.equalsIgnoreCase("Tất cả") && loaiP.equalsIgnoreCase("Tất cả")) {
+                sql = "Select * from PHONG where trangThai = ? and sucNguoi = ?";
+                psm = con.prepareStatement(sql);
+                psm.setString(1, strangThai);
+                psm.setInt(2, soN);
+            } else {
+                sql = "Select * from PHONG where trangThai = ? and sucNguoi = ? and maLP = ?";
+                psm = con.prepareStatement(sql);
+                psm.setString(1, strangThai);
+                psm.setInt(2, soN);
+                psm.setString(3, lphong);
+            }
             ResultSet rs = psm.executeQuery();
             while (rs.next()) {
                 String maPhong = rs.getString(1);

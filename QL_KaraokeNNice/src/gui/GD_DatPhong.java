@@ -235,25 +235,28 @@ public final class GD_DatPhong extends javax.swing.JPanel {
                 System.out.println("Tên JPanel: " + name);
                 txtMaPhong.setText(name);
                 int i = phongDAO.kiemTraTrangThaiPhong(name);
-
-                if (i == 1) {
-                    datphong.setEnabled(true);
-                    nhanphong.setEnabled(true);
-                    huydatphong.setEnabled(false);
-                    traphong.setEnabled(false);
-                    capnhatdv.setEnabled(false);
-                } else if (i == 2) {
-                    huydatphong.setEnabled(true);
-                    nhanphong.setEnabled(true);
-                    datphong.setEnabled(false);   //mod
-                    traphong.setEnabled(false);
-                    capnhatdv.setEnabled(false);
-                } else {
-                    traphong.setEnabled(true);
-                    capnhatdv.setEnabled(true);
-                    datphong.setEnabled(false);
-                    huydatphong.setEnabled(false);
-                    nhanphong.setEnabled(false);
+                switch (i) {
+                    case 1 -> {
+                        datphong.setEnabled(true);
+                        nhanphong.setEnabled(true);
+                        huydatphong.setEnabled(false);
+                        traphong.setEnabled(false);
+                        capnhatdv.setEnabled(false);
+                    }
+                    case 2 -> {
+                        huydatphong.setEnabled(true);
+                        nhanphong.setEnabled(true);
+                        datphong.setEnabled(false);   //mod
+                        traphong.setEnabled(false);
+                        capnhatdv.setEnabled(false);
+                    }
+                    default -> {
+                        traphong.setEnabled(true);
+                        capnhatdv.setEnabled(true);
+                        datphong.setEnabled(false);
+                        huydatphong.setEnabled(false);
+                        nhanphong.setEnabled(false);
+                    }
                 }
 
                 //tinh thoi luong giua gio dat hien tai va gio nhan truoc do
@@ -306,6 +309,43 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         }
     }
 
+    public void loadDSPhongTheoLoaiPhong(String loaiP) {
+        String lp;
+        if (loaiP.equalsIgnoreCase("Phòng thường")) {
+            lp = "PT001";
+        } else {
+            lp = "PV001";
+        }
+        ArrayList<Phong> dsP = phongDAO.layDSPhongTheoLoaiPhong(lp);
+        for (Phong phong : dsP) {
+            String maLP = phong.getLoaiPhong().getMaLP();
+            LoaiPhong loaiphong = phongDAO.getLoaiPhongTheoMa(maLP);
+            JPanel pnP = taoPanelPhong(phong, loaiphong);
+            panelPhong.add(pnP);
+        }
+    }
+
+    public void loadDSPhongTheoSoNguoi(String soNguoi) {
+        int soN = Integer.parseInt(soNguoi);
+        ArrayList<Phong> dsP = phongDAO.layDSPhongTheoSoNguoi(soN);
+        for (Phong phong : dsP) {
+            String maLP = phong.getLoaiPhong().getMaLP();
+            LoaiPhong loaiphong = phongDAO.getLoaiPhongTheoMa(maLP);
+            JPanel pnP = taoPanelPhong(phong, loaiphong);
+            panelPhong.add(pnP);
+        }
+    }
+
+    public void loadDSPhongTheoTieuChi(String strangThai, String soNguoi, String loaiP) {
+        ArrayList<Phong> dsP = phongDAO.layDSPhongTheoTieuChi(strangThai, soNguoi, loaiP);
+        for (Phong phong : dsP) {
+            String maLP = phong.getLoaiPhong().getMaLP();
+            LoaiPhong loaiphong = phongDAO.getLoaiPhongTheoMa(maLP);
+            JPanel pnP = taoPanelPhong(phong, loaiphong);
+            panelPhong.add(pnP);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -324,9 +364,9 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        comboTrangThai = new javax.swing.JComboBox<>();
+        comboLoaiPhong = new javax.swing.JComboBox<>();
+        comboSoNguoi = new javax.swing.JComboBox<>();
         txtMaPhong = new javax.swing.JTextField();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
@@ -402,34 +442,44 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel13.add(jLabel19, gridBagConstraints);
 
-        jComboBox1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Đang sử dụng", "Đã được đặt", "Trống" }));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(150, 30));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        comboTrangThai.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        comboTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Đang sử dụng", "Đã được đặt", "Trống" }));
+        comboTrangThai.setPreferredSize(new java.awt.Dimension(150, 30));
+        comboTrangThai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                comboTrangThaiActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        jPanel13.add(jComboBox1, gridBagConstraints);
+        jPanel13.add(comboTrangThai, gridBagConstraints);
 
-        jComboBox2.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Phòng thường", "Phòng VIP" }));
-        jComboBox2.setPreferredSize(new java.awt.Dimension(150, 30));
+        comboLoaiPhong.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        comboLoaiPhong.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Phòng thường", "Phòng VIP" }));
+        comboLoaiPhong.setPreferredSize(new java.awt.Dimension(150, 30));
+        comboLoaiPhong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboLoaiPhongActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
-        jPanel13.add(jComboBox2, gridBagConstraints);
+        jPanel13.add(comboLoaiPhong, gridBagConstraints);
 
-        jComboBox3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "10", "15", "20" }));
-        jComboBox3.setPreferredSize(new java.awt.Dimension(150, 30));
+        comboSoNguoi.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        comboSoNguoi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "10", "15", "20" }));
+        comboSoNguoi.setPreferredSize(new java.awt.Dimension(150, 30));
+        comboSoNguoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboSoNguoiActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 2;
-        jPanel13.add(jComboBox3, gridBagConstraints);
+        jPanel13.add(comboSoNguoi, gridBagConstraints);
 
         txtMaPhong.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         txtMaPhong.setPreferredSize(new java.awt.Dimension(150, 30));
@@ -443,6 +493,11 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         jButton12.setForeground(new java.awt.Color(255, 255, 255));
         jButton12.setText("Tìm");
         jButton12.setPreferredSize(new java.awt.Dimension(120, 30));
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 0;
@@ -740,34 +795,123 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         panelPhong.removeAll();
         panelPhong.repaint();
         panelPhong.revalidate();
+        comboLoaiPhong.setSelectedIndex(0);
+        comboSoNguoi.setSelectedIndex(0);
+        comboTrangThai.setSelectedIndex(0);
+        txtMaPhong.setText("");
         loadAllPhong();
     }//GEN-LAST:event_jButton13ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void comboTrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTrangThaiActionPerformed
         // TODO add your handling code here:
-        String trangThai = jComboBox1.getSelectedItem().toString();
+        String trangThai = comboTrangThai.getSelectedItem().toString();
+        String loaiP = comboLoaiPhong.getSelectedItem().toString();
+        String soNguoi = comboSoNguoi.getSelectedItem().toString();
         panelPhong.removeAll();
-        if (trangThai.equalsIgnoreCase("Tất cả")) {
+        if (trangThai.equalsIgnoreCase("Tất cả") && loaiP.equalsIgnoreCase("Tất cả") && soNguoi.equalsIgnoreCase("Tất cả")) {
             panelPhong.repaint();
             panelPhong.revalidate();
             loadAllPhong();
-        } else {
+        } else if (!trangThai.equalsIgnoreCase("Tất cả") && loaiP.equalsIgnoreCase("Tất cả") && soNguoi.equalsIgnoreCase("Tất cả")) {
             panelPhong.repaint();
             panelPhong.revalidate();
             loadDSPhongTheoTrangThai(trangThai);
+        } else if (trangThai.equalsIgnoreCase("Tất cả") && !loaiP.equalsIgnoreCase("Tất cả") && soNguoi.equalsIgnoreCase("Tất cả")) {
+            panelPhong.repaint();
+            panelPhong.revalidate();
+            loadDSPhongTheoLoaiPhong(loaiP);
+        } else if (trangThai.equalsIgnoreCase("Tất cả") && loaiP.equalsIgnoreCase("Tất cả") && !soNguoi.equalsIgnoreCase("Tất cả")) {
+            panelPhong.repaint();
+            panelPhong.revalidate();
+            loadDSPhongTheoSoNguoi(soNguoi);
+        } else {
+            panelPhong.repaint();
+            panelPhong.revalidate();
+            loadDSPhongTheoTieuChi(trangThai, soNguoi, loaiP);
         }
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_comboTrangThaiActionPerformed
+
+    private void comboLoaiPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboLoaiPhongActionPerformed
+        // TODO add your handling code here:
+        String trangThai = comboTrangThai.getSelectedItem().toString();
+        String loaiP = comboLoaiPhong.getSelectedItem().toString();
+        String soNguoi = comboSoNguoi.getSelectedItem().toString();
+        panelPhong.removeAll();
+        if (trangThai.equalsIgnoreCase("Tất cả") && loaiP.equalsIgnoreCase("Tất cả") && soNguoi.equalsIgnoreCase("Tất cả")) {
+            panelPhong.repaint();
+            panelPhong.revalidate();
+            loadAllPhong();
+        } else if (!trangThai.equalsIgnoreCase("Tất cả") && loaiP.equalsIgnoreCase("Tất cả") && soNguoi.equalsIgnoreCase("Tất cả")) {
+            panelPhong.repaint();
+            panelPhong.revalidate();
+            loadDSPhongTheoTrangThai(trangThai);
+        } else if (trangThai.equalsIgnoreCase("Tất cả") && !loaiP.equalsIgnoreCase("Tất cả") && soNguoi.equalsIgnoreCase("Tất cả")) {
+            panelPhong.repaint();
+            panelPhong.revalidate();
+            loadDSPhongTheoLoaiPhong(loaiP);
+        } else if (trangThai.equalsIgnoreCase("Tất cả") && loaiP.equalsIgnoreCase("Tất cả") && !soNguoi.equalsIgnoreCase("Tất cả")) {
+            panelPhong.repaint();
+            panelPhong.revalidate();
+            loadDSPhongTheoSoNguoi(soNguoi);
+        } else {
+            panelPhong.repaint();
+            panelPhong.revalidate();
+            loadDSPhongTheoTieuChi(trangThai, soNguoi, loaiP);
+        }
+    }//GEN-LAST:event_comboLoaiPhongActionPerformed
+
+    private void comboSoNguoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSoNguoiActionPerformed
+        // TODO add your handling code here:
+        String trangThai = comboTrangThai.getSelectedItem().toString();
+        String loaiP = comboLoaiPhong.getSelectedItem().toString();
+        String soNguoi = comboSoNguoi.getSelectedItem().toString();
+        panelPhong.removeAll();
+        if (trangThai.equalsIgnoreCase("Tất cả") && loaiP.equalsIgnoreCase("Tất cả") && soNguoi.equalsIgnoreCase("Tất cả")) {
+            panelPhong.repaint();
+            panelPhong.revalidate();
+            loadAllPhong();
+        } else if (!trangThai.equalsIgnoreCase("Tất cả") && loaiP.equalsIgnoreCase("Tất cả") && soNguoi.equalsIgnoreCase("Tất cả")) {
+            panelPhong.repaint();
+            panelPhong.revalidate();
+            loadDSPhongTheoTrangThai(trangThai);
+        } else if (trangThai.equalsIgnoreCase("Tất cả") && !loaiP.equalsIgnoreCase("Tất cả") && soNguoi.equalsIgnoreCase("Tất cả")) {
+            panelPhong.repaint();
+            panelPhong.revalidate();
+            loadDSPhongTheoLoaiPhong(loaiP);
+        } else if (trangThai.equalsIgnoreCase("Tất cả") && loaiP.equalsIgnoreCase("Tất cả") && !soNguoi.equalsIgnoreCase("Tất cả")) {
+            panelPhong.repaint();
+            panelPhong.revalidate();
+            loadDSPhongTheoSoNguoi(soNguoi);
+        } else {
+            panelPhong.repaint();
+            panelPhong.revalidate();
+            loadDSPhongTheoTieuChi(trangThai, soNguoi, loaiP);
+        }
+    }//GEN-LAST:event_comboSoNguoiActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+        String mp = txtMaPhong.getText();
+        Phong p = phongDAO.getPhongTheoMa(mp);
+        panelPhong.removeAll();
+        panelPhong.repaint();
+        panelPhong.revalidate();
+        String maLP = p.getLoaiPhong().getMaLP();
+        LoaiPhong loaiphong = phongDAO.getLoaiPhongTheoMa(maLP);
+        JPanel pnP = taoPanelPhong(p, loaiphong);
+        panelPhong.add(pnP);
+    }//GEN-LAST:event_jButton12ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel GD_Phong;
     private javax.swing.JButton capnhatdv;
+    private javax.swing.JComboBox<String> comboLoaiPhong;
+    private javax.swing.JComboBox<String> comboSoNguoi;
+    private javax.swing.JComboBox<String> comboTrangThai;
     private javax.swing.JButton datphong;
     private javax.swing.JButton huydatphong;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
