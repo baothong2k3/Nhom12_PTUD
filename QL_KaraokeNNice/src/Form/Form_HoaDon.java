@@ -82,7 +82,7 @@ public class Form_HoaDon extends javax.swing.JFrame {
     //ex
     int xacNhan;
 
-    public Form_HoaDon(HoaDon hd) {
+    public Form_HoaDon(HoaDon hd, boolean check) {
         try {
             ConnectDB.getInstance().connect();
         } catch (Exception e) {
@@ -93,11 +93,10 @@ public class Form_HoaDon extends javax.swing.JFrame {
         nv_dao = new NhanVien_DAO();
         dv_dao = new DichVu_DAO();
         phong_dao = new Phong_DAO();
-
         initComponents();
         setLocationRelativeTo(null);
         table(hd);
-        updateLable(hd);
+        updateLable(hd, check);
     }
 
     private void table(HoaDon hd) {
@@ -149,7 +148,7 @@ public class Form_HoaDon extends javax.swing.JFrame {
         }
     }
 
-    private void updateLable(HoaDon hd) {
+    private void updateLable(HoaDon hd, boolean check) {
         KhachHang kh = kh_dao.getKhachHangTheoMa(hd.getKhachHang().getMaKH());
         NhanVien nv = nv_dao.getNhanVienTheoMa(hd.getNhanVienLap().getMaNV());
         ChiTietHoaDon cthd = hd_dao.getCTHDTheoMaHD(hd.getMaHD());
@@ -170,6 +169,10 @@ public class Form_HoaDon extends javax.swing.JFrame {
 
         lblTongCong.setText("" + sTongTien);
         lblTongTienVAT.setText("" + sTongTienVAT);
+        if (!check) {
+            btnThanhToan.setEnabled(false);
+            txtTienNhan.setEditable(false);
+        }
     }
 
 //    private double tinhTongTien(HoaDon hd) {
@@ -604,7 +607,7 @@ public class Form_HoaDon extends javax.swing.JFrame {
         try {
             Locale localeVN = new Locale("vi", "VN");
             NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
-            
+
             PdfWriter.getInstance(doc, new FileOutputStream(path));
 
             BaseFont bf = BaseFont.createFont(fontFile.getAbsolutePath(), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
@@ -701,12 +704,12 @@ public class Form_HoaDon extends javax.swing.JFrame {
             doc.add(new Paragraph("Tổng tiền (VAT): " + lblTongTienVAT.getText().trim(), font));
             String maHD = lblMaHD.getText().trim();
             HoaDon hd = hd_dao.getHoaDonTheoMa(maHD);
-            
-            if(txtTienNhan.getText().trim().length()>0){
+
+            if (txtTienNhan.getText().trim().length() > 0) {
                 Double tienNhan = Double.parseDouble(txtTienNhan.getText().trim());
                 String sTienNhan = currencyVN.format(tienNhan);
                 doc.add(new Paragraph("Tiền nhận: " + sTienNhan, font));
-            }else{
+            } else {
                 doc.add(new Paragraph("Tiền nhận: " + txtTienNhan.getText().trim(), font));
             }
             doc.add(new Paragraph("Tiền thừa: " + lblTienThua.getText().trim(), font));

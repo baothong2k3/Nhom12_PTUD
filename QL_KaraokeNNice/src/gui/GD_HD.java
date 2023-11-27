@@ -1,4 +1,4 @@
- /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
@@ -343,7 +343,7 @@ public class GD_HD extends javax.swing.JPanel {
         txtTenKH.setText(modelHD.getValueAt(r, 2).toString());
         txtSDT.setText(modelHD.getValueAt(r, 3).toString());
         txtTenNV.setText(modelHD.getValueAt(r, 4).toString());
-        
+
         Double tongTien = Double.parseDouble(modelHD.getValueAt(r, 5).toString());
         Locale localeVN = new Locale("vi", "VN");
         NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
@@ -372,7 +372,7 @@ public class GD_HD extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Chỉ được chọn 1 dòng để xem");
             return;
         }
-        new Form_HoaDon(hd).setVisible(true);
+        new Form_HoaDon(hd, false).setVisible(true);
     }//GEN-LAST:event_btnXemCTHDActionPerformed
 
     private void btnTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimActionPerformed

@@ -782,7 +782,7 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         HoaDon hd = hoadonDAO.getHoaDonTheoMaPhong_TrangThai(ma);
         Date gkt = new Date();
         hoadonDAO.updateCTHD_GKT(hd.getMaHD(), gkt);
-        new Form.Form_HoaDon(hd).setVisible(true);
+        new Form.Form_HoaDon(hd, true).setVisible(true);
     }//GEN-LAST:event_traphongActionPerformed
 
     private void capnhatdvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capnhatdvActionPerformed
