@@ -261,6 +261,8 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
 
         GD_DichVu.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
         GD_DichVu.setMinimumSize(new java.awt.Dimension(1200, 520));
@@ -2602,6 +2604,11 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
         jMenuItem3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jMenuItem3.setText("Thống kê doanh thu theo tháng");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu7.add(jMenuItem3);
 
         jMenuItem4.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
@@ -2615,6 +2622,16 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jMenu13.add(jMenuItem8);
 
         jMenuBar2.add(jMenu13);
+
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/info.png"))); // NOI18N
+        jMenu2.setText("About us");
+        jMenu2.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jMenuBar2.add(jMenu2);
+
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/question.png"))); // NOI18N
+        jMenu3.setText("Help");
+        jMenu3.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jMenuBar2.add(jMenu3);
 
         setJMenuBar(jMenuBar2);
         jMenuBar2.getAccessibleContext().setAccessibleName("");
@@ -2852,6 +2869,13 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         //GD_DSPhong.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        jLabel2.setText("THỐNG KÊ DOANH THU THEO THÁNG");
+        GD_Chinh.add(new ThongKeDoanhThuThang(), "thongKeThang");
+        card.show(this.GD_Chinh, "thongKeThang");
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2951,6 +2975,8 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu12;
     private javax.swing.JMenu jMenu13;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu7;

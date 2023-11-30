@@ -487,4 +487,75 @@ public class HoaDon_DAO {
         }
         return n > 0;
     }
+    
+    public boolean check_HD_ChuaThanhToan(String maKH) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+
+        try {
+            String sql = "SELECT * FROM HoaDon WHERE maKH = ? and trangthai = 0";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, maKH);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+
+        return false;
+    }
+    
+    public HoaDon getHoaDonTheoKH_TrangThai(String maKH) {
+        HoaDon hd = new HoaDon();
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        try {
+
+            String sql = "SELECT top 1 * FROM HoaDon WHERE maKH = ? and trangthai = 0";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, maKH);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+
+                hd.setMaHD(rs.getString(1));
+
+                KhachHang kh = new KhachHang(rs.getString(2));
+                hd.setKhachHang(kh);
+                NhanVien nv = new NhanVien(rs.getString(3));
+                hd.setNhanVienLap(nv);
+
+                java.sql.Timestamp tsGioNhanPhong = rs.getTimestamp(4);
+                long timeGNP = tsGioNhanPhong.getTime();
+                Date dateGioNhanPhong = new Date(timeGNP);
+                hd.setNgayLap(dateGioNhanPhong);
+
+                hd.setVAT(rs.getDouble(5));
+                hd.setTongTien(rs.getDouble(6));
+                hd.setTrangThai(rs.getBoolean(7));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+                System.out.println(hd.getMaHD());
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+
+        return hd;
+    }
 }

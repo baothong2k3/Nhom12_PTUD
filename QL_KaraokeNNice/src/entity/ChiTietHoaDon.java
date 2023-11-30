@@ -55,19 +55,13 @@ public class ChiTietHoaDon {
     public ChiTietHoaDon() {
     }
 
-    public int tinhThoiLuong() {
-        Calendar calGN = Calendar.getInstance();
-        Calendar calGKT = Calendar.getInstance();
-        calGN.setTime(getGioNhanPhong());
-        calGKT.setTime(getGioKetThuc());
-        int iGN = calGN.get(Calendar.HOUR_OF_DAY);
-        int iGKT = calGKT.get(Calendar.HOUR_OF_DAY);
-        long khoangCachThoiGian = getGioKetThuc().getTime() - getGioNhanPhong().getTime();
+    public double tinhThoiLuong() {
+        double khoangCachThoiGian = getGioKetThuc().getTime() - getGioNhanPhong().getTime();
         double soGioGiuaHaiNgay = khoangCachThoiGian / (60 * 60 * 1000);
-
-        int validGKT, validGN;
-        int thoiLuong = (int) soGioGiuaHaiNgay;
-        return thoiLuong;
+        int scale = (int) Math.pow(10, 1);
+	double roundTo1Decimal = (double) Math.round(soGioGiuaHaiNgay * scale) / scale;
+        System.out.println(roundTo1Decimal);
+        return roundTo1Decimal;
     }
 
     public double tinhThanhTienPhong() {

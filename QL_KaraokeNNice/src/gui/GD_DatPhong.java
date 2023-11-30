@@ -746,29 +746,35 @@ public final class GD_DatPhong extends javax.swing.JPanel {
                 JOptionPane.YES_NO_OPTION);
         if (xacnhan != JOptionPane.YES_OPTION) {
             return;
-        }
-        String maHD = hoadonDAO.maHD_Auto();
-        HoaDon hoaDon;
-        String maNv = phieuDatPhong.getNhanVienLap().getMaNV();
-        NhanVien nv = nhanvienDAO.getNhanVienTheoMa(maNv);
-        hoaDon = new HoaDon(maHD, kh, nv, new Date(), 0.1, 0, false);
-        ChiTietHoaDon ctHD;
-        ctHD = new ChiTietHoaDon(hoaDon, phieuDatPhong.getThoiGianNhan(), new Date(), phong);
-        phieudatphongdao.capNhatTrangThaiPhieuDatPhong(phieuDatPhong.getMaPhieu());
-        phongDAO.capNhatTrangThaiPhong(phong.getMaPhong(), "Đang sử dụng");
-
-        System.out.println(ctHD.getHoaDon().getMaHD());
-        System.out.println(ctHD.getGioNhanPhong());
-        System.out.println(ctHD.getGioKetThuc());
-        System.out.println(ctHD.getPhong().getMaPhong());
-
-        if (hoadonDAO.themHoaDon(hoaDon)) {
-            JOptionPane.showMessageDialog(null, "Nhận phòng thành công");
         } else {
-            JOptionPane.showMessageDialog(null, "Đã có lỗi");
-        }
 
-        hoadonDAO.themChiTietHoaDon(ctHD);
+            if (hoadonDAO.check_HD_ChuaThanhToan(kh.getMaKH())) {
+                HoaDon hd = hoadonDAO.getHoaDonTheoKH_TrangThai(kh.getMaKH());
+                ChiTietHoaDon ctHD = new ChiTietHoaDon(hd, phieuDatPhong.getThoiGianNhan(), new Date(), phong);
+                phieudatphongdao.capNhatTrangThaiPhieuDatPhong(phieuDatPhong.getMaPhieu());
+                phongDAO.capNhatTrangThaiPhong(phong.getMaPhong(), "Đang sử dụng");
+                hoadonDAO.themChiTietHoaDon(ctHD);
+                JOptionPane.showMessageDialog(null, "Nhận phòng thành công");
+            } else {
+                String maHD = hoadonDAO.maHD_Auto();
+                HoaDon hoaDon;
+                String maNv = phieuDatPhong.getNhanVienLap().getMaNV();
+                NhanVien nv = nhanvienDAO.getNhanVienTheoMa(maNv);
+                hoaDon = new HoaDon(maHD, kh, nv, new Date(), 0.1, 0, false);
+                ChiTietHoaDon ctHD;
+                ctHD = new ChiTietHoaDon(hoaDon, phieuDatPhong.getThoiGianNhan(), new Date(), phong);
+                phieudatphongdao.capNhatTrangThaiPhieuDatPhong(phieuDatPhong.getMaPhieu());
+                phongDAO.capNhatTrangThaiPhong(phong.getMaPhong(), "Đang sử dụng");
+
+                if (hoadonDAO.themHoaDon(hoaDon)) {
+                    JOptionPane.showMessageDialog(null, "Nhận phòng thành công");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Đã có lỗi");
+                }
+
+                hoadonDAO.themChiTietHoaDon(ctHD);
+            }
+        }
     }//GEN-LAST:event_nhanphongActionPerformed
 
     private void traphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_traphongActionPerformed
@@ -893,6 +899,9 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         // TODO add your handling code here:
         String mp = txtMaPhong.getText();
         Phong p = phongDAO.getPhongTheoMa(mp);
+        if (p == null) {
+            return;
+        }
         panelPhong.removeAll();
         panelPhong.repaint();
         panelPhong.revalidate();
