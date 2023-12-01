@@ -130,7 +130,6 @@ public class KhachHang_DAO {
         ConnectDB.getInstance();
         Connection con = ConnectDB.getConnection();
         PreparedStatement statement = null;
-
         try {
             String sql = "SELECT * FROM KhachHang";
             statement = con.prepareStatement(sql);

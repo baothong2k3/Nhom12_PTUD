@@ -2613,6 +2613,11 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
         jMenuItem4.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jMenuItem4.setText("Thống kê doanh thu theo năm");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu7.add(jMenuItem4);
 
         jMenu13.add(jMenu7);
@@ -2871,10 +2876,15 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
-        jLabel2.setText("THỐNG KÊ DOANH THU THEO THÁNG");
-        GD_Chinh.add(new ThongKeDoanhThuThang(), "thongKeThang");
-        card.show(this.GD_Chinh, "thongKeThang");
+        
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        jLabel2.setText("THỐNG KÊ DOANH THU THEO NĂM");
+        GD_Chinh.add(new ThongKeDoanhThuNam(), "thongKeNam");
+        card.show(this.GD_Chinh, "thongKeNam");
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments

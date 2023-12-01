@@ -75,6 +75,7 @@ public class Chart extends javax.swing.JPanel {
         animate = 0;
         blankPlotChart.setLabelCount(0);
         model.clear();
+        blankPlotChart.setMaxValues(0);
         repaint();
     }
 

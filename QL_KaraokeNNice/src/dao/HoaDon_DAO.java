@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 
 public class HoaDon_DAO {
 
@@ -487,7 +488,7 @@ public class HoaDon_DAO {
         }
         return n > 0;
     }
-    
+
     public boolean check_HD_ChuaThanhToan(String maKH) {
         ConnectDB.getInstance();
         Connection con = ConnectDB.getConnection();
@@ -514,7 +515,7 @@ public class HoaDon_DAO {
 
         return false;
     }
-    
+
     public HoaDon getHoaDonTheoKH_TrangThai(String maKH) {
         HoaDon hd = new HoaDon();
         ConnectDB.getInstance();
@@ -557,5 +558,57 @@ public class HoaDon_DAO {
         }
 
         return hd;
+    }
+
+    public ArrayList<Integer> layNamTuHoaDon() {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        ArrayList<Integer> ngayLap = new ArrayList<>();
+        try {
+            String sql = "select year(ngayLap) from HoaDon group by  year(ngayLap)";
+            statement = con.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                ngayLap.add(rs.getInt(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return ngayLap;
+    }
+
+    public Double[] layDoanhThuTheoThang(String nam) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        Double[] doanhThu = new Double[12];
+        for (int i = 0; i < doanhThu.length; i++) {
+            doanhThu[i] = 0.0;
+        }
+        try {
+            String sql = "SELECT MONTH(NgayLap) AS thang, SUM(tongTien) AS tong_tien FROM [DB_karaoke].[dbo].[HoaDon] WHERE YEAR(NgayLap) = ? GROUP BY MONTH(NgayLap)";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, nam);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                doanhThu[rs.getInt(1) - 1] = rs.getDouble(2);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return doanhThu;
     }
 }
