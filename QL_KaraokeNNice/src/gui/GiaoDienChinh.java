@@ -2876,6 +2876,9 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
+        jLabel2.setText("THỐNG KÊ DOANH THU THEO THÁNG");
+        GD_Chinh.add(new ThongKeDoanhThuThang(), "thongKeThang");
+        card.show(this.GD_Chinh, "thongKeThang");
         
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 

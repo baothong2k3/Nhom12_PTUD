@@ -686,4 +686,30 @@ public class HoaDon_DAO {
         }
         return doanhThu;
     }
+//Thống kê theo tháng
+
+    public ArrayList<Integer> layThangTuHoaDon(String nam) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        ArrayList<Integer> thangLap = new ArrayList<>();
+        try {
+            String sql = "select month(ngayLap) from HoaDon where YEAR(NgayLap) = ? group by  month(ngayLap) ";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, nam);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                thangLap.add(rs.getInt(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return thangLap;
+    }
 }
