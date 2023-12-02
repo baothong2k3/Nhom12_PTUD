@@ -8,7 +8,11 @@ import com.raven.chart.ModelChart;
 import connectDB.ConnectDB;
 import dao.HoaDon_DAO;
 import java.awt.Color;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Locale;
+import javax.swing.JLabel;
 
 /**
  *
@@ -58,6 +62,8 @@ public class ThongKeDoanhThuNam extends javax.swing.JPanel {
         txtDoanhThuPV = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtDoanhThuDV = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtTongDTPhong = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
@@ -70,8 +76,8 @@ public class ThongKeDoanhThuNam extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(300, 520));
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
-        jPanel1Layout.columnWidths = new int[] {0, 15, 0};
-        jPanel1Layout.rowHeights = new int[] {0, 20, 0, 20, 0, 20, 0, 20, 0};
+        jPanel1Layout.columnWidths = new int[] {0, 10, 0, 10, 0};
+        jPanel1Layout.rowHeights = new int[] {0, 20, 0, 20, 0, 20, 0, 20, 0, 20, 0};
         jPanel1.setLayout(jPanel1Layout);
 
         jLabel1.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
@@ -134,7 +140,7 @@ public class ThongKeDoanhThuNam extends javax.swing.JPanel {
         jLabel8.setText("Doanh thu dịch vụ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel8, gridBagConstraints);
 
@@ -142,7 +148,7 @@ public class ThongKeDoanhThuNam extends javax.swing.JPanel {
         txtDoanhThuDV.setText("jLabel9");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(txtDoanhThuDV, gridBagConstraints);
 
@@ -160,6 +166,22 @@ public class ThongKeDoanhThuNam extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(comboNam, gridBagConstraints);
 
+        jLabel3.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jLabel3.setText("Tổng doanh thu phòng");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(jLabel3, gridBagConstraints);
+
+        txtTongDTPhong.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtTongDTPhong.setText("jLabel5");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(txtTongDTPhong, gridBagConstraints);
+
         add(jPanel1, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
 
@@ -173,13 +195,28 @@ public class ThongKeDoanhThuNam extends javax.swing.JPanel {
     }//GEN-LAST:event_comboNamActionPerformed
     private void addItemCombobox() {
         ArrayList<Integer> i = hoadonDAO.layNamTuHoaDon();
-        for (Integer integer : i) {
-            comboNam.addItem(integer + "");
+        if (comboNam.getSelectedItem() == null) {
+            for (Integer integer : i) {
+                comboNam.addItem(integer + "");
+            }
         }
     }
 
     private void themVaoChart(String nam) {
-        Double[] a = hoadonDAO.layDoanhThuTheoThang(nam);
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        symbols.setGroupingSeparator('.');
+        DecimalFormat df = new DecimalFormat("#,##0.##", symbols);
+        Double tongDT = hoadonDAO.layTongDoanhThuTheoNam(nam);
+        Double giaDV = hoadonDAO.layTongDoanhThuDVTheoNam(nam);
+        Double tongDTP = tongDT - giaDV;
+        Double tongDTPV = hoadonDAO.layTongDoanhThuTheoPVTheoNam(nam);
+        Double tongDTPT = tongDTP - tongDTPV;
+        txtTongDoanhThu.setText(df.format(tongDT) + " VND");
+        txtDoanhThuDV.setText(df.format(giaDV) + " VND");
+        txtTongDTPhong.setText(df.format(tongDTP) + " VND");
+        txtDoanhThuPV.setText(df.format(tongDTPV) + " VND");
+        txtDoanhThuPT.setText(df.format(tongDTPT) + " VND");
+        Double[] a = hoadonDAO.layDoanhThuTheoNam(nam);
         chart.clear();
         chart.addData(new ModelChart("January", new double[]{a[0]}));
         chart.addData(new ModelChart("February", new double[]{a[1]}));
@@ -200,6 +237,7 @@ public class ThongKeDoanhThuNam extends javax.swing.JPanel {
     private static final javax.swing.JComboBox<String> comboNam = new javax.swing.JComboBox<>();
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
@@ -207,6 +245,7 @@ public class ThongKeDoanhThuNam extends javax.swing.JPanel {
     private javax.swing.JLabel txtDoanhThuDV;
     private javax.swing.JLabel txtDoanhThuPT;
     private javax.swing.JLabel txtDoanhThuPV;
+    private javax.swing.JLabel txtTongDTPhong;
     private javax.swing.JLabel txtTongDoanhThu;
     // End of variables declaration//GEN-END:variables
 }

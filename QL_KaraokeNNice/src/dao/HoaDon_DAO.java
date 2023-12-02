@@ -584,7 +584,7 @@ public class HoaDon_DAO {
         return ngayLap;
     }
 
-    public Double[] layDoanhThuTheoThang(String nam) {
+    public Double[] layDoanhThuTheoNam(String nam) {
         ConnectDB.getInstance();
         Connection con = ConnectDB.getConnection();
         PreparedStatement statement = null;
@@ -599,6 +599,81 @@ public class HoaDon_DAO {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 doanhThu[rs.getInt(1) - 1] = rs.getDouble(2);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return doanhThu;
+    }
+
+    public Double layTongDoanhThuTheoNam(String nam) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double doanhThu = 0.0;
+        try {
+            String sql = "SELECT SUM(tongTien) AS doanhThu FROM HoaDon WHERE YEAR(NgayLap) = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, nam);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                doanhThu = rs.getDouble(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return doanhThu;
+    }
+
+    public Double layTongDoanhThuDVTheoNam(String nam) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double doanhThu = 0.0;
+        try {
+            String sql = "SELECT SUM(donGia * ChiTietDichVu.soLuong) AS doanhThu FROM HoaDon INNER JOIN ChiTietDichVu ON HoaDon.maHD = ChiTietDichVu.maHD INNER JOIN DichVu ON ChiTietDichVu.maDV = DichVu.maDV Where YEAR(HoaDon.NgayLap) = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, nam);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                doanhThu = rs.getDouble(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return doanhThu;
+    }
+
+    public Double layTongDoanhThuTheoPVTheoNam(String nam) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double doanhThu = 0.0;
+        try {
+            String sql = "SELECT DATEDIFF(HOUR, gioNhanPhong, gioKetThuc) AS ThoiGian FROM HoaDon INNER JOIN ChiTietHoaDon ON HoaDon.maHD = ChiTietHoaDon.maHD INNER JOIN Phong ON ChiTietHoaDon.maPhong = Phong.maPhong INNER JOIN LoaiPhong ON Phong.maLP = LoaiPhong.maLP where Phong.maLP = 'PV001' and YEAR(NgayLap) = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, nam);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                doanhThu += rs.getDouble(1) * 280000;
             }
         } catch (Exception e) {
             e.printStackTrace();
