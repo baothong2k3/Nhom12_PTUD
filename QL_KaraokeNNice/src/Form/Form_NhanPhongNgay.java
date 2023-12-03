@@ -32,7 +32,7 @@ import javax.swing.JOptionPane;
  *
  * @author PC BAO THONG
  */
-public class Form_DatPhongNgay extends javax.swing.JFrame implements ActionListener {
+public class Form_NhanPhongNgay extends javax.swing.JFrame implements ActionListener {
 
     private Phong_DAO phongdao;
     private KhachHang_DAO khachhangdao;
@@ -43,7 +43,7 @@ public class Form_DatPhongNgay extends javax.swing.JFrame implements ActionListe
     /**
      * Creates new form FormDatPhong
      */
-    public Form_DatPhongNgay(Phong phong, String maNV) {
+    public Form_NhanPhongNgay(Phong phong, String maNV) {
         maNV_use = maNV;
         this.phong = phong;
         initComponents();
