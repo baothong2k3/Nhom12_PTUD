@@ -214,8 +214,8 @@ public class ThongKeDoanhThuThang extends javax.swing.JPanel {
         String nam = comboNam.getSelectedItem().toString();
         ArrayList<Integer> j = hoadonDAO.layThangTuHoaDon(nam);
         for (Integer integer : j) {
-            comboThang.addItem(integer + "");
-        }
+                comboThang.addItem(integer+"");
+            }
     }//GEN-LAST:event_comboNamActionPerformed
 
     private void comboThangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboThangActionPerformed
@@ -247,18 +247,18 @@ public class ThongKeDoanhThuThang extends javax.swing.JPanel {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
         symbols.setGroupingSeparator('.');
         DecimalFormat df = new DecimalFormat("#,##0.##", symbols);
-//        Double tongDT = hoadonDAO.layTongDoanhThuTheoNam(nam);
-//        Double giaDV = hoadonDAO.layTongDoanhThuDVTheoNam(nam);
-//        Double tongDTP = tongDT - giaDV;
-//        Double tongDTPV = hoadonDAO.layTongDoanhThuTheoPVTheoNam(nam);
-//        Double tongDTPT = tongDTP - tongDTPV;
-//        txtTongDoanhThu.setText(df.format(tongDT) + " VND");
-//        txtDoanhThuDV.setText(df.format(giaDV) + " VND");
-//        txtTongDTPhong.setText(df.format(tongDTP) + " VND");
-//        txtDoanhThuPV.setText(df.format(tongDTPV) + " VND");
-//        txtDoanhThuPT.setText(df.format(tongDTPT) + " VND");
-//        Double[] a = hoadonDAO.layDoanhThuTheoNam(nam);
+        Double tongDT = hoadonDAO.layTongDoanhThuTheoThang(nam, thang);
+        Double giaDV = hoadonDAO.layTongDoanhThuDVTheoThang(nam, thang);
+        Double tongDTP = tongDT - giaDV;
+        Double tongDTPV = hoadonDAO.layTongDoanhThuTheoPVTheoThang(nam, thang);
+        Double tongDTPT = tongDTP - tongDTPV;
+        txtTongDoanhThu.setText(df.format(tongDT) + " VND");
+        txtDoanhThuDV.setText(df.format(giaDV) + " VND");
+        txtTongDTPhong.setText(df.format(tongDTP) + " VND");
+        txtDoanhThuPV.setText(df.format(tongDTPV) + " VND");
+        txtDoanhThuPT.setText(df.format(tongDTPT) + " VND");
         int month = Integer.parseInt(thang);
+        System.out.println(month);
         int year = Integer.parseInt(nam);
 
 // Tạo đối tượng Calendar
@@ -269,15 +269,17 @@ public class ThongKeDoanhThuThang extends javax.swing.JPanel {
 
 // Lấy số ngày cuối cùng của tháng
         int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-
 // Xuất tất cả trong tháng
+        Double[] a = hoadonDAO.layDoanhThuTheoThang(nam, thang, lastDay);
         ArrayList<Integer> i = new ArrayList<>();
         for (int day = 1; day <= lastDay; day++) {
             i.add(day);
         }
         chart.clear();
+        int j = 0;
         for (Integer integer : i) {
-            chart.addData(new ModelChart(integer + "", new double[]{10}));
+            chart.addData(new ModelChart(integer + "", new double[]{a[j]}));
+            j++;
         }
     }
 

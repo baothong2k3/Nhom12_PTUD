@@ -12,7 +12,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Locale;
-import javax.swing.JLabel;
 
 /**
  *
@@ -36,9 +35,9 @@ public class ThongKeDoanhThuNam extends javax.swing.JPanel {
         initComponents();
         chart.addLegend("Tổng doanh thu", new Color(245, 189, 135));
         String nam = comboNam.getSelectedItem().toString();
-        chart.clear();
+//        chart.clear();
         themVaoChart(nam);
-        chart.start();
+//        chart.start();
     }
 
     /**
@@ -188,10 +187,9 @@ public class ThongKeDoanhThuNam extends javax.swing.JPanel {
     private void comboNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboNamActionPerformed
         // TODO add your handling code here:
         String nam = comboNam.getSelectedItem().toString();
-        chart.clear();
+//        chart.clear();
         themVaoChart(nam);
-        chart.start();
-
+//        chart.start();
     }//GEN-LAST:event_comboNamActionPerformed
     private void addItemCombobox() {
         ArrayList<Integer> i = hoadonDAO.layNamTuHoaDon();
@@ -203,6 +201,7 @@ public class ThongKeDoanhThuNam extends javax.swing.JPanel {
     }
 
     private void themVaoChart(String nam) {
+        chart.clear();
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
         symbols.setGroupingSeparator('.');
         DecimalFormat df = new DecimalFormat("#,##0.##", symbols);
@@ -217,7 +216,6 @@ public class ThongKeDoanhThuNam extends javax.swing.JPanel {
         txtDoanhThuPV.setText(df.format(tongDTPV) + " VND");
         txtDoanhThuPT.setText(df.format(tongDTPT) + " VND");
         Double[] a = hoadonDAO.layDoanhThuTheoNam(nam);
-        chart.clear();
         chart.addData(new ModelChart("January", new double[]{a[0]}));
         chart.addData(new ModelChart("February", new double[]{a[1]}));
         chart.addData(new ModelChart("March", new double[]{a[2]}));
@@ -230,6 +228,7 @@ public class ThongKeDoanhThuNam extends javax.swing.JPanel {
         chart.addData(new ModelChart("October", new double[]{a[9]}));
         chart.addData(new ModelChart("November", new double[]{a[10]}));
         chart.addData(new ModelChart("December", new double[]{a[11]}));
+        chart.start();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

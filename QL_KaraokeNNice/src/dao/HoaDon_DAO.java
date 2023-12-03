@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Calendar;
 import java.util.List;
 
 public class HoaDon_DAO {
@@ -711,5 +712,196 @@ public class HoaDon_DAO {
             }
         }
         return thangLap;
+    }
+
+    public Double layTongDoanhThuTheoThang(String nam, String thang) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double doanhThu = 0.0;
+        try {
+            String sql = "SELECT month(NgayLap) AS thang, SUM(tongTien) AS doanhThu FROM [DB_karaoke].[dbo].[HoaDon] WHERE YEAR(NgayLap) = ? and month(NgayLap) = ? GROUP BY month(NgayLap)";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, nam);
+            statement.setString(2, thang);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                doanhThu = rs.getDouble(2);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return doanhThu;
+    }
+
+    public Double[] layDoanhThuTheoThang(String nam, String thang, int lastDay) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        Double[] doanhThu = new Double[lastDay];
+        for (int i = 0; i < doanhThu.length; i++) {
+            doanhThu[i] = 0.0;
+        }
+        try {
+            String sql = "SELECT DAY(NgayLap) AS NgayLap, SUM(tongTien) AS TongDoanhThu FROM [DB_karaoke].[dbo].[HoaDon] WHERE YEAR(NgayLap) = ? AND MONTH(NgayLap) = ? GROUP BY DAY(NgayLap)";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, nam);
+            statement.setString(2, thang);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                doanhThu[rs.getInt(1) - 1] = rs.getDouble(2);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return doanhThu;
+    }
+
+    public Double layTongDoanhThuDVTheoThang(String nam, String thang) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double doanhThu = 0.0;
+        try {
+            String sql = "SELECT SUM(donGia * ChiTietDichVu.soLuong) AS doanhThu FROM HoaDon INNER JOIN ChiTietDichVu ON HoaDon.maHD = ChiTietDichVu.maHD INNER JOIN DichVu ON ChiTietDichVu.maDV = DichVu.maDV Where YEAR(HoaDon.NgayLap) = ? and month(HoaDon.NgayLap) = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, nam);
+            statement.setString(2, thang);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                doanhThu = rs.getDouble(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return doanhThu;
+    }
+
+    public Double layTongDoanhThuTheoPVTheoThang(String nam, String thang) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double doanhThu = 0.0;
+        try {
+            String sql = "SELECT DATEDIFF(HOUR, gioNhanPhong, gioKetThuc) AS ThoiGian FROM HoaDon INNER JOIN ChiTietHoaDon ON HoaDon.maHD = ChiTietHoaDon.maHD INNER JOIN Phong ON ChiTietHoaDon.maPhong = Phong.maPhong INNER JOIN LoaiPhong ON Phong.maLP = LoaiPhong.maLP where Phong.maLP = 'PV001' and YEAR(NgayLap) = ? and month(NgayLap) = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, nam);
+            statement.setString(2, thang);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                doanhThu += rs.getDouble(1) * 280000;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return doanhThu;
+    }
+//  Thống kê ngày
+
+    public Double layTongDoanhThuTheoNgay(String ngay) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double doanhThu = 0.0;
+        try {
+            String sql = "SELECT SUM(tongTien) AS tongDoanhThu FROM [DB_karaoke].[dbo].[HoaDon] WHERE NgayLap BETWEEN ? AND ?";
+            statement = con.prepareStatement(sql);
+            String ngay1 = ngay + " 08:00:00";
+            String ngay2 = ngay + " 22:00:00";
+            statement.setString(1, ngay1);
+            statement.setString(2, ngay2);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                doanhThu = rs.getDouble(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return doanhThu;
+    }
+
+    public Double layTongDoanhThuDVTheoNgay(String ngay) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double doanhThu = 0.0;
+        String ngay1 = ngay + " 08:00:00";
+        String ngay2 = ngay + " 22:00:00";
+        try {
+            String sql = "SELECT SUM(donGia * ChiTietDichVu.soLuong) AS doanhThu FROM HoaDon INNER JOIN ChiTietDichVu ON HoaDon.maHD = ChiTietDichVu.maHD INNER JOIN DichVu ON ChiTietDichVu.maDV = DichVu.maDV Where NgayLap BETWEEN ? AND ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, ngay1);
+            statement.setString(2, ngay2);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                doanhThu = rs.getDouble(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return doanhThu;
+    }
+    public Double layTongDoanhThuTheoPVTheoNgay(String ngay) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double doanhThu = 0.0;
+        String ngay1 = ngay + " 08:00:00";
+        String ngay2 = ngay + " 22:00:00";
+        try {
+            String sql = "SELECT DATEDIFF(HOUR, gioNhanPhong, gioKetThuc) AS ThoiGian FROM HoaDon INNER JOIN ChiTietHoaDon ON HoaDon.maHD = ChiTietHoaDon.maHD INNER JOIN Phong ON ChiTietHoaDon.maPhong = Phong.maPhong INNER JOIN LoaiPhong ON Phong.maLP = LoaiPhong.maLP where Phong.maLP = 'PV001' and NgayLap BETWEEN ? AND ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, ngay1);
+            statement.setString(2, ngay2);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                doanhThu += rs.getDouble(1) * 280000;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return doanhThu;
     }
 }
