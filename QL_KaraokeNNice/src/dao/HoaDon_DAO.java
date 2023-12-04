@@ -877,6 +877,7 @@ public class HoaDon_DAO {
         }
         return doanhThu;
     }
+
     public Double layTongDoanhThuTheoPVTheoNgay(String ngay) {
         ConnectDB.getInstance();
         Connection con = ConnectDB.getConnection();
@@ -903,5 +904,164 @@ public class HoaDon_DAO {
             }
         }
         return doanhThu;
+    }
+
+    //KH
+    public int demSoKH() {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        int so = 0;
+        try {
+            String sql = "SELECT COUNT(DISTINCT [maKH]) AS SoLuongKhachHang FROM [DB_karaoke].[dbo].[HoaDon]";
+            statement = con.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                so = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return so;
+    }
+
+    public int demSoKHTheoTG(int ngay) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        int so = 0;
+        try {
+            String sql = "SELECT COUNT(DISTINCT [maKH]) AS SoLuongKhachHang FROM [DB_karaoke].[dbo].[HoaDon] WHERE NgayLap BETWEEN DATEADD(DAY, -?, GETDATE()) AND GETDATE()";
+            statement = con.prepareStatement(sql);
+            statement.setInt(1, ngay);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                so = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return so;
+    }
+
+    public String[] layDoanhThuTheoKH() {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        int so = demSoKH() * 2;
+        String[] maKHDT = new String[so];
+        try {
+            String sql = "SELECT maKH, SUM(tongTien) AS tongTien FROM [DB_karaoke].[dbo].[HoaDon] GROUP BY maKH ORDER BY tongTien DESC";
+            statement = con.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                maKHDT[i] = rs.getString(1);
+                maKHDT[i + 1] = rs.getString(2);
+                i = i + 2;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return maKHDT;
+    }
+
+    public String[] layDoanhThuTheoKHTheoTG(int ngay) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        int so = demSoKHTheoTG(ngay) * 2;
+        String[] maKHDT = new String[so];
+        try {
+            String sql = "SELECT [maKH], SUM([tongTien]) AS TongDoanhThu FROM [DB_karaoke].[dbo].[HoaDon] WHERE NgayLap BETWEEN DATEADD(DAY, -?, GETDATE()) AND GETDATE() GROUP BY [maKH] ORDER BY TongDoanhThu DESC";
+            statement = con.prepareStatement(sql);
+            statement.setInt(1, ngay);
+            ResultSet rs = statement.executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                maKHDT[i] = rs.getString(1);
+                maKHDT[i + 1] = rs.getString(2);
+                i = i + 2;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return maKHDT;
+    }
+    public int demSoKHTheoNam(String nam) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        int so = 0;
+        try {
+            String sql = "SELECT COUNT(DISTINCT [maKH]) AS SoLuongKhachHang FROM [DB_karaoke].[dbo].[HoaDon] WHERE YEAR([NgayLap]) = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, nam);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                so = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return so;
+    }
+    public String[] layDoanhThuTheoKHTheoNam(String nam) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        int so = demSoKHTheoNam(nam) * 2;
+        String[] maKHDT = new String[so];
+        try {
+            String sql = "SELECT [maKH], SUM([tongTien]) AS TongDoanhThu FROM [DB_karaoke].[dbo].[HoaDon] WHERE YEAR([NgayLap]) = ? GROUP BY [maKH] ORDER BY TongDoanhThu DESC";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, nam);
+            ResultSet rs = statement.executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                maKHDT[i] = rs.getString(1);
+                maKHDT[i + 1] = rs.getString(2);
+                i = i + 2;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return maKHDT;
     }
 }

@@ -60,7 +60,7 @@ public class ChiTietHoaDon {
         double soGioGiuaHaiNgay = khoangCachThoiGian / (60 * 60 * 1000);
         int scale = (int) Math.pow(10, 1);
 	double roundTo1Decimal = (double) Math.round(soGioGiuaHaiNgay * scale) / scale;
-        System.out.println(roundTo1Decimal);
+//        System.out.println(roundTo1Decimal);
         return roundTo1Decimal;
     }
 

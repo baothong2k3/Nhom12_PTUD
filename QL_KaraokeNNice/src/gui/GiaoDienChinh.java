@@ -2629,6 +2629,11 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
         jMenuItem8.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jMenuItem8.setText("Thống kê doanh thu theo khách hàng");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
         jMenu13.add(jMenuItem8);
 
         jMenuBar2.add(jMenu13);
@@ -2900,6 +2905,13 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         GD_Chinh.add(new ThongKeDoanhThuNgay(), "thongKeNgay");
         card.show(this.GD_Chinh, "thongKeNgay");
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // TODO add your handling code here:
+        jLabel2.setText("THỐNG KÊ DOANH THU THEO KHÁCH HÀNG");
+        GD_Chinh.add(new ThongKeKhachHang(), "thongKeKH");
+        card.show(this.GD_Chinh, "thongKeKH");
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     /**
      * @param args the command line arguments

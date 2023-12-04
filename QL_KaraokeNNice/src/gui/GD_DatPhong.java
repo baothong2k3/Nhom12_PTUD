@@ -5,6 +5,7 @@
 package gui;
 
 import Form.Form_DatPhong;
+import Form.Form_NhanPhongNgay;
 import entity.Phong;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -736,45 +737,75 @@ public final class GD_DatPhong extends javax.swing.JPanel {
     }//GEN-LAST:event_huydatphongActionPerformed
 
     private void nhanphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nhanphongActionPerformed
-        // TODO add your handling code here:
-        phieudatphongdao = new PhieuDatPhong_DAO();
-        PhieuDatPhong phieuDatPhong = phieudatphongdao.getPDPTheoMaPhong(txtMaPhong.getText());
-        KhachHang kh = khachhangDAO.getKhachHangTheoMa(phieuDatPhong.getKhachHang().getMaKH());
         Phong phong = phongDAO.getPhongTheoMa(txtMaPhong.getText());
-        int xacnhan = JOptionPane.showConfirmDialog(this,
-                "Xác nhận nhận phòng của " + kh.getHoKH() + " " + kh.getTenKH() + "?", "Thông báo",
-                JOptionPane.YES_NO_OPTION);
-        if (xacnhan != JOptionPane.YES_OPTION) {
-            return;
-        } else {
+        Object[] options = {"Nhận phòng đặt trước", "Nhận phòng ngay"};
+        int result = JOptionPane.showOptionDialog(null, "Chọn phương thức nhận phòng",
+                "Lựa chọn", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, options, options[0]);
+        if (result == JOptionPane.YES_OPTION) {
+            phieudatphongdao = new PhieuDatPhong_DAO();
+            PhieuDatPhong phieuDatPhong = phieudatphongdao.getPDPTheoMaPhong(txtMaPhong.getText());
+            if (phieuDatPhong == null) {
+                JOptionPane.showMessageDialog(null, "Phòng này chưa được đặt trước");
+                return;
+            }
+            KhachHang kh = khachhangDAO.getKhachHangTheoMa(phieuDatPhong.getKhachHang().getMaKH());
+            phieudatphongdao = new PhieuDatPhong_DAO();
 
-            if (hoadonDAO.check_HD_ChuaThanhToan(kh.getMaKH())) {
-                HoaDon hd = hoadonDAO.getHoaDonTheoKH_TrangThai(kh.getMaKH());
-                ChiTietHoaDon ctHD = new ChiTietHoaDon(hd, phieuDatPhong.getThoiGianNhan(), new Date(), phong);
-                phieudatphongdao.capNhatTrangThaiPhieuDatPhong(phieuDatPhong.getMaPhieu());
-                phongDAO.capNhatTrangThaiPhong(phong.getMaPhong(), "Đang sử dụng");
-                hoadonDAO.themChiTietHoaDon(ctHD);
-                JOptionPane.showMessageDialog(null, "Nhận phòng thành công");
+            int xacnhan = JOptionPane.showConfirmDialog(this,
+                    "Xác nhận nhận phòng của " + kh.getHoKH() + " " + kh.getTenKH() + "?", "Thông báo",
+                    JOptionPane.YES_NO_OPTION);
+            if (xacnhan != JOptionPane.YES_OPTION) {
+                return;
             } else {
-                String maHD = hoadonDAO.maHD_Auto();
-                HoaDon hoaDon;
-                String maNv = phieuDatPhong.getNhanVienLap().getMaNV();
-                NhanVien nv = nhanvienDAO.getNhanVienTheoMa(maNv);
-                hoaDon = new HoaDon(maHD, kh, nv, new Date(), 0.1, 0, false);
-                ChiTietHoaDon ctHD;
-                ctHD = new ChiTietHoaDon(hoaDon, phieuDatPhong.getThoiGianNhan(), new Date(), phong);
-                phieudatphongdao.capNhatTrangThaiPhieuDatPhong(phieuDatPhong.getMaPhieu());
-                phongDAO.capNhatTrangThaiPhong(phong.getMaPhong(), "Đang sử dụng");
 
-                if (hoadonDAO.themHoaDon(hoaDon)) {
+                if (hoadonDAO.check_HD_ChuaThanhToan(kh.getMaKH())) {
+                    HoaDon hd = hoadonDAO.getHoaDonTheoKH_TrangThai(kh.getMaKH());
+                    ChiTietHoaDon ctHD = new ChiTietHoaDon(hd, phieuDatPhong.getThoiGianNhan(), new Date(), phong);
+                    phieudatphongdao.capNhatTrangThaiPhieuDatPhong(phieuDatPhong.getMaPhieu());
+                    phongDAO.capNhatTrangThaiPhong(phong.getMaPhong(), "Đang sử dụng");
+                    hoadonDAO.themChiTietHoaDon(ctHD);
                     JOptionPane.showMessageDialog(null, "Nhận phòng thành công");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Đã có lỗi");
-                }
+                    String maHD = hoadonDAO.maHD_Auto();
+                    HoaDon hoaDon;
+                    String maNv = phieuDatPhong.getNhanVienLap().getMaNV();
+                    NhanVien nv = nhanvienDAO.getNhanVienTheoMa(maNv);
+                    hoaDon = new HoaDon(maHD, kh, nv, new Date(), 0.1, 0, false);
+                    ChiTietHoaDon ctHD;
+                    ctHD = new ChiTietHoaDon(hoaDon, phieuDatPhong.getThoiGianNhan(), new Date(), phong);
+                    phieudatphongdao.capNhatTrangThaiPhieuDatPhong(phieuDatPhong.getMaPhieu());
+                    phongDAO.capNhatTrangThaiPhong(phong.getMaPhong(), "Đang sử dụng");
 
-                hoadonDAO.themChiTietHoaDon(ctHD);
+                    if (hoadonDAO.themHoaDon(hoaDon)) {
+                        JOptionPane.showMessageDialog(null, "Nhận phòng thành công");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Đã có lỗi");
+                    }
+
+                    hoadonDAO.themChiTietHoaDon(ctHD);
+                }
             }
+        } else if (result == JOptionPane.NO_OPTION) {
+            //tinh thoi luong giua go nhan hien tai va gio dat truoc do
+            PhieuDatPhong pdp = phieudatphongdao.getPDPTheoMaPhong(txtMaPhong.getText().trim());
+            if (pdp != null) {
+                Date gioHienTai = new Date();
+                double khoangCachThoiGian = gioHienTai.getTime() - pdp.getThoiGianNhan().getTime();
+                double thoiLuong = khoangCachThoiGian / (60 * 60 * 1000);
+                int scale = (int) Math.pow(10, 1);
+                double roundTo1Decimal = (double) Math.round(thoiLuong * scale) / scale;
+                if (roundTo1Decimal < 1.5) {
+                    JOptionPane.showMessageDialog(null, "Gần đến thời gian phòng đặt trước sắp sử dụng");
+                    return;
+                }
+            } else {
+                new Form_NhanPhongNgay(phong, maNV).setVisible(true);
+            }
+        } else {
+            return;
         }
+
     }//GEN-LAST:event_nhanphongActionPerformed
 
     private void traphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_traphongActionPerformed

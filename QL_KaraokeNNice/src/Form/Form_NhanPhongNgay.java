@@ -4,12 +4,15 @@
  */
 package Form;
 
+import dao.HoaDon_DAO;
 import dao.KhachHang_DAO;
 import dao.NhanVien_DAO;
 import dao.PhieuDatPhong_DAO;
 import entity.Phong;
 import gui.GD_DatPhong;
 import dao.Phong_DAO;
+import entity.ChiTietHoaDon;
+import entity.HoaDon;
 import entity.KhachHang;
 import entity.LoaiPhong;
 import entity.NhanVien;
@@ -38,21 +41,21 @@ public class Form_NhanPhongNgay extends javax.swing.JFrame implements ActionList
     private KhachHang_DAO khachhangdao;
     private PhieuDatPhong_DAO phieudatphongdao;
     private NhanVien_DAO nhanviendao;
+    private HoaDon_DAO hoaDonDao;
     private Phong phong;
     String maNV_use;
+
     /**
      * Creates new form FormDatPhong
      */
     public Form_NhanPhongNgay(Phong phong, String maNV) {
         maNV_use = maNV;
         this.phong = phong;
+        hoaDonDao = new HoaDon_DAO();
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
         updateTextField(phong);
-//        ngaymai.addActionListener(this);
-//        homnay.addActionListener(this);
-//        thietLapGio();
     }
 
     private void updateTextField(Phong phong) {
@@ -67,49 +70,10 @@ public class Form_NhanPhongNgay extends javax.swing.JFrame implements ActionList
         txtLoaiPhong.setText(lp.getTenLoaiPhong());
     }
 
-//    public void thietLapGio() {
-//        int gio = 1;
-//        int phut = 0;
-//        if (homnay.isSelected()) {
-//            Date date = new Date();
-//            gio = date.getHours();
-//            phut = date.getMinutes() % 5 == 0 ? date.getMinutes() : ((date.getMinutes() / 5) * 5) + 5;
-//            if (phut == 60) {
-//                gio += 1;
-//                phut = 5;
-//            }
-//        }
-//        if (gio < 8) {
-//            gio = 8;
-//        }
-//        gioModel.removeAllItems();
-//        phutModel.removeAllItems();
-//        for (int i = gio; i < 23; i++) {
-//            gioModel.addItem(i + "");
-//        }
-//        for (int i = phut; i < 60; i += 5) {
-//            phutModel.addItem(i + "");
-//        }
-//
-//    }
-
     public KhachHang kiemTraSDTKhach() {
         khachhangdao = new KhachHang_DAO();
         nhanviendao = new NhanVien_DAO();
         String sdt = txtSDT.getText().trim();
-//        if (sdt.trim().length() == 0) {
-//            JOptionPane.showMessageDialog(this, "Bạn chưa nhập số điện thoại Khách");
-//            txtSDT.selectAll();
-//            txtSDT.requestFocus();
-//            return null;
-//        }
-//        if (!sdt.matches(
-//                "(^(03)[2-9]\\d{7})|(^(07)[06-9]\\d{7})|(^(08)[1-5]\\d{7})|(^(056)\\d{7})|(^(058)\\d{7})|(^(059)\\d{7})|(^(09)[0-46-9]\\d{7})")) {
-//            JOptionPane.showMessageDialog(this, "Số điện thoại không đúng địng dạng");
-//            txtSDT.selectAll();
-//            txtSDT.requestFocus();
-//            return null;
-//        }
         if (!(sdt.length() > 0 && sdt.matches("^\\d{10}$"))) {
             JOptionPane.showMessageDialog(null, "Error: Số điện thoại là 1 dãy số nguyên có 10 số");
             txtSDT.selectAll();
@@ -118,15 +82,16 @@ public class Form_NhanPhongNgay extends javax.swing.JFrame implements ActionList
         }
         KhachHang KhachHang = khachhangdao.layKhachHangTheoSDT(sdt);
         if (KhachHang == null) {
-            int xacNhan = JOptionPane.showConfirmDialog(this,
-                    "Khách hàng không có trong hệ thống, Bạn có muốn thêm khách hàng không", "Thông báo",
-                    JOptionPane.YES_NO_OPTION);
-            if (xacNhan == JOptionPane.YES_OPTION) {
-//                GiaoDienChinh gd = new GiaoDienChinh();
-//                gd.GD_Chinh.add(new GD_KH(), "khachhang");
-//                gd.card.show(gd.GD_Chinh, "khachhang");
-//                jLabel2.setText("QUẢN LÝ KHÁCH HÀNG");
-            }
+            JOptionPane.showMessageDialog(null, "Khách hàng không có trong hệ thống!");
+//            int xacNhan = JOptionPane.showConfirmDialog(this,
+//                    "Khách hàng không có trong hệ thống, Bạn có muốn thêm khách hàng không", "Thông báo",
+//                    JOptionPane.YES_NO_OPTION);
+//            if (xacNhan == JOptionPane.YES_OPTION) {
+////                GiaoDienChinh gd = new GiaoDienChinh();
+////                gd.GD_Chinh.add(new GD_KH(), "khachhang");
+////                gd.card.show(gd.GD_Chinh, "khachhang");
+////                jLabel2.setText("QUẢN LÝ KHÁCH HÀNG");
+//            }
         }
         txtTenKhach.setText(KhachHang.getHoKH() + " " + KhachHang.getTenKH());
         return KhachHang;
@@ -161,7 +126,7 @@ public class Form_NhanPhongNgay extends javax.swing.JFrame implements ActionList
         lblTenKH = new javax.swing.JLabel();
         txtTenKhach = new javax.swing.JTextField();
         btnQuayLai = new javax.swing.JButton();
-        btnDatPhong = new javax.swing.JButton();
+        btnNhanPhong = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -338,26 +303,31 @@ public class Form_NhanPhongNgay extends javax.swing.JFrame implements ActionList
         btnQuayLai.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
         btnQuayLai.setText("Quay lại");
         btnQuayLai.setPreferredSize(new java.awt.Dimension(120, 40));
+        btnQuayLai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuayLaiActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(btnQuayLai, gridBagConstraints);
 
-        btnDatPhong.setBackground(new java.awt.Color(204, 255, 204));
-        btnDatPhong.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
-        btnDatPhong.setText("Nhận phòng");
-        btnDatPhong.setPreferredSize(new java.awt.Dimension(125, 40));
-        btnDatPhong.addActionListener(new java.awt.event.ActionListener() {
+        btnNhanPhong.setBackground(new java.awt.Color(204, 255, 204));
+        btnNhanPhong.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
+        btnNhanPhong.setText("Nhận phòng");
+        btnNhanPhong.setPreferredSize(new java.awt.Dimension(130, 40));
+        btnNhanPhong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDatPhongActionPerformed(evt);
+                btnNhanPhongActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        jPanel1.add(btnDatPhong, gridBagConstraints);
+        jPanel1.add(btnNhanPhong, gridBagConstraints);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -377,59 +347,53 @@ public class Form_NhanPhongNgay extends javax.swing.JFrame implements ActionList
         kiemTraSDTKhach();
     }//GEN-LAST:event_btnKiemTraActionPerformed
 
-    private void btnDatPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatPhongActionPerformed
-        // TODO add your handling code here:
-//        phieudatphongdao = new PhieuDatPhong_DAO();
-//        KhachHang khachHang = kiemTraSDTKhach();
-//        int gio = Integer.parseInt(gioModel.getSelectedItem().toString());
-//        int phut = Integer.parseInt(phutModel.getSelectedItem().toString());
-//        Date date = new Date();
-//        if (homnay.isSelected()) {
-//            if (gio < date.getDay() || (gio == date.getHours() && phut < date.getMinutes())) {
-//                JOptionPane.showMessageDialog(this, "Thời gian phải trước thời gian hiện tại");
-//                return;
-//            }
-//        } else {
-//            // add one day
-//            Calendar c = Calendar.getInstance();
-//            c.setTime(date);
-//            c.add(Calendar.DATE, 1);
-//            date = c.getTime();
-//        }
-//        date.setMinutes(phut);
-//        date.setHours(gio);
-//        System.out.println(date);
-//        if (khachHang == null) {
-//            return;
-//        }
-//        int xacNhan = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn đặt phòng không?", "Thông báo",
-//                JOptionPane.YES_NO_OPTION);
-//        if (xacNhan != JOptionPane.YES_OPTION) {
-//            return;
-//        }
-//        String maphieu = phieudatphongdao.maPDP_Auto();
-//        NhanVien nv = nhanviendao.getNhanVienTheoMa(maNV_use);
-//        PhieuDatPhong phieuDatPhong = new PhieuDatPhong(maphieu, khachHang, nv, phong, new Date(), date, false);
-//        if (!phongdao.capNhatTrangThaiPhong(phong.getMaPhong(),"Đã được đặt")
-//                || !phieudatphongdao.themPhieuDatPhong(phieuDatPhong)) {
-//            JOptionPane.showMessageDialog(this, "Đặt phòng KHÔNG thành công");
-//            setVisible(false);
-//           dispose();
-//           return;
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Đặt phòng thành công");
-//        }
-//        setVisible(false);
-//        dispose();
-    }//GEN-LAST:event_btnDatPhongActionPerformed
+    private void btnNhanPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhanPhongActionPerformed
+        KhachHang kh = khachhangdao.layKhachHangTheoSDT(txtSDT.getText().trim());
+//        Phong phong = phongdao.getPhongTheoMa(txtSoPhong.getText().trim());
+        int xacnhan = JOptionPane.showConfirmDialog(this,
+                "Xác nhận nhận phòng của " + kh.getHoKH() + " " + kh.getTenKH() + "?", "Thông báo",
+                JOptionPane.YES_NO_OPTION);
+        if (xacnhan != JOptionPane.YES_OPTION) {
+            return;
+        } else {
+            if (hoaDonDao.check_HD_ChuaThanhToan(kh.getMaKH())) {
+                HoaDon hd = hoaDonDao.getHoaDonTheoKH_TrangThai(kh.getMaKH());
+                ChiTietHoaDon ctHD = new ChiTietHoaDon(hd, new Date(), new Date(), phong);
+                phongdao.capNhatTrangThaiPhong(phong.getMaPhong(), "Đang sử dụng");
+                hoaDonDao.themChiTietHoaDon(ctHD);
+                JOptionPane.showMessageDialog(null, "Nhận phòng thành công");
+            } else {
+                String maHD = hoaDonDao.maHD_Auto();
+                HoaDon hoaDon;
+                NhanVien nv = nhanviendao.getNhanVienTheoMa(maNV_use);
+                hoaDon = new HoaDon(maHD, kh, nv, new Date(), 0.1, 0, false);
+                ChiTietHoaDon ctHD;
+                ctHD = new ChiTietHoaDon(hoaDon, new Date(), new Date(), phong);
+                phongdao.capNhatTrangThaiPhong(phong.getMaPhong(), "Đang sử dụng");
+
+                if (hoaDonDao.themHoaDon(hoaDon)) {
+                    JOptionPane.showMessageDialog(null, "Nhận phòng thành công");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Đã có lỗi");
+                }
+
+                hoaDonDao.themChiTietHoaDon(ctHD);
+            }
+        }
+        dispose();
+    }//GEN-LAST:event_btnNhanPhongActionPerformed
+
+    private void btnQuayLaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuayLaiActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnQuayLaiActionPerformed
 
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDatPhong;
     private javax.swing.JButton btnKiemTra;
+    private javax.swing.JButton btnNhanPhong;
     private javax.swing.JButton btnQuayLai;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblGiaTien;
