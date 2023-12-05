@@ -40,6 +40,7 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
     private NhanVien_DAO nhanviendao;
     private Phong phong;
     String maNV_use;
+
     /**
      * Creates new form FormDatPhong
      */
@@ -119,16 +120,14 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
         KhachHang KhachHang = khachhangdao.layKhachHangTheoSDT(sdt);
         if (KhachHang == null) {
             int xacNhan = JOptionPane.showConfirmDialog(this,
-                    "Khách hàng không có trong hệ thống, Bạn có muốn thêm khách hàng không", "Thông báo",
+                    "Khách hàng không có trong hệ thống, Bạn có muốn thêm khách hàng không?", "Thông báo",
                     JOptionPane.YES_NO_OPTION);
             if (xacNhan == JOptionPane.YES_OPTION) {
-//                GiaoDienChinh gd = new GiaoDienChinh();
-//                gd.GD_Chinh.add(new GD_KH(), "khachhang");
-//                gd.card.show(gd.GD_Chinh, "khachhang");
-//                jLabel2.setText("QUẢN LÝ KHÁCH HÀNG");
+                new FormThemKH(txtSDT.getText()).setVisible(true);
             }
+        } else {
+            txtTenKhach.setText(KhachHang.getHoKH() + " " + KhachHang.getTenKH());
         }
-        txtTenKhach.setText(KhachHang.getHoKH() + " " + KhachHang.getTenKH());
         return KhachHang;
     }
 
@@ -478,7 +477,7 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
         String maphieu = phieudatphongdao.maPDP_Auto();
         NhanVien nv = nhanviendao.getNhanVienTheoMa(maNV_use);
         PhieuDatPhong phieuDatPhong = new PhieuDatPhong(maphieu, khachHang, nv, phong, new Date(), date, false);
-        if (!phongdao.capNhatTrangThaiPhong(phong.getMaPhong(),"Đã được đặt")
+        if (!phongdao.capNhatTrangThaiPhong(phong.getMaPhong(), "Đã được đặt")
                 || !phieudatphongdao.themPhieuDatPhong(phieuDatPhong)) {
             JOptionPane.showMessageDialog(this, "Đặt phòng KHÔNG thành công");
 //            setVisible(false);

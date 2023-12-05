@@ -82,18 +82,15 @@ public class Form_NhanPhongNgay extends javax.swing.JFrame implements ActionList
         }
         KhachHang KhachHang = khachhangdao.layKhachHangTheoSDT(sdt);
         if (KhachHang == null) {
-            JOptionPane.showMessageDialog(null, "Khách hàng không có trong hệ thống!");
-//            int xacNhan = JOptionPane.showConfirmDialog(this,
-//                    "Khách hàng không có trong hệ thống, Bạn có muốn thêm khách hàng không", "Thông báo",
-//                    JOptionPane.YES_NO_OPTION);
-//            if (xacNhan == JOptionPane.YES_OPTION) {
-////                GiaoDienChinh gd = new GiaoDienChinh();
-////                gd.GD_Chinh.add(new GD_KH(), "khachhang");
-////                gd.card.show(gd.GD_Chinh, "khachhang");
-////                jLabel2.setText("QUẢN LÝ KHÁCH HÀNG");
-//            }
+            int xacNhan = JOptionPane.showConfirmDialog(this,
+                    "Khách hàng không có trong hệ thống, Bạn có muốn thêm khách hàng không?", "Thông báo",
+                    JOptionPane.YES_NO_OPTION);
+            if (xacNhan == JOptionPane.YES_OPTION) {
+                new FormThemKH(sdt).setVisible(true);
+            }
+        } else {
+            txtTenKhach.setText(KhachHang.getHoKH() + " " + KhachHang.getTenKH());
         }
-        txtTenKhach.setText(KhachHang.getHoKH() + " " + KhachHang.getTenKH());
         return KhachHang;
     }
 

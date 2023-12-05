@@ -180,7 +180,6 @@ public class KhachHang_DAO {
             stmt.setBoolean(6, kh.isGioiTinhKH());
             stmt.setString(7, kh.getSdtKH());
             stmt.setString(8, kh.getEmailKH());
-
             n = stmt.executeUpdate();
 
         } catch (SQLException e) {

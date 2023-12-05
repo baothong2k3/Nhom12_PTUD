@@ -16,6 +16,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Locale;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.prompt.PromptSupport;
 
@@ -44,6 +45,8 @@ public class ThongKeKhachHang extends javax.swing.JPanel {
         addItemCombobox();
         tableKH();
         themVaoTable("0");
+        table.setRowSelectionInterval(0, 0);
+        updateLable();
     }
 
     /**
@@ -99,6 +102,11 @@ public class ThongKeKhachHang extends javax.swing.JPanel {
             }
         });
         table.setRowHeight(40);
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(table);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -130,7 +138,7 @@ public class ThongKeKhachHang extends javax.swing.JPanel {
         jPanel1.add(jLabel4, gridBagConstraints);
 
         txtDoanhThuPT.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        txtDoanhThuPT.setText("jLabel5");
+        txtDoanhThuPT.setText("0 VND");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -146,7 +154,7 @@ public class ThongKeKhachHang extends javax.swing.JPanel {
         jPanel1.add(jLabel6, gridBagConstraints);
 
         txtDoanhThuPV.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        txtDoanhThuPV.setText("jLabel7");
+        txtDoanhThuPV.setText("0 VND");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -162,7 +170,7 @@ public class ThongKeKhachHang extends javax.swing.JPanel {
         jPanel1.add(jLabel8, gridBagConstraints);
 
         txtDoanhThuDV.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        txtDoanhThuDV.setText("jLabel9");
+        txtDoanhThuDV.setText("0 VND");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
@@ -193,7 +201,7 @@ public class ThongKeKhachHang extends javax.swing.JPanel {
         jPanel1.add(jLabel3, gridBagConstraints);
 
         txtTongDTPhong.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        txtTongDTPhong.setText("jLabel5");
+        txtTongDTPhong.setText("0 VND");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
@@ -235,6 +243,11 @@ public class ThongKeKhachHang extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_comboTGActionPerformed
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        // TODO add your handling code here:
+        updateLable();
+    }//GEN-LAST:event_tableMouseClicked
     private void tableKH() {
         table.getTableHeader().setFont(new Font("Cambria", Font.PLAIN, 18));
         table.getTableHeader().setOpaque(false);
@@ -285,4 +298,75 @@ public class ThongKeKhachHang extends javax.swing.JPanel {
     private javax.swing.JLabel txtDoanhThuPV;
     private javax.swing.JLabel txtTongDTPhong;
     // End of variables declaration//GEN-END:variables
+
+    private void updateLable() {
+        int row = table.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng");
+            return;
+        }
+        String maKH = table.getValueAt(row, 0).toString();
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        symbols.setGroupingSeparator('.');
+        DecimalFormat df = new DecimalFormat("#,##0.##", symbols);
+        //
+        String ac = comboTG.getSelectedItem().toString();
+        if (ac.equalsIgnoreCase("30 ngày")) {
+            double doanhThuVIP = hoadonDAO.layTongDoanhThuPVTheoKHTheoTG(maKH, 30);
+            txtDoanhThuPV.setText(df.format(doanhThuVIP) + " VND");
+            //
+            double doanhThuT = hoadonDAO.layTongDoanhThuPTTheoKHTheoTG(maKH, 30);
+            txtDoanhThuPT.setText(df.format(doanhThuT) + " VND");
+            //
+            double tongDoanhThuP = doanhThuVIP + doanhThuT;
+            txtTongDTPhong.setText(df.format(tongDoanhThuP) + " VND");
+            //
+            double tongDT = hoadonDAO.layTongDoanhThuTheoKHTheoTG(maKH, 30);
+            double doanhthuDV = tongDT - tongDoanhThuP;
+            txtDoanhThuDV.setText(df.format(doanhthuDV) + " VND");
+        } else if (ac.equalsIgnoreCase("7 ngày")) {
+            double doanhThuVIP = hoadonDAO.layTongDoanhThuPVTheoKHTheoTG(maKH, 7);
+            txtDoanhThuPV.setText(df.format(doanhThuVIP) + " VND");
+            //
+            double doanhThuT = hoadonDAO.layTongDoanhThuPTTheoKHTheoTG(maKH, 7);
+            txtDoanhThuPT.setText(df.format(doanhThuT) + " VND");
+            //
+            double tongDoanhThuP = doanhThuVIP + doanhThuT;
+            txtTongDTPhong.setText(df.format(tongDoanhThuP) + " VND");
+            //
+            double tongDT = hoadonDAO.layTongDoanhThuTheoKHTheoTG(maKH, 7);
+            double doanhthuDV = tongDT - tongDoanhThuP;
+            txtDoanhThuDV.setText(df.format(doanhthuDV) + " VND");
+        } else {
+            double doanhThuVIP = hoadonDAO.layTongDoanhThuPVTheoKHTheoALLTG(maKH);
+            txtDoanhThuPV.setText(df.format(doanhThuVIP) + " VND");
+            //
+            double doanhThuT = hoadonDAO.layTongDoanhThuPTTheoKHTheoALLTG(maKH);
+            txtDoanhThuPT.setText(df.format(doanhThuT) + " VND");
+            //
+            double tongDoanhThuP = doanhThuVIP + doanhThuT;
+            txtTongDTPhong.setText(df.format(tongDoanhThuP) + " VND");
+            double tongDT = hoadonDAO.layTongDoanhThuTheoKH(maKH);
+            double doanhthuDV = tongDT - tongDoanhThuP;
+            txtDoanhThuDV.setText(df.format(doanhthuDV) + " VND");
+        }
+        ArrayList<Integer> i = hoadonDAO.layNamTuHoaDon();
+        for (Integer integer : i) {
+            if (ac.equalsIgnoreCase(integer + "")) {
+                double doanhThuVIP = hoadonDAO.layTongDoanhThuPVTheoKHTheoNam(maKH, integer + "");
+                txtDoanhThuPV.setText(df.format(doanhThuVIP) + " VND");
+                //
+                double doanhThuT = hoadonDAO.layTongDoanhThuPTTheoKHTheoNam(maKH, integer + "");
+                txtDoanhThuPT.setText(df.format(doanhThuT) + " VND");
+                //
+                double tongDoanhThuP = doanhThuVIP + doanhThuT;
+                txtTongDTPhong.setText(df.format(tongDoanhThuP) + " VND");
+                // 
+                double tongDT = hoadonDAO.layTongDoanhThuTheoKHTheoNam(ac, maKH);
+                double doanhthuDV = tongDT - tongDoanhThuP;
+                txtDoanhThuDV.setText(df.format(doanhthuDV) + " VND");
+                break;
+            }
+        }
+    }
 }

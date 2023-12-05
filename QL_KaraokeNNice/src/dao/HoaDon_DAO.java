@@ -1012,6 +1012,7 @@ public class HoaDon_DAO {
         }
         return maKHDT;
     }
+
     public int demSoKHTheoNam(String nam) {
         ConnectDB.getInstance();
         Connection con = ConnectDB.getConnection();
@@ -1036,6 +1037,7 @@ public class HoaDon_DAO {
         }
         return so;
     }
+
     public String[] layDoanhThuTheoKHTheoNam(String nam) {
         ConnectDB.getInstance();
         Connection con = ConnectDB.getConnection();
@@ -1063,5 +1065,255 @@ public class HoaDon_DAO {
             }
         }
         return maKHDT;
+    }
+//
+
+    public double layTongDoanhThuTheoKHTheoNam(String nam, String maKH) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double tong = 0.0;
+        try {
+            String sql = "SELECT SUM([tongTien]) AS TongDoanhThu FROM [DB_karaoke].[dbo].[HoaDon] WHERE YEAR([NgayLap]) = ? and maKH= ? GROUP BY [maKH] ORDER BY TongDoanhThu DESC";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, nam);
+            statement.setString(2, maKH);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                tong = rs.getDouble(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return tong;
+    }
+
+    public double layTongDoanhThuTheoKHTheoTG(String maKH, int tg) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double tong = 0.0;
+        try {
+            String sql = "SELECT SUM([tongTien]) AS TongDoanhThu FROM [DB_karaoke].[dbo].[HoaDon] WHERE NgayLap BETWEEN DATEADD(DAY, -?, GETDATE()) AND GETDATE()  and maKH= ? GROUP BY [maKH] ORDER BY TongDoanhThu DESC";
+            statement = con.prepareStatement(sql);
+            statement.setInt(1, tg);
+            statement.setString(2, maKH);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                tong = rs.getDouble(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return tong;
+    }
+
+    public Double layTongDoanhThuPVTheoKHTheoTG(String makh, int ngay) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double tg = 0.0;
+        try {
+            String sql = "SELECT DATEDIFF(HOUR, ChiTietHoaDon.gioNhanPhong, ChiTietHoaDon.gioKetThuc) AS thoiGianSuDung FROM HoaDon INNER JOIN ChiTietHoaDon ON HoaDon.maHD = ChiTietHoaDon.maHD INNER JOIN Phong ON ChiTietHoaDon.maPhong = Phong.maPhong WHERE Phong.maLP = 'PV001' AND HoaDon.maKH = ? AND  NgayLap BETWEEN DATEADD(DAY, -?, GETDATE()) AND GETDATE()";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, makh);
+            statement.setInt(2, ngay);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                tg = tg + rs.getDouble(1);
+            }
+            tg = tg * 280000;
+            double thue = tg * 0.1;
+            tg = tg + thue;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return tg;
+    }
+
+    public Double layTongDoanhThuPTTheoKHTheoTG(String makh, int ngay) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double tg = 0.0;
+        try {
+            String sql = "SELECT DATEDIFF(HOUR, ChiTietHoaDon.gioNhanPhong, ChiTietHoaDon.gioKetThuc) AS thoiGianSuDung FROM HoaDon INNER JOIN ChiTietHoaDon ON HoaDon.maHD = ChiTietHoaDon.maHD INNER JOIN Phong ON ChiTietHoaDon.maPhong = Phong.maPhong WHERE Phong.maLP = 'PT001' AND HoaDon.maKH = ? AND  NgayLap BETWEEN DATEADD(DAY, -?, GETDATE()) AND GETDATE()";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, makh);
+            statement.setInt(2, ngay);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                tg = tg + rs.getDouble(1);
+            }
+            tg = tg * 280000;
+            double thue = tg * 0.1;
+            tg = tg + thue;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return tg;
+    }
+
+    public Double layTongDoanhThuPVTheoKHTheoALLTG(String makh) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double tg = 0.0;
+        try {
+            String sql = "SELECT DATEDIFF(HOUR, ChiTietHoaDon.gioNhanPhong, ChiTietHoaDon.gioKetThuc) AS thoiGianSuDung FROM HoaDon INNER JOIN ChiTietHoaDon ON HoaDon.maHD = ChiTietHoaDon.maHD INNER JOIN Phong ON ChiTietHoaDon.maPhong = Phong.maPhong WHERE Phong.maLP = 'PV001' AND HoaDon.maKH = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, makh);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                tg = tg + rs.getDouble(1);
+            }
+            tg = tg * 280000;
+            double thue = tg * 0.1;
+            tg = tg + thue;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return tg;
+    }
+
+    public Double layTongDoanhThuPTTheoKHTheoALLTG(String makh) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double tg = 0.0;
+        try {
+            String sql = "SELECT DATEDIFF(HOUR, ChiTietHoaDon.gioNhanPhong, ChiTietHoaDon.gioKetThuc) AS thoiGianSuDung FROM HoaDon INNER JOIN ChiTietHoaDon ON HoaDon.maHD = ChiTietHoaDon.maHD INNER JOIN Phong ON ChiTietHoaDon.maPhong = Phong.maPhong WHERE Phong.maLP = 'PT001' AND HoaDon.maKH = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, makh);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                tg = tg + rs.getDouble(1);
+            }
+            tg = tg * 280000;
+            double thue = tg * 0.1;
+            tg = tg + thue;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return tg;
+    }
+
+    public Double layTongDoanhThuPVTheoKHTheoNam(String makh, String nam) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double tg = 0.0;
+        try {
+            String sql = "SELECT DATEDIFF(HOUR, ChiTietHoaDon.gioNhanPhong, ChiTietHoaDon.gioKetThuc) AS thoiGianSuDung FROM HoaDon INNER JOIN ChiTietHoaDon ON HoaDon.maHD = ChiTietHoaDon.maHD INNER JOIN Phong ON ChiTietHoaDon.maPhong = Phong.maPhong WHERE Phong.maLP = 'PV001' AND HoaDon.maKH = ? and YEAR([NgayLap]) = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, makh);
+            statement.setString(2, nam);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                tg = tg + rs.getDouble(1);
+            }
+            tg = tg * 280000;
+            double thue = tg * 0.1;
+            tg = tg + thue;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return tg;
+    }
+
+    public Double layTongDoanhThuPTTheoKHTheoNam(String makh, String nam) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double tg = 0.0;
+        try {
+            String sql = "SELECT DATEDIFF(HOUR, ChiTietHoaDon.gioNhanPhong, ChiTietHoaDon.gioKetThuc) AS thoiGianSuDung FROM HoaDon INNER JOIN ChiTietHoaDon ON HoaDon.maHD = ChiTietHoaDon.maHD INNER JOIN Phong ON ChiTietHoaDon.maPhong = Phong.maPhong WHERE Phong.maLP = 'PT001' AND HoaDon.maKH = ? and YEAR([NgayLap]) = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, makh);
+            statement.setString(2, nam);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                tg = tg + rs.getDouble(1);
+            }
+            tg = tg * 280000;
+            double thue = tg * 0.1;
+            tg = tg + thue;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return tg;
+    }
+
+    public double layTongDoanhThuTheoKH(String maKH) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        double tong = 0.0;
+        try {
+            String sql = "SELECT SUM([tongTien]) AS TongDoanhThu FROM [DB_karaoke].[dbo].[HoaDon] WHERE maKH= ? GROUP BY [maKH] ORDER BY TongDoanhThu DESC";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, maKH);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                tong = rs.getDouble(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return tong;
     }
 }

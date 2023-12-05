@@ -79,6 +79,17 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
         }
         return "Nữ";
     }
+    public void xoaTrang() {
+        txtMaKH.setText("");
+        txtCCCD.setText("");
+        txtHoKH.setText("");
+        txtTenKH.setText("");
+        txtSDT.setText("");
+        radioNam1.setSelected(false);
+        radioNu1.setSelected(false);
+        dateNgaySinh.setDate(null);
+        txtMaKH.requestFocus();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -114,6 +125,8 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
         jLabel11 = new javax.swing.JLabel();
         btnLamMoi = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableKH = new javax.swing.JTable();
@@ -264,10 +277,10 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
         jPanel3.add(txtTimKH, gridBagConstraints);
 
         jLabel10.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jLabel10.setText("Ngày sinh");
+        jLabel10.setText("Email");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel3.add(jLabel10, gridBagConstraints);
 
@@ -360,6 +373,21 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel3.add(btnXoa, gridBagConstraints);
 
+        jLabel12.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        jLabel12.setText("Ngày sinh");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel3.add(jLabel12, gridBagConstraints);
+
+        txtEmail.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtEmail.setPreferredSize(new java.awt.Dimension(185, 30));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 4;
+        jPanel3.add(txtEmail, gridBagConstraints);
+
         GD_KhachHang.add(jPanel3, java.awt.BorderLayout.PAGE_START);
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
@@ -419,6 +447,7 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
+        xoaTrang();
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
@@ -433,8 +462,10 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
         txtTenKH.setText(modelKH.getValueAt(r, 3).toString());//ten	
         txtSDT.setText(modelKH.getValueAt(r, 6).toString());//sdt
         txtCCCD.setText(modelKH.getValueAt(r, 1).toString());//cccd
+        KhachHang kh = kh_dao.getKhachHangTheoMa(txtMaKH.getText());
+        txtEmail.setText(kh.getEmailKH());//email
         String gt = modelKH.getValueAt(r, 5).toString();
-        if (gt == "Nam") {
+        if ("Nam".equalsIgnoreCase(gt)) {
             radioNam1.setSelected(true);
             radioNu1.setSelected(false);
         } else {
@@ -481,6 +512,7 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
     private com.toedter.calendar.JDateChooser dateNgaySinh;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
@@ -493,6 +525,7 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
     private javax.swing.JRadioButton radioNu1;
     private javax.swing.JTable tableKH;
     private javax.swing.JTextField txtCCCD;
+    private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtHoKH;
     private javax.swing.JTextField txtMaKH;
     private javax.swing.JTextField txtSDT;
@@ -503,19 +536,6 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub
-    }
-
-    public void xoaTrang() {
-        txtMaKH.setText("");
-        txtHoKH.setText("");//ho
-        txtTenKH.setText("");//ten	
-        txtSDT.setText("");//sdt
-        txtCCCD.setText("");//cccd
-        radioNu1.setSelected(false);
-        radioNam1.setSelected(false);
-        dateNgaySinh.setDate(null);
-        txtMaKH.requestFocus();
-
     }
 
     private void lamMoi() {
@@ -587,31 +607,31 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
     }
 
     public KhachHang reverSPFromTextField() {
-        KhachHang kh = new KhachHang();
-
         radioNu1.setSelected(false);
         radioNam1.setSelected(false);
         String ma = txtMaKH.getText();
-        String ho = txtHoKH.getText().toString();
-        String ten = txtTenKH.getText().toString();
-        String sdt = txtSDT.getText().toString();
-        String cccd = txtCCCD.getText().toString();
+        String ho = txtHoKH.getText();
+        String ten = txtTenKH.getText();
+        String sdt = txtSDT.getText();
+        String cccd = txtCCCD.getText();
+        String email = txtEmail.getText();
         Date ngaySinh = dateNgaySinh.getDate();
         boolean gt = true;
         if (radioNu1.isSelected()) {
             gt = false;
         }
 
-        return new KhachHang(ma, cccd, ho, ten, ngaySinh, gt, sdt);
+        return new KhachHang(ma, cccd, ho, ten, ngaySinh, gt, sdt, email);
     }
 
     public void them() {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String ma = kh_dao.maKH_Auto();
-        String ho = txtHoKH.getText().toString();
-        String ten = txtTenKH.getText().toString();
-        String sdt = txtSDT.getText().toString();
-        String cccd = txtCCCD.getText().toString();
+        String ho = txtHoKH.getText();
+        String ten = txtTenKH.getText();
+        String sdt = txtSDT.getText();
+        String cccd = txtCCCD.getText();
+        String email = txtEmail.getText();
         String ngaySinh = dateFormat.format(dateNgaySinh.getDate());
         Date dNgaySinh = dateNgaySinh.getDate();
         String gt = "Nam";
@@ -621,7 +641,7 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
             bgt = false;
         }
 
-        KhachHang kh = new KhachHang(ma, cccd, ho, ten, dNgaySinh, bgt, sdt);
+        KhachHang kh = new KhachHang(ma, cccd, ho, ten, dNgaySinh, bgt, sdt, email);
         if (kh_dao.insertKhachHang(kh)) {
             String[] data = {ma, cccd, ho,
                 ten, ngaySinh, gt, sdt};

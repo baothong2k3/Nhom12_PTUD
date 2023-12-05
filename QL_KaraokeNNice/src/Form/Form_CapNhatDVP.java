@@ -452,6 +452,8 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         txtTim.setText("");
         txtTim.requestFocus();
+        modelDSDV.setRowCount(0);
+        loadAllDV();
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void txtMaPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaPhongActionPerformed
