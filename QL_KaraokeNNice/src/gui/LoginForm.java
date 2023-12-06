@@ -39,68 +39,68 @@ public class LoginForm extends javax.swing.JFrame {
         setTitle("Quản lý karaoke NNice");
         label_dangNhap.requestFocus();
         PromptSupport.setPrompt("Mã nhân viên", txtMaNV);
-        PromptSupport.setPrompt("Mật khẩu", txtPassword);
+        //PromptSupport.setPrompt("Mật khẩu", txtPassword);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jEditorPane1 = new javax.swing.JEditorPane();
-        jRadioButton1 = new javax.swing.JRadioButton();
         PanelDangNhap = new javax.swing.JPanel();
         img_login = new javax.swing.JLabel();
-        label_dangNhap = new javax.swing.JLabel();
-        txtMaNV = new javax.swing.JTextField();
-        btn_hide = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        txtMaNV = new textfield.TextField();
         btn_dangNhap = new javax.swing.JButton();
         btn_out = new javax.swing.JButton();
         btn_fpasssword = new javax.swing.JButton();
-        txtPassword = new javax.swing.JPasswordField();
-
-        jScrollPane1.setViewportView(jEditorPane1);
-
-        jRadioButton1.setText("jRadioButton1");
+        passwordField1 = new textfield.PasswordField();
+        label_dangNhap = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(121, 188, 215));
-        setSize(new java.awt.Dimension(1000, 500));
+        setPreferredSize(new java.awt.Dimension(1050, 500));
+        setSize(new java.awt.Dimension(920, 500));
 
         PanelDangNhap.setBackground(new java.awt.Color(121, 188, 215));
-        PanelDangNhap.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        PanelDangNhap.setPreferredSize(new java.awt.Dimension(520, 0));
+        PanelDangNhap.setMaximumSize(new java.awt.Dimension(520, 500));
+        PanelDangNhap.setMinimumSize(new java.awt.Dimension(520, 500));
+        PanelDangNhap.setPreferredSize(new java.awt.Dimension(520, 500));
+        PanelDangNhap.setLayout(new java.awt.GridLayout(1, 0));
 
+        img_login.setBackground(new java.awt.Color(121, 188, 215));
         img_login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/image_login.png"))); // NOI18N
+        PanelDangNhap.add(img_login);
 
-        label_dangNhap.setFont(new java.awt.Font("Cambria", 1, 50)); // NOI18N
-        label_dangNhap.setForeground(new java.awt.Color(33, 36, 71));
-        label_dangNhap.setText("Đăng nhập");
+        getContentPane().add(PanelDangNhap, java.awt.BorderLayout.WEST);
 
-        txtMaNV.setFont(new java.awt.Font("Cambria", 0, 24)); // NOI18N
+        jPanel1.setBackground(new java.awt.Color(121, 188, 215));
+        jPanel1.setPreferredSize(new java.awt.Dimension(530, 520));
+        java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
+        jPanel1Layout.columnWidths = new int[] {0};
+        jPanel1Layout.rowHeights = new int[] {0, 25, 0, 25, 0, 25, 0, 25, 0};
+        jPanel1.setLayout(jPanel1Layout);
+
         txtMaNV.setText("NV001");
-        txtMaNV.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        txtMaNV.setOpaque(true);
+        txtMaNV.setFont(new java.awt.Font("Cambria", 0, 24)); // NOI18N
+        txtMaNV.setLabelText("Mã nhân viên");
+        txtMaNV.setPreferredSize(new java.awt.Dimension(400, 70));
         txtMaNV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMaNVActionPerformed(evt);
             }
         });
-
-        btn_hide.setBackground(new java.awt.Color(121, 188, 215));
-        btn_hide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/hide1.png"))); // NOI18N
-        btn_hide.setBorder(null);
-        btn_hide.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_hideActionPerformed(evt);
-            }
-        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        jPanel1.add(txtMaNV, gridBagConstraints);
 
         btn_dangNhap.setBackground(new java.awt.Color(64, 71, 241));
         btn_dangNhap.setFont(new java.awt.Font("Cambria", 0, 24)); // NOI18N
         btn_dangNhap.setForeground(new java.awt.Color(255, 255, 255));
         btn_dangNhap.setText("Đăng nhập");
         btn_dangNhap.setBorder(null);
+        btn_dangNhap.setPreferredSize(new java.awt.Dimension(200, 55));
         btn_dangNhap.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_dangNhapMouseClicked(evt);
@@ -111,102 +111,76 @@ public class LoginForm extends javax.swing.JFrame {
                 btn_dangNhapActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(btn_dangNhap, gridBagConstraints);
 
         btn_out.setBackground(new java.awt.Color(255, 51, 51));
         btn_out.setFont(new java.awt.Font("Cambria", 0, 24)); // NOI18N
         btn_out.setForeground(new java.awt.Color(255, 255, 255));
         btn_out.setText("Thoát");
         btn_out.setBorder(null);
+        btn_out.setPreferredSize(new java.awt.Dimension(150, 55));
         btn_out.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_outActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        jPanel1.add(btn_out, gridBagConstraints);
 
         btn_fpasssword.setBackground(new java.awt.Color(121, 188, 215));
         btn_fpasssword.setFont(new java.awt.Font("Cambria", 0, 24)); // NOI18N
         btn_fpasssword.setText("Quên mật khẩu?");
-        btn_fpasssword.setBorder(null);
+        btn_fpasssword.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_fpasssword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_fpassswordActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        jPanel1.add(btn_fpasssword, gridBagConstraints);
 
-        txtPassword.setFont(new java.awt.Font("Cambria", 0, 24)); // NOI18N
-        txtPassword.setText("123");
-        txtPassword.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        passwordField1.setText("123");
+        passwordField1.setFont(new java.awt.Font("Cambria", 0, 24)); // NOI18N
+        passwordField1.setLabelText("Mật khẩu");
+        passwordField1.setPreferredSize(new java.awt.Dimension(400, 70));
+        passwordField1.setShowAndHide(true);
+        passwordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordField1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        jPanel1.add(passwordField1, gridBagConstraints);
 
-        javax.swing.GroupLayout PanelDangNhapLayout = new javax.swing.GroupLayout(PanelDangNhap);
-        PanelDangNhap.setLayout(PanelDangNhapLayout);
-        PanelDangNhapLayout.setHorizontalGroup(
-            PanelDangNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelDangNhapLayout.createSequentialGroup()
-                .addComponent(img_login)
-                .addGroup(PanelDangNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelDangNhapLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                        .addGroup(PanelDangNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(PanelDangNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelDangNhapLayout.createSequentialGroup()
-                                    .addComponent(btn_dangNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btn_out, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btn_hide)
-                                .addComponent(btn_fpasssword)))
-                        .addGap(40, 40, 40))
-                    .addGroup(PanelDangNhapLayout.createSequentialGroup()
-                        .addGap(113, 113, 113)
-                        .addComponent(label_dangNhap)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-        );
-        PanelDangNhapLayout.setVerticalGroup(
-            PanelDangNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelDangNhapLayout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(label_dangNhap)
-                .addGap(31, 31, 31)
-                .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_hide)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_fpasssword)
-                .addGap(18, 18, 18)
-                .addGroup(PanelDangNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_out, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_dangNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(img_login, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        label_dangNhap.setBackground(new java.awt.Color(255, 255, 255));
+        label_dangNhap.setFont(new java.awt.Font("Cambria", 1, 48)); // NOI18N
+        label_dangNhap.setText("Đăng nhập");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        jPanel1.add(label_dangNhap, gridBagConstraints);
 
-        txtMaNV.getAccessibleContext().setAccessibleName("");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelDangNhap, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelDangNhap, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 500, Short.MAX_VALUE)
-        );
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_hideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hideActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_hideActionPerformed
-
     private void btn_dangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_dangNhapActionPerformed
         // TODO add your handling code here:
         String maNV = txtMaNV.getText();
-        String matKhau = new String(txtPassword.getPassword());
+        String matKhau = new String(passwordField1.getPassword());
         // Kiểm tra đăng nhập
         if (kiemTraDangNhap(maNV, matKhau)) {
             // Đăng nhập thành công, thực hiện các thao tác cần thiết
@@ -214,7 +188,7 @@ public class LoginForm extends javax.swing.JFrame {
             // Đóng cửa sổ đăng nhập
             this.dispose();
             // Hiển thị giao diện chính hoặc các thao tác khác
-           NhanVien nv = nvDAO.getNhanVienTheoMa(maNV);
+            NhanVien nv = nvDAO.getNhanVienTheoMa(maNV);
             GiaoDienChinh giaoDienChinh = new GiaoDienChinh(nv);
             giaoDienChinh.setVisible(true);
         } else {
@@ -228,18 +202,22 @@ public class LoginForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_fpassswordActionPerformed
 
-    private void txtMaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaNVActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMaNVActionPerformed
-
     private void btn_dangNhapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_dangNhapMouseClicked
         //new GiaoDienChinh().setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_btn_dangNhapMouseClicked
 
     private void btn_outActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_outActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
+        System.exit(0);
     }//GEN-LAST:event_btn_outActionPerformed
+
+    private void passwordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordField1ActionPerformed
+
+    private void txtMaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaNVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMaNVActionPerformed
 
     /**
      * @param args the command line arguments
@@ -257,22 +235,16 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JPanel PanelDangNhap;
     private javax.swing.JButton btn_dangNhap;
     private javax.swing.JButton btn_fpasssword;
-    private javax.swing.JButton btn_hide;
     private javax.swing.JButton btn_out;
     private javax.swing.JLabel img_login;
-    private javax.swing.JEditorPane jEditorPane1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel label_dangNhap;
-    private javax.swing.JTextField txtMaNV;
-    private javax.swing.JPasswordField txtPassword;
+    private textfield.PasswordField passwordField1;
+    private textfield.TextField txtMaNV;
     // End of variables declaration//GEN-END:variables
 
     private boolean kiemTraDangNhap(String maNV, String matKhau) {
         NhanVien nv = nvDAO.getNhanVienTheoMa(maNV);
-        if (matKhau.equals(nv.getMatKhau())) {
-            return true;
-        }
-        return false;
+        return matKhau.equals(nv.getMatKhau());
     }
 }

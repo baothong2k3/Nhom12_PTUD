@@ -3141,8 +3141,4 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JTextField txtTimKH;
     private javax.swing.JTextField txtTimPhieu;
     // End of variables declaration//GEN-END:variables
-
-    private Object DSPhong() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }
