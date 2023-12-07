@@ -4,6 +4,7 @@
  */
 package gui;
 
+import Form.LoginForm;
 import entity.KhachHang;
 import entity.NhanVien;
 import java.awt.CardLayout;
@@ -14,12 +15,14 @@ import javax.swing.JFrame;
  * @author PC BAO THONG
  */
 public class GiaoDienChinh extends javax.swing.JFrame {
+
     public CardLayout card = null;
+
     /**
      * Creates new form HomePage
      */
     public GiaoDienChinh(NhanVien nv) {
-        
+
         initComponents();
         setLocationRelativeTo(null);
         //setResizable(false);
@@ -28,8 +31,12 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         String chucvu = nv.getChucVu();
         String tenNV = nv.getHoNV() + " " + nv.getTenNV();
-        lblThongTin.setText(chucvu + " - "+tenNV+" - ");
+        lblThongTin.setText(chucvu + " - " + tenNV + " - ");
         lbl_maNV.setText(nv.getMaNV());
+        jLabel2.setText("TRANG CHỦ");
+        GD_Chinh.add(new GD_TrangChu(), "trangchu");
+        card.show(this.GD_Chinh, "trangchu");
+        phanquyen(chucvu);
     }
 
     /**
@@ -245,17 +252,17 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu11 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        menuItemQLP = new javax.swing.JMenuItem();
         jMenu12 = new javax.swing.JMenu();
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
-        jMenu10 = new javax.swing.JMenu();
+        menuDV = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
+        menuNV = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem10 = new javax.swing.JMenuItem();
-        jMenu13 = new javax.swing.JMenu();
+        menuTK = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -2387,6 +2394,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1200, 600));
         setSize(new java.awt.Dimension(1200, 600));
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 560));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -2506,14 +2514,14 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         });
         jMenu11.add(jMenuItem7);
 
-        jMenuItem6.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        jMenuItem6.setText("Quản lý phòng");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        menuItemQLP.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        menuItemQLP.setText("Quản lý phòng");
+        menuItemQLP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
+                menuItemQLPActionPerformed(evt);
             }
         });
-        jMenu11.add(jMenuItem6);
+        jMenu11.add(menuItemQLP);
 
         jMenuBar2.add(jMenu11);
 
@@ -2541,9 +2549,9 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
         jMenuBar2.add(jMenu12);
 
-        jMenu10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/food.png"))); // NOI18N
-        jMenu10.setText("Dịch vụ");
-        jMenu10.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        menuDV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/food.png"))); // NOI18N
+        menuDV.setText("Dịch vụ");
+        menuDV.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
 
         jMenuItem5.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jMenuItem5.setText("Quản lý dịch vụ");
@@ -2557,13 +2565,13 @@ public class GiaoDienChinh extends javax.swing.JFrame {
                 jMenuItem5ActionPerformed(evt);
             }
         });
-        jMenu10.add(jMenuItem5);
+        menuDV.add(jMenuItem5);
 
-        jMenuBar2.add(jMenu10);
+        jMenuBar2.add(menuDV);
 
-        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icon_nv.png"))); // NOI18N
-        jMenu4.setText("Nhân viên");
-        jMenu4.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        menuNV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icon_nv.png"))); // NOI18N
+        menuNV.setText("Nhân viên");
+        menuNV.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
 
         jMenuItem9.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jMenuItem9.setText("Quản lý nhân viên");
@@ -2572,9 +2580,9 @@ public class GiaoDienChinh extends javax.swing.JFrame {
                 jMenuItem9ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem9);
+        menuNV.add(jMenuItem9);
 
-        jMenuBar2.add(jMenu4);
+        jMenuBar2.add(menuNV);
 
         jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/people.png"))); // NOI18N
         jMenu5.setText("Khách hàng");
@@ -2591,9 +2599,9 @@ public class GiaoDienChinh extends javax.swing.JFrame {
 
         jMenuBar2.add(jMenu5);
 
-        jMenu13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/bar-chart.png"))); // NOI18N
-        jMenu13.setText("Biểu đồ");
-        jMenu13.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        menuTK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/bar-chart.png"))); // NOI18N
+        menuTK.setText("Biểu đồ");
+        menuTK.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
 
         jMenu7.setText("Thống kê doanh thu theo thời gian");
         jMenu7.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
@@ -2625,7 +2633,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         });
         jMenu7.add(jMenuItem4);
 
-        jMenu13.add(jMenu7);
+        menuTK.add(jMenu7);
 
         jMenuItem8.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         jMenuItem8.setText("Thống kê doanh thu theo khách hàng");
@@ -2634,17 +2642,22 @@ public class GiaoDienChinh extends javax.swing.JFrame {
                 jMenuItem8ActionPerformed(evt);
             }
         });
-        jMenu13.add(jMenuItem8);
+        menuTK.add(jMenuItem8);
 
-        jMenuBar2.add(jMenu13);
+        jMenuBar2.add(menuTK);
 
         jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/info.png"))); // NOI18N
-        jMenu2.setText("About us");
+        jMenu2.setText("Giới thiệu");
         jMenu2.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu2MouseClicked(evt);
+            }
+        });
         jMenuBar2.add(jMenu2);
 
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/question.png"))); // NOI18N
-        jMenu3.setText("Help");
+        jMenu3.setText("Trợ giúp");
         jMenu3.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         jMenuBar2.add(jMenu3);
 
@@ -2692,7 +2705,9 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         // TODO add your handling code here:
         //disableAllPanel();
         jLabel2.setText("TRANG CHỦ");
-        //GD_Chinh.setVisible(true);
+        GD_Chinh.add(new GD_TrangChu(), "trangchu");
+        card.show(this.GD_Chinh, "trangchu");
+
     }//GEN-LAST:event_jMenu1MouseClicked
 
     private void txtMaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaNVActionPerformed
@@ -2874,7 +2889,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTim2ActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+    private void menuItemQLPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemQLPActionPerformed
         // TODO add your handling code here:
         //disableAllPanel();
         jLabel2.setText("QUẢN LÝ PHÒNG");
@@ -2882,14 +2897,14 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         card.show(this.GD_Chinh, "phong");
         //jPanel1.add(GD_DSPhong, BorderLayout.CENTER);
         //GD_DSPhong.setVisible(true);
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    }//GEN-LAST:event_menuItemQLPActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
         jLabel2.setText("THỐNG KÊ DOANH THU THEO THÁNG");
         GD_Chinh.add(new ThongKeDoanhThuThang(), "thongKeThang");
         card.show(this.GD_Chinh, "thongKeThang");
-        
+
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -2913,10 +2928,16 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         card.show(this.GD_Chinh, "thongKeKH");
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+        // TODO add your handling code here:
+        jLabel2.setText("GIỚI THIỆU");
+        GD_Chinh.add(new GD_GioiThieu(), "aboutus");
+        card.show(this.GD_Chinh, "aboutus");
+    }//GEN-LAST:event_jMenu2MouseClicked
+
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel GD_Chinh;
@@ -3008,13 +3029,10 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu12;
-    private javax.swing.JMenu jMenu13;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar2;
@@ -3025,7 +3043,6 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
@@ -3092,6 +3109,10 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JLabel lblXuatXu;
     private javax.swing.JLabel lblXuatXu1;
     private javax.swing.JLabel lbl_maNV;
+    private javax.swing.JMenu menuDV;
+    private javax.swing.JMenuItem menuItemQLP;
+    private javax.swing.JMenu menuNV;
+    private javax.swing.JMenu menuTK;
     private javax.swing.JPanel panelCenter;
     private javax.swing.JPanel panelCenter1;
     private javax.swing.JPanel panelDSNV;
@@ -3141,4 +3162,13 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private javax.swing.JTextField txtTimKH;
     private javax.swing.JTextField txtTimPhieu;
     // End of variables declaration//GEN-END:variables
+
+    private void phanquyen(String chucvu) {
+        if (chucvu.equalsIgnoreCase("Lễ tân")) {
+            menuDV.setVisible(false);
+            menuNV.setVisible(false);
+            menuTK.setVisible(false);
+            menuItemQLP.setVisible(false);
+        }
+    }
 }

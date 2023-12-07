@@ -2,11 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package gui;
+package Form;
 
 import connectDB.ConnectDB;
 import dao.NhanVien_DAO;
 import entity.NhanVien;
+import gui.GiaoDienChinh;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -59,23 +60,20 @@ public class LoginForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(121, 188, 215));
-        setPreferredSize(new java.awt.Dimension(1050, 500));
         setSize(new java.awt.Dimension(920, 500));
 
         PanelDangNhap.setBackground(new java.awt.Color(121, 188, 215));
-        PanelDangNhap.setMaximumSize(new java.awt.Dimension(520, 500));
-        PanelDangNhap.setMinimumSize(new java.awt.Dimension(520, 500));
         PanelDangNhap.setPreferredSize(new java.awt.Dimension(520, 500));
-        PanelDangNhap.setLayout(new java.awt.GridLayout(1, 0));
+        PanelDangNhap.setLayout(new java.awt.GridBagLayout());
 
         img_login.setBackground(new java.awt.Color(121, 188, 215));
         img_login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/image_login.png"))); // NOI18N
-        PanelDangNhap.add(img_login);
+        PanelDangNhap.add(img_login, new java.awt.GridBagConstraints());
 
         getContentPane().add(PanelDangNhap, java.awt.BorderLayout.WEST);
 
         jPanel1.setBackground(new java.awt.Color(121, 188, 215));
-        jPanel1.setPreferredSize(new java.awt.Dimension(530, 520));
+        jPanel1.setPreferredSize(new java.awt.Dimension(530, 500));
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
         jPanel1Layout.columnWidths = new int[] {0};
         jPanel1Layout.rowHeights = new int[] {0, 25, 0, 25, 0, 25, 0, 25, 0};
@@ -114,7 +112,7 @@ public class LoginForm extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel1.add(btn_dangNhap, gridBagConstraints);
 
         btn_out.setBackground(new java.awt.Color(255, 51, 51));
@@ -131,7 +129,7 @@ public class LoginForm extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(btn_out, gridBagConstraints);
 
         btn_fpasssword.setBackground(new java.awt.Color(121, 188, 215));

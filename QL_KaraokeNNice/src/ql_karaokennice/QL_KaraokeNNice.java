@@ -4,7 +4,8 @@
  */
 package ql_karaokennice;
 
-import gui.LoginForm;
+import Form.Form_QuenMK;
+import Form.LoginForm;
 
 /**
  *
@@ -38,5 +39,6 @@ public class QL_KaraokeNNice {
 //            }
 //        }
 new LoginForm().setVisible(true);
+//new Form_QuenMK().setVisible(true);
     }
 }
