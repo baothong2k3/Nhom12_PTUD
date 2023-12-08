@@ -8,14 +8,32 @@ package Form;
  *
  * @author PC BAO THONG
  */
+import com.raven.service.ServiceMail;
+import connectDB.ConnectDB;
+import dao.NhanVien_DAO;
+import entity.NhanVien;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 public class Form_QuenMK extends javax.swing.JFrame {
+    
+    private NhanVien_DAO nvDAO;
+    private ServiceMail sm;
 
     /**
      * Creates new form Form_QuenMK
      */
     public Form_QuenMK() {
+        try {
+            ConnectDB.getInstance().connect();
+//            System.out.println("Ket noi Database thanh cong");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        nvDAO = new NhanVien_DAO();
         initComponents();
         setLocationRelativeTo(null);
+        sm = new ServiceMail();
     }
 
     /**
@@ -45,7 +63,8 @@ public class Form_QuenMK extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(650, 40));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jLabel7.setFont(new java.awt.Font("Playfair Display Medium", 1, 24)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Cambria", 3, 24)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("QUÊN MẬT KHẨU");
         jLabel7.setPreferredSize(new java.awt.Dimension(203, 40));
         jPanel1.add(jLabel7, new java.awt.GridBagConstraints());
@@ -135,22 +154,7 @@ public class Form_QuenMK extends javax.swing.JFrame {
 
     private void btn_dangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_dangNhapActionPerformed
         // TODO add your handling code here:
-//        String maNV = txtMaNV.getText();
-//        String matKhau = new String(passwordField1.getPassword());
-//        // Kiểm tra đăng nhập
-//        if (kiemTraDangNhap(maNV, matKhau)) {
-//            // Đăng nhập thành công, thực hiện các thao tác cần thiết
-//            JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
-//            // Đóng cửa sổ đăng nhập
-//            this.dispose();
-//            // Hiển thị giao diện chính hoặc các thao tác khác
-//            NhanVien nv = nvDAO.getNhanVienTheoMa(maNV);
-//            GiaoDienChinh giaoDienChinh = new GiaoDienChinh(nv);
-//            giaoDienChinh.setVisible(true);
-//        } else {
-//            // Đăng nhập thất bại, hiển thị thông báo lỗi
-//            JOptionPane.showMessageDialog(this, "Đăng nhập thất bại. Vui lòng kiểm tra lại tài khoản và mật khẩu.");
-//        }
+        guiMail();
     }//GEN-LAST:event_btn_dangNhapActionPerformed
 
     private void btn_outActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_outActionPerformed
@@ -203,4 +207,30 @@ public class Form_QuenMK extends javax.swing.JFrame {
     private textfield.PasswordField txtNewPW;
     private textfield.PasswordField txtXNNewPW;
     // End of variables declaration//GEN-END:variables
+
+    private String taoCode() {
+        int code = (int) (Math.random() * 100000);
+        return code + "";
+    }
+    
+    private void guiMail() {
+        String maNV = txtMaNV.getText();
+        String matKhauNew = new String(txtNewPW.getPassword());
+        String matKhauXN = new String(txtXNNewPW.getPassword());
+        if (matKhauNew.equals(matKhauXN) && !matKhauNew.isEmpty() && !matKhauXN.isEmpty()) {
+            NhanVien nv = nvDAO.getNhanVienTheoMa(maNV);
+            if (nv == null) {
+                JOptionPane.showMessageDialog(this, "Nhân viên không tồn tại trong hệ thống");
+                return;
+            }
+            String code = taoCode();
+            String email = nv.getEmailNV();
+            sm.sendMain(email, code);
+            new InputCode(code, maNV, matKhauNew).setVisible(true);
+            hide();
+        }else {
+            JOptionPane.showMessageDialog(this, "Mật khẩu xác nhận hoặc trống");
+        }
+        dispose();
+    }  
 }

@@ -373,4 +373,30 @@ public class NhanVien_DAO {
         return nv;
 
     }
+    public boolean updateMKNhanVien(String maNV, String mk) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement stmt = null;
+        int n = 0;
+
+        try {
+            stmt = con.prepareStatement("UPDATE NhanVien SET matkhau = ? WHERE maNV = ?");
+            stmt.setString(1, mk);
+            stmt.setString(2, maNV);
+            n = stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            try {
+                stmt.close();
+
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+
+            }
+        }
+        return n > 0;
+    }
 }

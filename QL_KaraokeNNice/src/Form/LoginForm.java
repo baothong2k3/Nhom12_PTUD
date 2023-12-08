@@ -198,6 +198,8 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void btn_fpassswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_fpassswordActionPerformed
         // TODO add your handling code here:
+        new Form_QuenMK().setVisible(true);
+        dispose();
     }//GEN-LAST:event_btn_fpassswordActionPerformed
 
     private void btn_dangNhapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_dangNhapMouseClicked
