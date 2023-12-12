@@ -336,8 +336,8 @@ public class HoaDon_DAO {
             while (rs.next()) {
                 String maDV = rs.getString(1);
                 int soLuong = rs.getInt(2);
-
-                ctdv = new ChiTietDichVu(new DichVu(maDV), soLuong, new HoaDon(mHD));
+                String maPhong = rs.getString(4);
+                ctdv = new ChiTietDichVu(new DichVu(maDV), soLuong, new HoaDon(mHD), maPhong);
             }
         } catch (SQLException e) {
             // TODO: handle exception
@@ -359,8 +359,8 @@ public class HoaDon_DAO {
             while (rs.next()) {
                 String maDV = rs.getString(1);
                 int soLuong = rs.getInt(2);
-
-                ChiTietDichVu ctdv = new ChiTietDichVu(new DichVu(maDV), soLuong, new HoaDon(mHD));
+                String maPhong = rs.getString(4);
+                ChiTietDichVu ctdv = new ChiTietDichVu(new DichVu(maDV), soLuong, new HoaDon(mHD), maPhong);
                 dsCTDV.add(ctdv);
 
             }
@@ -441,10 +441,11 @@ public class HoaDon_DAO {
         int n = 0;
         try {
             for (ChiTietDichVu ctdv : dsCTDV) {
-                stmt = con.prepareStatement("INSERT INTO ChiTietDichVu VALUES(?, ?, ?)");
+                stmt = con.prepareStatement("INSERT INTO ChiTietDichVu VALUES(?, ?, ?,?)");
                 stmt.setString(1, ctdv.getDichVu().getMaDV());
                 stmt.setInt(2, ctdv.getSoLuong());
                 stmt.setString(3, ctdv.getHoaDon().getMaHD());
+                stmt.setString(4, ctdv.getmaPhong());
                 n = stmt.executeUpdate();
             }
         } catch (SQLException e) {
@@ -1315,5 +1316,79 @@ public class HoaDon_DAO {
             }
         }
         return tong;
+    }
+
+    public String layKHDungPhong(String ma) {
+        String maKh = null;
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement stmt = null;
+        try {
+            String sql = "SELECT hoadon.maKH FROM [DB_karaoke].[dbo].[HoaDon] AS hoadon INNER JOIN [DB_karaoke].[dbo].[ChiTietHoaDon] AS chitiethoadon ON hoadon.maHD = chitiethoadon.maHD where hoadon.trangThai = 0 and chitiethoadon.maPhong = ?";
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, ma);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                maKh = rs.getString(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return maKh;
+    }
+    public ArrayList<String> layDSKHDungPhong(){
+        ArrayList<String> dsKH = new ArrayList<String>();
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement stmt = null;
+        try {
+            String sql = "SELECT DISTINCT maKH FROM HoaDon WHERE trangThai = 0";
+            stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                dsKH.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return dsKH;
+    }
+    public ArrayList<String> layDSDVTheoHD(){
+        ArrayList<String> dsKH = new ArrayList<String>();
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement stmt = null;
+        try {
+            String sql = "SELECT DISTINCT maKH FROM HoaDon WHERE trangThai = 0";
+            stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                dsKH.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return dsKH;
     }
 }

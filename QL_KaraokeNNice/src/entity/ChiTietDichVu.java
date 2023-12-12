@@ -7,6 +7,7 @@ public class ChiTietDichVu {
     private DichVu dichVu;
     private int soLuong;
     private HoaDon hoaDon;
+    private String maPhong;
 
     public DichVu getDichVu() {
         return dichVu;
@@ -24,6 +25,14 @@ public class ChiTietDichVu {
         this.soLuong = soLuong;
     }
 
+    public String getmaPhong() {
+        return maPhong;
+    }
+
+    public void setMaPhong(String maPhong) {
+        this.maPhong = maPhong;
+    }
+
     public HoaDon getHoaDon() {
         return hoaDon;
     }
@@ -32,10 +41,11 @@ public class ChiTietDichVu {
         this.hoaDon = hoaDon;
     }
 
-    public ChiTietDichVu(DichVu dichVu, int soLuong, HoaDon hoaDon) {
+    public ChiTietDichVu(DichVu dichVu, int soLuong, HoaDon hoaDon, String maPhong) {
         this.dichVu = dichVu;
         this.soLuong = soLuong;
         this.hoaDon = hoaDon;
+        this.maPhong = maPhong;
     }
 
     public ChiTietDichVu() {
@@ -45,18 +55,18 @@ public class ChiTietDichVu {
         Object[] obj = {getDichVu(), getSoLuong(), getHoaDon()};
         return obj;
     }
-    
+
     public double tinhThanhTienDV() {
         DichVu_DAO dv_dao = new DichVu_DAO();
         DichVu dv = dv_dao.getDichVuTheoMa(getDichVu().getMaDV());
-        
+
         double thanhTienDV = getSoLuong() * dv.getDonGia();
         return thanhTienDV;
     }
 
     @Override
     public String toString() {
-        return "ChiTietDichVu{" + "dichVu=" + dichVu + ", soLuong=" + soLuong + ", hoaDon=" + hoaDon + '}';
+        return "ChiTietDichVu{" + "dichVu=" + dichVu + ", soLuong=" + soLuong + ", hoaDon=" + hoaDon + ", maPhong=" + maPhong + '}';
     }
 
 }

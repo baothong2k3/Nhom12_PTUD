@@ -418,6 +418,11 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
         gioModel.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
         gioModel.setFocusable(false);
         gioModel.setPreferredSize(new java.awt.Dimension(80, 40));
+        gioModel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gioModelActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -507,6 +512,12 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
         setVisible(false);
         dispose();
     }//GEN-LAST:event_btnDatPhongActionPerformed
+
+    private void gioModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gioModelActionPerformed
+        // TODO add your handling code here:
+        phutModel.removeAllItems();
+        thietLapGio();
+    }//GEN-LAST:event_gioModelActionPerformed
 
     /**
      * @param args the command line arguments

@@ -4,6 +4,7 @@
  */
 package Form;
 
+import connectDB.ConnectDB;
 import dao.HoaDon_DAO;
 import dao.KhachHang_DAO;
 import dao.NhanVien_DAO;
@@ -25,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -49,13 +51,29 @@ public class Form_NhanPhongNgay extends javax.swing.JFrame implements ActionList
      * Creates new form FormDatPhong
      */
     public Form_NhanPhongNgay(Phong phong, String maNV) {
+        try {
+            ConnectDB.getInstance().connect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         maNV_use = maNV;
         this.phong = phong;
         hoaDonDao = new HoaDon_DAO();
+        khachhangdao = new KhachHang_DAO();
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
         updateTextField(phong);
+        txtSuggestion();
+    }
+
+    private void txtSuggestion() {
+        ArrayList<String> ds = new ArrayList<String>();
+        ds = hoaDonDao.layDSKHDungPhong();
+        for (String d : ds) {
+            KhachHang kh = khachhangdao.getKhachHangTheoMa(d);
+            txtSDT.addItemSuggestion(kh.getSdtKH());
+        }
     }
 
     private void updateTextField(Phong phong) {
@@ -118,12 +136,12 @@ public class Form_NhanPhongNgay extends javax.swing.JFrame implements ActionList
         lblGiaTien = new javax.swing.JLabel();
         txtGiaTien = new javax.swing.JTextField();
         lblSDT = new javax.swing.JLabel();
-        txtSDT = new javax.swing.JTextField();
         btnKiemTra = new javax.swing.JButton();
         lblTenKH = new javax.swing.JLabel();
         txtTenKhach = new javax.swing.JTextField();
         btnQuayLai = new javax.swing.JButton();
         btnNhanPhong = new javax.swing.JButton();
+        txtSDT = new textfield_suggestion.TextFieldSuggestion();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -256,14 +274,6 @@ public class Form_NhanPhongNgay extends javax.swing.JFrame implements ActionList
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(lblSDT, gridBagConstraints);
 
-        txtSDT.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
-        txtSDT.setMinimumSize(new java.awt.Dimension(300, 40));
-        txtSDT.setPreferredSize(new java.awt.Dimension(200, 40));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        jPanel1.add(txtSDT, gridBagConstraints);
-
         btnKiemTra.setBackground(new java.awt.Color(204, 255, 255));
         btnKiemTra.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
         btnKiemTra.setText("Kiểm tra");
@@ -326,6 +336,13 @@ public class Form_NhanPhongNgay extends javax.swing.JFrame implements ActionList
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel1.add(btnNhanPhong, gridBagConstraints);
 
+        txtSDT.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
+        txtSDT.setPreferredSize(new java.awt.Dimension(200, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        jPanel1.add(txtSDT, gridBagConstraints);
+
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -367,7 +384,6 @@ public class Form_NhanPhongNgay extends javax.swing.JFrame implements ActionList
                 ChiTietHoaDon ctHD;
                 ctHD = new ChiTietHoaDon(hoaDon, new Date(), new Date(), phong);
                 phongdao.capNhatTrangThaiPhong(phong.getMaPhong(), "Đang sử dụng");
-
                 if (hoaDonDao.themHoaDon(hoaDon)) {
                     JOptionPane.showMessageDialog(null, "Nhận phòng thành công");
                 } else {
@@ -405,7 +421,7 @@ public class Form_NhanPhongNgay extends javax.swing.JFrame implements ActionList
     private javax.swing.JPanel panelHeader;
     private javax.swing.JTextField txtGiaTien;
     private javax.swing.JTextField txtLoaiPhong;
-    private javax.swing.JTextField txtSDT;
+    private textfield_suggestion.TextFieldSuggestion txtSDT;
     private javax.swing.JTextField txtSoNguoi;
     private javax.swing.JTextField txtSoPhong;
     private javax.swing.JTextField txtTenKhach;

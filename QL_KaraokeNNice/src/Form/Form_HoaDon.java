@@ -24,6 +24,7 @@ import dao.DichVu_DAO;
 import dao.HoaDon_DAO;
 import dao.KhachHang_DAO;
 import dao.NhanVien_DAO;
+import dao.PhieuDatPhong_DAO;
 import dao.Phong_DAO;
 import entity.ChiTietDichVu;
 import entity.ChiTietHoaDon;
@@ -32,6 +33,7 @@ import entity.HoaDon;
 import entity.KhachHang;
 import entity.LoaiPhong;
 import entity.NhanVien;
+import entity.PhieuDatPhong;
 import entity.Phong;
 import java.awt.Color;
 import java.awt.Container;
@@ -67,6 +69,7 @@ public class Form_HoaDon extends javax.swing.JFrame {
 
     public static File fontFile = new File("VietFontsWeb1_ttf/vuArial.ttf");
     //dao
+    private PhieuDatPhong_DAO phieuDP;
     private KhachHang_DAO kh_dao;
     private NhanVien_DAO nv_dao;
     private DichVu_DAO dv_dao;
@@ -88,6 +91,7 @@ public class Form_HoaDon extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        phieuDP = new PhieuDatPhong_DAO();
         hd_dao = new HoaDon_DAO();
         kh_dao = new KhachHang_DAO();
         nv_dao = new NhanVien_DAO();
@@ -518,7 +522,14 @@ public class Form_HoaDon extends javax.swing.JFrame {
             for (ChiTietHoaDon cthd : dsCTHD) {
                 Phong p = phong_dao.getPhongTheoMa(cthd.getPhong().getMaPhong());
                 LoaiPhong lp = phong_dao.getLoaiPhongTheoMa(p.getLoaiPhong().getMaLP());
-                phong_dao.capNhatTrangThaiPhong(p.getMaPhong(), "Trống");
+                PhieuDatPhong phieu = phieuDP.getPDPTheoMaPhong(p.getMaPhong());
+                if (phieu != null) {
+                    if (!phieu.isTrangThai()) {
+                        phong_dao.capNhatTrangThaiPhong(p.getMaPhong(), "Đã được đặt");
+                    } 
+                }else {
+                    phong_dao.capNhatTrangThaiPhong(p.getMaPhong(), "Trống");
+                }
             }
 
             if (hd.isTrangThai()) {

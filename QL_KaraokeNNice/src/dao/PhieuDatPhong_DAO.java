@@ -376,29 +376,4 @@ public class PhieuDatPhong_DAO {
         }
         return maKh;
     }
-    public String layKHDungPhong(String ma){
-        String maKh = null;
-        ConnectDB.getInstance();
-        Connection con = ConnectDB.getConnection();
-        PreparedStatement stmt = null;
-        try {
-            String sql = "SELECT hoadon.maKH FROM [DB_karaoke].[dbo].[HoaDon] AS hoadon INNER JOIN [DB_karaoke].[dbo].[ChiTietHoaDon] AS chitiethoadon ON hoadon.maHD = chitiethoadon.maHD where hoadon.trangThai = 0 and chitiethoadon.maPhong = ?";
-            stmt = con.prepareStatement(sql);
-            stmt.setString(1, ma);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                maKh = rs.getString(1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                stmt.close();
-
-            } catch (SQLException e2) {
-                e2.printStackTrace();
-            }
-        }
-        return maKh;
-    }
 }

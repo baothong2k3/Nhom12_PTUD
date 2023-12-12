@@ -175,7 +175,7 @@ public final class GD_DatPhong extends javax.swing.JPanel {
             tenKH = kh.getHoKH() + " " + kh.getTenKH();
         }
         if (trangThai.equalsIgnoreCase("Đang sử dụng")) {
-            String maKH = phieudatphongdao.layKHDungPhong(phong.getMaPhong());
+            String maKH = hoadonDAO.layKHDungPhong(phong.getMaPhong());
             KhachHang kh = null;
             kh = khachhangDAO.getKhachHangTheoMa(maKH);
             tenKH = kh.getHoKH() + " " + kh.getTenKH();
@@ -761,61 +761,70 @@ public final class GD_DatPhong extends javax.swing.JPanel {
                 null, options, options[0]);
         switch (result) {
             case JOptionPane.YES_OPTION -> {
-                phieudatphongdao = new PhieuDatPhong_DAO();
                 PhieuDatPhong phieuDatPhong = phieudatphongdao.getPDPTheoMaPhong(txtMaPhong.getText());
                 if (phieuDatPhong == null) {
                     JOptionPane.showMessageDialog(null, "Phòng này chưa được đặt trước");
-                    return;
-                }
-                KhachHang kh = khachhangDAO.getKhachHangTheoMa(phieuDatPhong.getKhachHang().getMaKH());
-                phieudatphongdao = new PhieuDatPhong_DAO();
-                int xacnhan = JOptionPane.showConfirmDialog(this,
-                        "Xác nhận nhận phòng của " + kh.getHoKH() + " " + kh.getTenKH() + "?", "Thông báo",
-                        JOptionPane.YES_NO_OPTION);
-                if (xacnhan != JOptionPane.YES_OPTION) {
-                    return;
                 } else {
-
-                    if (hoadonDAO.check_HD_ChuaThanhToan(kh.getMaKH())) {
-                        HoaDon hd = hoadonDAO.getHoaDonTheoKH_TrangThai(kh.getMaKH());
-                        ChiTietHoaDon ctHD = new ChiTietHoaDon(hd, phieuDatPhong.getThoiGianNhan(), new Date(), phong);
-                        phieudatphongdao.capNhatTrangThaiPhieuDatPhong(phieuDatPhong.getMaPhieu());
-                        phongDAO.capNhatTrangThaiPhong(phong.getMaPhong(), "Đang sử dụng");
-                        hoadonDAO.themChiTietHoaDon(ctHD);
-                        JOptionPane.showMessageDialog(null, "Nhận phòng thành công");
+                    Date gioHienTai = new Date();
+                    double khoangCachThoiGian = phieuDatPhong.getThoiGianNhan().getTime() - gioHienTai.getTime();
+                    double thoiLuong = khoangCachThoiGian / (60 * 60 * 1000);
+                    int scale = (int) Math.pow(10, 1);
+                    double roundTo1Decimal = (double) Math.round(thoiLuong * scale) / scale;
+                    if (roundTo1Decimal > 0.2) {
+                        JOptionPane.showMessageDialog(null, "Chưa đến thời gian nhận phòng");
+                        return;
+                    }
+                    KhachHang kh = khachhangDAO.getKhachHangTheoMa(phieuDatPhong.getKhachHang().getMaKH());
+                    int xacnhan = JOptionPane.showConfirmDialog(this,
+                            "Xác nhận nhận phòng của " + kh.getHoKH() + " " + kh.getTenKH() + "?", "Thông báo",
+                            JOptionPane.YES_NO_OPTION);
+                    if (xacnhan != JOptionPane.YES_OPTION) {
+                        return;
                     } else {
-                        String maHD = hoadonDAO.maHD_Auto();
-                        HoaDon hoaDon;
-                        String maNv = phieuDatPhong.getNhanVienLap().getMaNV();
-                        NhanVien nv = nhanvienDAO.getNhanVienTheoMa(maNv);
-                        hoaDon = new HoaDon(maHD, kh, nv, new Date(), 0.1, 0, false);
-                        ChiTietHoaDon ctHD;
-                        ctHD = new ChiTietHoaDon(hoaDon, phieuDatPhong.getThoiGianNhan(), new Date(), phong);
-                        phieudatphongdao.capNhatTrangThaiPhieuDatPhong(phieuDatPhong.getMaPhieu());
-                        phongDAO.capNhatTrangThaiPhong(phong.getMaPhong(), "Đang sử dụng");
-
-                        if (hoadonDAO.themHoaDon(hoaDon)) {
+                        if (hoadonDAO.check_HD_ChuaThanhToan(kh.getMaKH())) {
+                            HoaDon hd = hoadonDAO.getHoaDonTheoKH_TrangThai(kh.getMaKH());
+                            ChiTietHoaDon ctHD = new ChiTietHoaDon(hd, phieuDatPhong.getThoiGianNhan(), new Date(), phong);
+                            phieudatphongdao.capNhatTrangThaiPhieuDatPhong(phieuDatPhong.getMaPhieu());
+                            phongDAO.capNhatTrangThaiPhong(phong.getMaPhong(), "Đang sử dụng");
+                            hoadonDAO.themChiTietHoaDon(ctHD);
                             JOptionPane.showMessageDialog(null, "Nhận phòng thành công");
                         } else {
-                            JOptionPane.showMessageDialog(null, "Đã có lỗi");
-                        }
+                            String maHD = hoadonDAO.maHD_Auto();
+                            HoaDon hoaDon;
+                            String maNv = phieuDatPhong.getNhanVienLap().getMaNV();
+                            NhanVien nv = nhanvienDAO.getNhanVienTheoMa(maNv);
+                            hoaDon = new HoaDon(maHD, kh, nv, new Date(), 0.1, 0, false);
+                            ChiTietHoaDon ctHD;
+                            ctHD = new ChiTietHoaDon(hoaDon, phieuDatPhong.getThoiGianNhan(), new Date(), phong);
+                            phieudatphongdao.capNhatTrangThaiPhieuDatPhong(phieuDatPhong.getMaPhieu());
+                            phongDAO.capNhatTrangThaiPhong(phong.getMaPhong(), "Đang sử dụng");
 
-                        hoadonDAO.themChiTietHoaDon(ctHD);
+                            if (hoadonDAO.themHoaDon(hoaDon)) {
+                                JOptionPane.showMessageDialog(null, "Nhận phòng thành công");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Đã có lỗi");
+                            }
+
+                            hoadonDAO.themChiTietHoaDon(ctHD);
+                        }
                     }
                 }
+
             }
             case JOptionPane.NO_OPTION -> {
                 //tinh thoi luong giua go nhan hien tai va gio dat truoc do
                 PhieuDatPhong pdp = phieudatphongdao.getPDPTheoMaPhong(txtMaPhong.getText().trim());
                 if (pdp != null) {
                     Date gioHienTai = new Date();
-                    double khoangCachThoiGian = gioHienTai.getTime() - pdp.getThoiGianNhan().getTime();
+                    double khoangCachThoiGian = pdp.getThoiGianNhan().getTime() - gioHienTai.getTime();
                     double thoiLuong = khoangCachThoiGian / (60 * 60 * 1000);
                     int scale = (int) Math.pow(10, 1);
                     double roundTo1Decimal = (double) Math.round(thoiLuong * scale) / scale;
+
                     if (roundTo1Decimal < 1.5) {
                         JOptionPane.showMessageDialog(null, "Gần đến thời gian phòng đặt trước sắp sử dụng");
-                        return;
+                    } else {
+                        new Form_NhanPhongNgay(phong, maNV).setVisible(true);
                     }
                 } else {
                     new Form_NhanPhongNgay(phong, maNV).setVisible(true);

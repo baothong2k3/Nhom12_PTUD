@@ -86,6 +86,10 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         }
     }
 
+    private void loadDVPDaThem() {
+
+    }
+
     private void TableEvent() {
         TableActionEvent event = new TableActionEvent() {
             @Override
@@ -462,6 +466,7 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         System.out.println(txtMaPhong.getText().trim());
+        String maPhong = txtMaPhong.getText();
         HoaDon hd = hoaDonDao.getHoaDonTheoMaPhong_TrangThai(txtMaPhong.getText().trim());
         ArrayList<ChiTietDichVu> dsCTDV = new ArrayList<ChiTietDichVu>();
         int slTonMoi;
@@ -479,7 +484,7 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
                 modelDSDV.setRowCount(0);
                 loadAllDV();
             }
-            ChiTietDichVu ctdv = new ChiTietDichVu(dv, sl, hd);
+            ChiTietDichVu ctdv = new ChiTietDichVu(dv, sl, hd, maPhong);
             dsCTDV.add(ctdv);
         }
 
