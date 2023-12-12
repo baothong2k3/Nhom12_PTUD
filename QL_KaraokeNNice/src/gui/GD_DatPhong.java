@@ -149,7 +149,7 @@ public final class GD_DatPhong extends javax.swing.JPanel {
 
     public JPanel taoPanelPhong(Phong phong, LoaiPhong lp) {
         JPanel pnPhong = new JPanel();
-        pnPhong.setPreferredSize(new Dimension(200, 120));
+        pnPhong.setPreferredSize(new Dimension(250, 140));
         pnPhong.setBackground(Color.WHITE);
         pnPhong.setName(phong.getMaPhong());
 
@@ -166,6 +166,23 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         JLabel trangThaiPhong = new JLabel("Trạng thái: " + trangThai);
         trangThaiPhong.setAlignmentX(Component.LEFT_ALIGNMENT);
         trangThaiPhong.setFont(new Font("Cambria", Font.PLAIN, 16));
+
+        String tenKH = null;
+        if (trangThai.equalsIgnoreCase("Đã được đặt")) {
+            String maKH = phieudatphongdao.layKHDatPhong(phong.getMaPhong());
+            KhachHang kh = null;
+            kh = khachhangDAO.getKhachHangTheoMa(maKH);
+            tenKH = kh.getHoKH() + " " + kh.getTenKH();
+        }
+        if (trangThai.equalsIgnoreCase("Đang sử dụng")) {
+            String maKH = phieudatphongdao.layKHDungPhong(phong.getMaPhong());
+            KhachHang kh = null;
+            kh = khachhangDAO.getKhachHangTheoMa(maKH);
+            tenKH = kh.getHoKH() + " " + kh.getTenKH();
+        }
+        JLabel khach = new JLabel("Tên khách: " + tenKH);
+        khach.setAlignmentX(Component.LEFT_ALIGNMENT);
+        khach.setFont(new Font("Cambria", Font.PLAIN, 16));
 
         int soNguoi = phong.getSoNguoi();
         JLabel nguoi = new JLabel("Số người: " + soNguoi);
@@ -192,7 +209,6 @@ public final class GD_DatPhong extends javax.swing.JPanel {
         pnPhong.setLayout(new BoxLayout(pnPhong, BoxLayout.Y_AXIS));
         pnPhong.add(lblNewLabel);
         pnPhong.add(lblTieuDe);
-
         // Thêm sự kiện khi người dùng nhấp chuột vào phòng
         pnPhong.addMouseListener(new MouseAdapter() {
 //      @Override
@@ -208,6 +224,7 @@ public final class GD_DatPhong extends javax.swing.JPanel {
                 pnPhong.add(loaiPhong);
                 pnPhong.add(trangThaiPhong);
                 pnPhong.add(nguoi);
+                pnPhong.add(khach);
                 pnPhong.add(giaP);
                 EmptyBorder margin = new EmptyBorder(10, 0, 5, 0);
                 pnPhong.setBorder(margin);
@@ -749,7 +766,8 @@ public final class GD_DatPhong extends javax.swing.JPanel {
                 if (phieuDatPhong == null) {
                     JOptionPane.showMessageDialog(null, "Phòng này chưa được đặt trước");
                     return;
-                }   KhachHang kh = khachhangDAO.getKhachHangTheoMa(phieuDatPhong.getKhachHang().getMaKH());
+                }
+                KhachHang kh = khachhangDAO.getKhachHangTheoMa(phieuDatPhong.getKhachHang().getMaKH());
                 phieudatphongdao = new PhieuDatPhong_DAO();
                 int xacnhan = JOptionPane.showConfirmDialog(this,
                         "Xác nhận nhận phòng của " + kh.getHoKH() + " " + kh.getTenKH() + "?", "Thông báo",
@@ -757,7 +775,7 @@ public final class GD_DatPhong extends javax.swing.JPanel {
                 if (xacnhan != JOptionPane.YES_OPTION) {
                     return;
                 } else {
-                    
+
                     if (hoadonDAO.check_HD_ChuaThanhToan(kh.getMaKH())) {
                         HoaDon hd = hoadonDAO.getHoaDonTheoKH_TrangThai(kh.getMaKH());
                         ChiTietHoaDon ctHD = new ChiTietHoaDon(hd, phieuDatPhong.getThoiGianNhan(), new Date(), phong);
@@ -775,13 +793,13 @@ public final class GD_DatPhong extends javax.swing.JPanel {
                         ctHD = new ChiTietHoaDon(hoaDon, phieuDatPhong.getThoiGianNhan(), new Date(), phong);
                         phieudatphongdao.capNhatTrangThaiPhieuDatPhong(phieuDatPhong.getMaPhieu());
                         phongDAO.capNhatTrangThaiPhong(phong.getMaPhong(), "Đang sử dụng");
-                        
+
                         if (hoadonDAO.themHoaDon(hoaDon)) {
                             JOptionPane.showMessageDialog(null, "Nhận phòng thành công");
                         } else {
                             JOptionPane.showMessageDialog(null, "Đã có lỗi");
                         }
-                        
+
                         hoadonDAO.themChiTietHoaDon(ctHD);
                     }
                 }

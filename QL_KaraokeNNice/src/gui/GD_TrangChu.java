@@ -4,6 +4,11 @@
  */
 package gui;
 
+import java.awt.Color;
+import slide.Slide1;
+import slide.Slide2;
+import slide.Slide3;
+
 /**
  *
  * @author PC BAO THONG
@@ -15,6 +20,7 @@ public class GD_TrangChu extends javax.swing.JPanel {
      */
     public GD_TrangChu() {
         initComponents();
+        slideshow1.initSlideshow(new Slide1(), new Slide2(), new Slide3());
     }
 
     /**
@@ -26,15 +32,19 @@ public class GD_TrangChu extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btngTinhTrang = new javax.swing.ButtonGroup();
+        slideshow1 = new slideshow.Slideshow();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setLayout(new java.awt.GridBagLayout());
+        setPreferredSize(new java.awt.Dimension(1200, 520));
+        setLayout(new java.awt.BorderLayout());
+
+        slideshow1.setPreferredSize(new java.awt.Dimension(1200, 520));
+        add(slideshow1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup btngTinhTrang;
+    private slideshow.Slideshow slideshow1;
     // End of variables declaration//GEN-END:variables
     
 }

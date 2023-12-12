@@ -400,7 +400,7 @@ public class GD_NV extends javax.swing.JPanel {
         panelNorth1.add(txtChucVu, gridBagConstraints);
 
         comboChucVu.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        comboChucVu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Quản lý", "Lễ tân", "Bảo vệ", "Phục vụ", "Đầu bếp", "Tạp vụ" }));
+        comboChucVu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Quản lý", "Lễ tân", "Bảo vệ", "Phục vụ", "Đầu bếp", "Lao công" }));
         comboChucVu.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         comboChucVu.setMaximumSize(new java.awt.Dimension(150, 30));
         comboChucVu.setMinimumSize(new java.awt.Dimension(150, 30));

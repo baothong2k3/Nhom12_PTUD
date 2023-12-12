@@ -4,6 +4,7 @@
  */
 package Form;
 
+import connectDB.ConnectDB;
 import dao.KhachHang_DAO;
 import dao.NhanVien_DAO;
 import dao.PhieuDatPhong_DAO;
@@ -22,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -45,6 +47,13 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
      * Creates new form FormDatPhong
      */
     public Form_DatPhong(Phong phong, String maNV) {
+        try {
+            ConnectDB.getInstance().connect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        phieudatphongdao = new PhieuDatPhong_DAO();
+        khachhangdao = new KhachHang_DAO();
         maNV_use = maNV;
         this.phong = phong;
         initComponents();
@@ -54,6 +63,7 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
         ngaymai.addActionListener(this);
         homnay.addActionListener(this);
         thietLapGio();
+        txtSuggestion();
     }
 
     private void updateTextField(Phong phong) {
@@ -66,6 +76,15 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
         txtGiaTien.setText("" + df.format(lp.getGiaTien()) + " vnđ/giờ");
         txtSoNguoi.setText(phong.getSoNguoi() + "");
         txtLoaiPhong.setText(lp.getTenLoaiPhong());
+    }
+
+    private void txtSuggestion() {
+        ArrayList<String> ds = new ArrayList<String>();
+        ds = phieudatphongdao.layDSKHDatPhong();
+        for (String d : ds) {
+            KhachHang kh = khachhangdao.getKhachHangTheoMa(d);
+            txtSDT.addItemSuggestion(kh.getSdtKH());
+        }
     }
 
     public void thietLapGio() {
@@ -155,7 +174,6 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
         lblGiaTien = new javax.swing.JLabel();
         txtGiaTien = new javax.swing.JTextField();
         lblSDT = new javax.swing.JLabel();
-        txtSDT = new javax.swing.JTextField();
         btnKiemTra = new javax.swing.JButton();
         lblTenKH = new javax.swing.JLabel();
         txtTenKhach = new javax.swing.JTextField();
@@ -167,6 +185,7 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
         jLabel2 = new javax.swing.JLabel();
         gioModel = new javax.swing.JComboBox<>();
         phutModel = new javax.swing.JComboBox<>();
+        txtSDT = new textfield_suggestion.TextFieldSuggestion();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -300,14 +319,6 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(lblSDT, gridBagConstraints);
 
-        txtSDT.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
-        txtSDT.setMinimumSize(new java.awt.Dimension(300, 40));
-        txtSDT.setPreferredSize(new java.awt.Dimension(200, 40));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        jPanel1.add(txtSDT, gridBagConstraints);
-
         btnKiemTra.setBackground(new java.awt.Color(204, 255, 255));
         btnKiemTra.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
         btnKiemTra.setText("Kiểm tra");
@@ -422,6 +433,13 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel1.add(phutModel, gridBagConstraints);
 
+        txtSDT.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
+        txtSDT.setPreferredSize(new java.awt.Dimension(200, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        jPanel1.add(txtSDT, gridBagConstraints);
+
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -517,7 +535,7 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
     private javax.swing.JComboBox<String> phutModel;
     private javax.swing.JTextField txtGiaTien;
     private javax.swing.JTextField txtLoaiPhong;
-    private javax.swing.JTextField txtSDT;
+    private textfield_suggestion.TextFieldSuggestion txtSDT;
     private javax.swing.JTextField txtSoNguoi;
     private javax.swing.JTextField txtSoPhong;
     private javax.swing.JTextField txtTenKhach;

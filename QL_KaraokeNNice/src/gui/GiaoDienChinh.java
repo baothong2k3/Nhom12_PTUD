@@ -28,7 +28,7 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         //setResizable(false);
         setTitle("Quản lý karaoke NNice");
         card = (CardLayout) this.GD_Chinh.getLayout();
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //setExtendedState(JFrame.MAXIMIZED_BOTH);
         String chucvu = nv.getChucVu();
         String tenNV = nv.getHoNV() + " " + nv.getTenNV();
         lblThongTin.setText(chucvu + " - " + tenNV + " - ");
