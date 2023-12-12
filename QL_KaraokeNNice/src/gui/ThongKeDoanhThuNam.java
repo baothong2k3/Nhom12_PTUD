@@ -69,11 +69,11 @@ public class ThongKeDoanhThuNam extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(1200, 520));
         setLayout(new java.awt.GridBagLayout());
 
-        chart.setPreferredSize(new java.awt.Dimension(900, 520));
+        chart.setPreferredSize(new java.awt.Dimension(850, 520));
         add(chart, new java.awt.GridBagConstraints());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(300, 520));
+        jPanel1.setPreferredSize(new java.awt.Dimension(350, 520));
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
         jPanel1Layout.columnWidths = new int[] {0, 10, 0, 10, 0};
         jPanel1Layout.rowHeights = new int[] {0, 20, 0, 20, 0, 20, 0, 20, 0, 20, 0};
@@ -153,7 +153,7 @@ public class ThongKeDoanhThuNam extends javax.swing.JPanel {
 
         comboNam.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         comboNam.setFocusable(false);
-        comboNam.setPreferredSize(new java.awt.Dimension(100, 30));
+        comboNam.setPreferredSize(new java.awt.Dimension(150, 30));
         comboNam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboNamActionPerformed(evt);

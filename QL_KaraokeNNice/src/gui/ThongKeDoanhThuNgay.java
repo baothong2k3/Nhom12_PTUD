@@ -78,11 +78,11 @@ public class ThongKeDoanhThuNgay extends javax.swing.JPanel {
         polarAreaChart.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         polarAreaChart.setMaximumSize(new java.awt.Dimension(800, 32803));
         polarAreaChart.setMinimumSize(new java.awt.Dimension(800, 42));
-        polarAreaChart.setPreferredSize(new java.awt.Dimension(800, 520));
+        polarAreaChart.setPreferredSize(new java.awt.Dimension(700, 520));
         add(polarAreaChart);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(300, 520));
+        jPanel1.setPreferredSize(new java.awt.Dimension(400, 520));
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
         jPanel1Layout.columnWidths = new int[] {0, 10, 0};
         jPanel1Layout.rowHeights = new int[] {0, 20, 0, 20, 0, 20, 0, 20, 0, 20, 0};
@@ -90,9 +90,9 @@ public class ThongKeDoanhThuNgay extends javax.swing.JPanel {
 
         date.setBackground(new java.awt.Color(255, 255, 255));
         date.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        date.setPreferredSize(new java.awt.Dimension(170, 30));
+        date.setPreferredSize(new java.awt.Dimension(200, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(date, gridBagConstraints);
@@ -186,7 +186,7 @@ public class ThongKeDoanhThuNgay extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jButton1, gridBagConstraints);

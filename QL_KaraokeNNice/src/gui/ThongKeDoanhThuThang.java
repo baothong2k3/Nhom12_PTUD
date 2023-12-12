@@ -72,13 +72,13 @@ public class ThongKeDoanhThuThang extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(1200, 520));
         setLayout(new java.awt.GridBagLayout());
 
-        chart.setPreferredSize(new java.awt.Dimension(900, 520));
+        chart.setPreferredSize(new java.awt.Dimension(800, 520));
         add(chart, new java.awt.GridBagConstraints());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(300, 520));
+        jPanel1.setPreferredSize(new java.awt.Dimension(400, 520));
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
-        jPanel1Layout.columnWidths = new int[] {0, 10, 0};
+        jPanel1Layout.columnWidths = new int[] {0, 5, 0};
         jPanel1Layout.rowHeights = new int[] {0, 20, 0, 20, 0, 20, 0, 20, 0, 20, 0, 20, 0};
         jPanel1.setLayout(jPanel1Layout);
 
@@ -156,7 +156,7 @@ public class ThongKeDoanhThuThang extends javax.swing.JPanel {
 
         comboNam.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
         comboNam.setFocusable(false);
-        comboNam.setPreferredSize(new java.awt.Dimension(100, 30));
+        comboNam.setPreferredSize(new java.awt.Dimension(150, 30));
         comboNam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboNamActionPerformed(evt);
@@ -193,7 +193,8 @@ public class ThongKeDoanhThuThang extends javax.swing.JPanel {
         jPanel1.add(jLabel5, gridBagConstraints);
 
         comboThang.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
-        comboThang.setPreferredSize(new java.awt.Dimension(100, 30));
+        comboThang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        comboThang.setPreferredSize(new java.awt.Dimension(150, 30));
         comboThang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboThangActionPerformed(evt);
@@ -210,19 +211,17 @@ public class ThongKeDoanhThuThang extends javax.swing.JPanel {
 
     private void comboNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboNamActionPerformed
         // TODO add your handling code here:
-        comboThang.removeAllItems();
+        chart.clear();
         String nam = comboNam.getSelectedItem().toString();
-        ArrayList<Integer> j = hoadonDAO.layThangTuHoaDon(nam);
-        for (Integer integer : j) {
-                comboThang.addItem(integer+"");
-            }
+        String thang = comboThang.getSelectedItem().toString();
+        themVaoChart(nam, thang);
+        chart.start();
     }//GEN-LAST:event_comboNamActionPerformed
 
     private void comboThangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboThangActionPerformed
         // TODO add your handling code here:
         chart.clear();
         String nam = comboNam.getSelectedItem().toString();
-        //Lỗi
         String thang = comboThang.getSelectedItem().toString();
         themVaoChart(nam, thang);
         chart.start();
@@ -232,13 +231,6 @@ public class ThongKeDoanhThuThang extends javax.swing.JPanel {
         if (comboNam.getSelectedItem() == null) {
             for (Integer integer : i) {
                 comboNam.addItem(integer + "");
-            }
-        }
-        String nam = comboNam.getSelectedItem().toString();
-        if (comboThang.getSelectedItem() == null) {
-            ArrayList<Integer> j = hoadonDAO.layThangTuHoaDon(nam);
-            for (Integer integer : j) {
-                comboThang.addItem(integer + "");
             }
         }
     }
