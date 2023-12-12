@@ -8,6 +8,9 @@ import Form.LoginForm;
 import entity.KhachHang;
 import entity.NhanVien;
 import java.awt.CardLayout;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.JFrame;
 
 /**
@@ -2659,6 +2662,11 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/question.png"))); // NOI18N
         jMenu3.setText("Trợ giúp");
         jMenu3.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu3MouseClicked(evt);
+            }
+        });
         jMenuBar2.add(jMenu3);
 
         setJMenuBar(jMenuBar2);
@@ -2934,6 +2942,27 @@ public class GiaoDienChinh extends javax.swing.JFrame {
         GD_Chinh.add(new GD_GioiThieu(), "aboutus");
         card.show(this.GD_Chinh, "aboutus");
     }//GEN-LAST:event_jMenu2MouseClicked
+
+    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
+        // TODO add your handling code here:
+        try {
+            String filePath = "12_7_ApplicationDevelopment_UserManual_VerFinal.pdf";
+            File pdfFile = new File(filePath);
+
+            // Kiểm tra xem Desktop được hỗ trợ hay không
+            if (Desktop.isDesktopSupported()) {
+                Desktop desktop = Desktop.getDesktop();
+                if (desktop.isSupported(Desktop.Action.OPEN)) {
+                    // Mở file chm
+                    desktop.open(pdfFile);
+                }
+            } else {
+                System.out.println("Máy tính không hỗ trợ");
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }//GEN-LAST:event_jMenu3MouseClicked
 
     /**
      * @param args the command line arguments
