@@ -5,7 +5,9 @@
 package dao;
 
 import connectDB.ConnectDB;
+import entity.ChiTietDichVu;
 import entity.DichVu;
+import entity.HoaDon;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +22,8 @@ import java.sql.Statement;
  * @author PC BAO THONG
  */
 public class DichVu_DAO {
+
+    private HoaDon_DAO hddao;
 
     public DichVu getDichVuTheoMa(String mDV) {
         DichVu dv = null;
@@ -57,7 +61,7 @@ public class DichVu_DAO {
         return dv;
 
     }
-    
+
     public DichVu getDichVuTheoTen(String tenDV) {
         DichVu dv = null;
         ConnectDB.getInstance();
@@ -237,7 +241,7 @@ public class DichVu_DAO {
         }
         return n > 0;
     }
-    
+
     public String maDV_Auto() {
         String maMoi = null;
         String maHienTai = null;
@@ -263,7 +267,7 @@ public class DichVu_DAO {
         maMoi = "DV" + kyTuMoi;
         return maMoi;
     }
-    
+
     public boolean updateSLTon(int slTonMoi, String mDV) {
         PreparedStatement stmt = null;
         ConnectDB.getInstance();
@@ -272,7 +276,7 @@ public class DichVu_DAO {
         try {
             String sql = "update DichVu set soLuongTon = ? where maDV = ?";
             stmt = con.prepareStatement(sql);
-            stmt.setInt(1, slTonMoi);           
+            stmt.setInt(1, slTonMoi);
             stmt.setString(2, mDV);
             n = stmt.executeUpdate();
         } catch (SQLException e) {
@@ -285,5 +289,41 @@ public class DichVu_DAO {
             }
         }
         return n > 0;
+    }
+
+    public ArrayList<ChiTietDichVu> layDVDaThem(String maP) {
+        hddao = new HoaDon_DAO();
+        ArrayList<ChiTietDichVu> dsdv = new ArrayList<ChiTietDichVu>();
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement statement = null;
+        try {
+
+            String sql = "SELECT ctdv.maDV, ctdv.soLuong, ctdv.maHD, cthd.maPhong FROM DB_karaoke.dbo.ChiTietDichVu ctdv INNER JOIN DB_karaoke.dbo.ChiTietHoaDon cthd ON ctdv.maHD = cthd.maHD INNER JOIN DB_karaoke.dbo.HoaDon hd ON cthd.maHD = hd.maHD where hd.trangThai = 0 and cthd.maPhong = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, maP);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String maDV = rs.getString(1);
+                int sl = rs.getInt(2);
+                String maHD = rs.getString(3);
+                String maPhong = rs.getString(4);
+                DichVu dichVu = getDichVuTheoMa(maDV);
+                HoaDon hd = hddao.getHoaDonTheoMa(maHD);
+                ChiTietDichVu dv = new ChiTietDichVu(dichVu, sl, hd, maPhong);
+                dsdv.add(dv);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+
+        return dsdv;
     }
 }

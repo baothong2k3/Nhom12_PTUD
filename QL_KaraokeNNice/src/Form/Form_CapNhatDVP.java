@@ -43,6 +43,7 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
     private ArrayList<DichVu> dsDV;
     private DefaultTableModel modelDVDaThem;
     private DefaultTableModel modelDSDV;
+    private String maP;
 
     /**
      * Creates new form FormThemDVP
@@ -54,7 +55,9 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        maP = maPhong;
         hoaDonDao = new HoaDon_DAO();
+        dichvudao = new DichVu_DAO();
         initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
@@ -63,6 +66,7 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         customTable();
         TableEvent();
         capNhatLable(maPhong);
+        loadDVPDaThem(maP);
     }
 
     private void capNhatLable(String maPhong) {
@@ -78,16 +82,23 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
     }
 
     private void loadAllDV() {
-        dichvudao = new DichVu_DAO();
         dsDV = new ArrayList<DichVu>();
         dsDV = dichvudao.getAllDichVu();
         for (DichVu dichVu : dsDV) {
-            modelDSDV.addRow(new Object[]{dichVu.getMaDV(), dichVu.getTenDV(), dichVu.getDonGia(), dichVu.getDonViBan(), dichVu.getSoLuongTon()});
+            modelDSDV.addRow(new Object[]{dichVu.getMaDV(), dichVu.getTenDV(), dichVu.getDonGia(), dichVu.getSoLuongTon(), dichVu.getDonViBan()});
         }
     }
 
-    private void loadDVPDaThem() {
-
+    private void loadDVPDaThem(String maP) {
+        ArrayList<ChiTietDichVu> dsDVDaThem = new ArrayList<ChiTietDichVu>();
+        dsDVDaThem = dichvudao.layDVDaThem(maP);
+        for (ChiTietDichVu chiTietDichVu : dsDVDaThem) {
+            String tenDV = chiTietDichVu.getDichVu().getTenDV();
+            double donGia = chiTietDichVu.getDichVu().getDonGia();
+            int soLuong = chiTietDichVu.getSoLuong();
+            double thanhTien = soLuong * donGia;
+            modelDVDaThem.addRow(new Object[]{tenDV, donGia, soLuong, thanhTien});
+        }
     }
 
     private void TableEvent() {
@@ -95,8 +106,24 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
             @Override
             //Nút thêm bên Danh sách dịch vụ đã thêm
             public void onAdd(int row) {
+                if (tableDVDaThem.isEditing()) {
+                    tableDVDaThem.getCellEditor().stopCellEditing();
+                }
                 System.out.println("Add row : " + row);
                 int r = tableDVDaThem.getSelectedRow();
+                String tenDV = (String) modelDVDaThem.getValueAt(r, 0);
+
+                String tenDVDS;
+                int rowCountDSDV = tableDSDV.getRowCount();
+                for (int i = 0; i < rowCountDSDV; i++) {
+                    tenDVDS = modelDSDV.getValueAt(i, 1).toString();
+                    if (tenDV.equalsIgnoreCase(tenDVDS)) {
+                        int soLuong = (int) modelDSDV.getValueAt(i, 3);
+                        soLuong--;
+                        modelDSDV.setValueAt(soLuong, i, 3);
+                        break;
+                    }
+                }
                 int soLuong = (int) modelDVDaThem.getValueAt(r, 2);
                 soLuong++;
                 Double donGia = (Double) modelDVDaThem.getValueAt(r, 1);
@@ -110,14 +137,45 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
                 if (tableDVDaThem.isEditing()) {
                     tableDVDaThem.getCellEditor().stopCellEditing();
                 }
-                DefaultTableModel model = (DefaultTableModel) tableDVDaThem.getModel();
-                model.removeRow(row);
+                int r = tableDVDaThem.getSelectedRow();
+                String tenDV = (String) modelDVDaThem.getValueAt(r, 0);
+                int sl = (int) modelDVDaThem.getValueAt(r, 2);
+                String tenDVDS;
+
+                int rowCountDSDV = tableDSDV.getRowCount();
+                for (int i = 0; i < rowCountDSDV; i++) {
+                    tenDVDS = modelDSDV.getValueAt(i, 1).toString();
+                    if (tenDV.equalsIgnoreCase(tenDVDS)) {
+                        int soLuong = (int) modelDSDV.getValueAt(i, 3);
+                        soLuong = soLuong + sl;
+                        modelDSDV.setValueAt(soLuong, i, 3);
+                        break;
+                    }
+                }
+                modelDVDaThem.removeRow(r);
             }
 
             @Override
             public void onLess(int row) {
+                if (tableDVDaThem.isEditing()) {
+                    tableDVDaThem.getCellEditor().stopCellEditing();
+                }
                 System.out.println("Less row : " + row);
                 int r = tableDVDaThem.getSelectedRow();
+
+                String tenDV = (String) modelDVDaThem.getValueAt(r, 0);
+                String tenDVDS;
+
+                int rowCountDSDV = tableDSDV.getRowCount();
+                for (int i = 0; i < rowCountDSDV; i++) {
+                    tenDVDS = modelDSDV.getValueAt(i, 1).toString();
+                    if (tenDV.equalsIgnoreCase(tenDVDS)) {
+                        int soLuong = (int) modelDSDV.getValueAt(i, 3);
+                        soLuong++;
+                        modelDSDV.setValueAt(soLuong, i, 3);
+                        break;
+                    }
+                }
                 int soLuong = (int) modelDVDaThem.getValueAt(r, 2);
                 soLuong--;
                 Double donGia = (Double) modelDVDaThem.getValueAt(r, 1);
@@ -149,9 +207,34 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
 //              Khi nhấn vào dấu + thì thêm vào table bên kia
                 int r = tableDSDV.getSelectedRow();
                 String tenDV = modelDSDV.getValueAt(r, 1).toString();
-                Double donGia = (Double) modelDSDV.getValueAt(r, 2);
-                Double thanhTien = donGia;
-                modelDVDaThem.addRow(new Object[]{tenDV, donGia, 1, thanhTien});
+                String tenDVDT;
+                int rowCount = tableDVDaThem.getRowCount();
+                int flag = 0;
+                for (int i = 0; i < rowCount; i++) {
+                    tenDVDT = modelDVDaThem.getValueAt(i, 0).toString();
+                    if (tenDVDT.equalsIgnoreCase(tenDV)) {
+                        flag = 1;
+                        int soLuong = (int) modelDVDaThem.getValueAt(i, 2);
+                        soLuong++;
+                        Double donGia = (Double) modelDVDaThem.getValueAt(i, 1);
+                        Double thanhTien = donGia * soLuong;
+                        modelDVDaThem.setValueAt(soLuong, i, 2);
+                        modelDVDaThem.setValueAt(thanhTien, i, 3);
+
+                        int soL = (int) modelDSDV.getValueAt(r, 3);
+                        soL--;
+                        modelDSDV.setValueAt(soL, r, 3);
+                        break;
+                    }
+                }
+                if (flag == 0) {
+                    Double donGia = (Double) modelDSDV.getValueAt(r, 2);
+                    Double thanhTien = donGia;
+                    modelDVDaThem.addRow(new Object[]{tenDV, donGia, 1, thanhTien});
+                    int soL = (int) modelDSDV.getValueAt(r, 3);
+                    soL--;
+                    modelDSDV.setValueAt(soL, r, 3);
+                }
             }
         };
         tableDSDV.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender1());

@@ -38,7 +38,7 @@ public class QL_KaraokeNNice {
 //
 //            }
 //        }
-new splashscreen.SplashScreen(null, true).setVisible(true);
+//new splashscreen.SplashScreen(null, true).setVisible(true);
 new LoginForm().setVisible(true);
     }
 }
