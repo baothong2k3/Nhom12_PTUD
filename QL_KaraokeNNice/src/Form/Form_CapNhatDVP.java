@@ -32,6 +32,7 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -220,17 +221,18 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
                     if (tenDVDT.equalsIgnoreCase(tenDV)) {
                         flag = 1;
                         int soLuong = (int) modelDVDaThem.getValueAt(i, 2);
+                        int soL = (int) modelDSDV.getValueAt(r, 3);
+                        if (soL <= 0) {
+                            JOptionPane.showMessageDialog(null, "Không đủ hàng trong kho");
+                            soL++;
+                            soLuong--;
+                            return;
+                        }
                         soLuong++;
                         Double donGia = (Double) modelDVDaThem.getValueAt(i, 1);
                         Double thanhTien = donGia * soLuong;
                         modelDVDaThem.setValueAt(soLuong, i, 2);
                         modelDVDaThem.setValueAt(thanhTien, i, 3);
-
-                        int soL = (int) modelDSDV.getValueAt(r, 3);
-                        if (soLuong <= 0) {
-                            JOptionPane.showMessageDialog(null, "Không đủ hàng trong kho");
-                            return;
-                        }
                         soL--;
                         modelDSDV.setValueAt(soL, r, 3);
                         break;
@@ -241,6 +243,10 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
                     Double thanhTien = donGia;
                     modelDVDaThem.addRow(new Object[]{tenDV, donGia, 1, thanhTien});
                     int soL = (int) modelDSDV.getValueAt(r, 3);
+                    if (soL <= 0) {
+                        JOptionPane.showMessageDialog(null, "Không đủ hàng trong kho");
+                        return;
+                    }
                     soL--;
                     modelDSDV.setValueAt(soL, r, 3);
                 }
@@ -398,7 +404,15 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
             new String [] {
                 "Tên DV", "Đơn giá", "Đã thêm", "Thành tiền", "Hành động"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableDVDaThem.setRowHeight(25);
         tableDVDaThem.setSelectionBackground(new java.awt.Color(204, 255, 255));
         jScrollPane2.setViewportView(tableDVDaThem);
@@ -476,7 +490,7 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, false, true
+                false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
