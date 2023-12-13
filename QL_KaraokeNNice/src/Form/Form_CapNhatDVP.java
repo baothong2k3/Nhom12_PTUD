@@ -13,6 +13,7 @@ import entity.HoaDon;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JTable;
@@ -359,6 +360,7 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         jPanel6.add(jLabel2);
 
         txtMaPhong.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtMaPhong.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtMaPhong.setEnabled(false);
         txtMaPhong.setMinimumSize(new java.awt.Dimension(120, 20));
         txtMaPhong.setPreferredSize(new java.awt.Dimension(120, 30));
@@ -374,6 +376,7 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
         jPanel6.add(jLabel3);
 
         txtTongTien.setFont(new java.awt.Font("Cambria", 0, 16)); // NOI18N
+        txtTongTien.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtTongTien.setEnabled(false);
         txtTongTien.setMinimumSize(new java.awt.Dimension(120, 30));
         txtTongTien.setPreferredSize(new java.awt.Dimension(120, 30));

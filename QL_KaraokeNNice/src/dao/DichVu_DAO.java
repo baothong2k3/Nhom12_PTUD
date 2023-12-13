@@ -299,7 +299,7 @@ public class DichVu_DAO {
         PreparedStatement statement = null;
         try {
 
-            String sql = "SELECT ctdv.maDV, ctdv.soLuong, ctdv.maHD, cthd.maPhong FROM DB_karaoke.dbo.ChiTietDichVu ctdv INNER JOIN DB_karaoke.dbo.ChiTietHoaDon cthd ON ctdv.maHD = cthd.maHD INNER JOIN DB_karaoke.dbo.HoaDon hd ON cthd.maHD = hd.maHD where hd.trangThai = 0 and cthd.maPhong = ?";
+            String sql = "SELECT DISTINCT ctdv.maDV, ctdv.soLuong, ctdv.maHD, ctdv.maPhong FROM DB_karaoke.dbo.ChiTietDichVu ctdv INNER JOIN DB_karaoke.dbo.ChiTietHoaDon cthd ON ctdv.maHD = cthd.maHD INNER JOIN DB_karaoke.dbo.HoaDon hd ON cthd.maHD = hd.maHD where hd.trangThai = 0 and ctdv.maPhong = ?";
             statement = con.prepareStatement(sql);
             statement.setString(1, maP);
             ResultSet rs = statement.executeQuery();
@@ -351,6 +351,7 @@ public class DichVu_DAO {
         }
         return n > 0;
     }
+
     public boolean xoaDichVuThem(ArrayList<ChiTietDichVu> dsCTDV) {
         ConnectDB.getInstance();
         Connection con = ConnectDB.getConnection();

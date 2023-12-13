@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -79,6 +80,7 @@ public class GD_KH extends javax.swing.JPanel implements MouseListener {
         }
         return "Nữ";
     }
+
     public void xoaTrang() {
         txtMaKH.setText("");
         txtCCCD.setText("");

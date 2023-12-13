@@ -99,6 +99,7 @@ public class Form_HoaDon extends javax.swing.JFrame {
         phong_dao = new Phong_DAO();
         initComponents();
         setLocationRelativeTo(null);
+        setResizable(false);
         table(hd);
         updateLable(hd, check);
     }
@@ -519,24 +520,6 @@ public class Form_HoaDon extends javax.swing.JFrame {
             String maHD = lblMaHD.getText().trim();
             HoaDon hd = hd_dao.getHoaDonTheoMa(maHD);
             dsCTHD = hd_dao.getAllCTHDTheoMaHD(maHD);
-            for (ChiTietHoaDon cthd : dsCTHD) {
-                Phong p = phong_dao.getPhongTheoMa(cthd.getPhong().getMaPhong());
-                LoaiPhong lp = phong_dao.getLoaiPhongTheoMa(p.getLoaiPhong().getMaLP());
-                PhieuDatPhong phieu = phieuDP.getPDPTheoMaPhong(p.getMaPhong());
-                if (phieu != null) {
-                    if (!phieu.isTrangThai()) {
-                        phong_dao.capNhatTrangThaiPhong(p.getMaPhong(), "Đã được đặt");
-                    } 
-                }else {
-                    phong_dao.capNhatTrangThaiPhong(p.getMaPhong(), "Trống");
-                }
-            }
-
-            if (hd.isTrangThai()) {
-                JOptionPane.showMessageDialog(null, "Hóa đơn đã thanh toán");
-                return;
-            }
-
             if (validTxt()) {
                 try {
                     String stienNhan = txtTienNhan.getText().trim();
@@ -555,6 +538,25 @@ public class Form_HoaDon extends javax.swing.JFrame {
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
+            } else {
+                return;
+            }
+            for (ChiTietHoaDon cthd : dsCTHD) {
+                Phong p = phong_dao.getPhongTheoMa(cthd.getPhong().getMaPhong());
+                LoaiPhong lp = phong_dao.getLoaiPhongTheoMa(p.getLoaiPhong().getMaLP());
+                PhieuDatPhong phieu = phieuDP.getPDPTheoMaPhong(p.getMaPhong());
+                if (phieu != null) {
+                    if (!phieu.isTrangThai()) {
+                        phong_dao.capNhatTrangThaiPhong(p.getMaPhong(), "Đã được đặt");
+                    }
+                } else {
+                    phong_dao.capNhatTrangThaiPhong(p.getMaPhong(), "Trống");
+                }
+            }
+
+            if (hd.isTrangThai()) {
+                JOptionPane.showMessageDialog(null, "Hóa đơn đã thanh toán");
+                return;
             }
         }
     }//GEN-LAST:event_btnThanhToanActionPerformed
@@ -715,22 +717,21 @@ public class Form_HoaDon extends javax.swing.JFrame {
             doc.add(new Paragraph("Tổng tiền (VAT): " + lblTongTienVAT.getText().trim(), font));
             String maHD = lblMaHD.getText().trim();
             HoaDon hd = hd_dao.getHoaDonTheoMa(maHD);
-
             if (txtTienNhan.getText().trim().length() > 0) {
                 Double tienNhan = Double.parseDouble(txtTienNhan.getText().trim());
                 String sTienNhan = currencyVN.format(tienNhan);
                 doc.add(new Paragraph("Tiền nhận: " + sTienNhan, font));
-            } else {
-                doc.add(new Paragraph("Tiền nhận: " + txtTienNhan.getText().trim(), font));
+                doc.add(new Paragraph("Tiền thừa: " + lblTienThua.getText().trim(), font));
+            } else if (txtTienNhan.getText().trim().length() == 0) {
+                doc.add(new Paragraph("Tiền nhận: " + lblTongTienVAT.getText().trim(), font));
             }
-            doc.add(new Paragraph("Tiền thừa: " + lblTienThua.getText().trim(), font));
+
 //            if (!hd.isTrangThai()) {
 //                doc.add(new Paragraph("Tiền nhận: " + txtTienNhan.getText().trim(), font));
 //                doc.add(new Paragraph("Tiền thừa: " + lblTienThua.getText().trim(), font));
 //            } else {
 //                doc.add(new Paragraph("Đã thanh toán: " + lblTongTienVAT.getText().trim(), font));
 //            }
-
             doc.close();
             if (xacNhan == JOptionPane.YES_OPTION) {
                 Desktop.getDesktop().open(new File(path));

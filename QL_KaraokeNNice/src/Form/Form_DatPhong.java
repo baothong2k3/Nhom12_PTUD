@@ -64,6 +64,7 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
         homnay.addActionListener(this);
         thietLapGio();
         txtSuggestion();
+        btnDatPhong.setEnabled(false);
     }
 
     private void updateTextField(Phong phong) {
@@ -464,7 +465,10 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
 
     private void btnKiemTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKiemTraActionPerformed
         // TODO add your handling code here:
-        kiemTraSDTKhach();
+        if(kiemTraSDTKhach()!=null){
+            btnDatPhong.setEnabled(true);
+        }
+        
     }//GEN-LAST:event_btnKiemTraActionPerformed
 
     private void btnDatPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatPhongActionPerformed

@@ -2946,15 +2946,15 @@ public class GiaoDienChinh extends javax.swing.JFrame {
     private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
         // TODO add your handling code here:
         try {
-            String filePath = "12_7_ApplicationDevelopment_UserManual_VerFinal.pdf";
-            File pdfFile = new File(filePath);
+            String filePath = "HuongDanSuDung.chm";
+            File chm = new File(filePath);
 
             // Kiểm tra xem Desktop được hỗ trợ hay không
             if (Desktop.isDesktopSupported()) {
                 Desktop desktop = Desktop.getDesktop();
                 if (desktop.isSupported(Desktop.Action.OPEN)) {
                     // Mở file chm
-                    desktop.open(pdfFile);
+                    desktop.open(chm);
                 }
             } else {
                 System.out.println("Máy tính không hỗ trợ");

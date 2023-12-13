@@ -105,7 +105,7 @@ public class HoaDon_DAO {
         try {
             ConnectDB.getInstance();
             Connection con = ConnectDB.getConnection();
-            String sql = "SELECT * FROM HoaDon order by trangThai";
+            String sql = "SELECT * FROM HoaDon order by trangThai, NgayLap DESC";
             Statement statement = con.createStatement();
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
@@ -441,7 +441,7 @@ public class HoaDon_DAO {
         int n = 0;
         try {
             for (ChiTietDichVu ctdv : dsCTDV) {
-                stmt = con.prepareStatement("INSERT INTO ChiTietDichVu VALUES(?, ?, ?,?)");
+                stmt = con.prepareStatement("INSERT INTO ChiTietDichVu VALUES(?, ?, ?, ?)");
                 stmt.setString(1, ctdv.getDichVu().getMaDV());
                 stmt.setInt(2, ctdv.getSoLuong());
                 stmt.setString(3, ctdv.getHoaDon().getMaHD());
@@ -832,7 +832,7 @@ public class HoaDon_DAO {
             String sql = "SELECT SUM(tongTien) AS tongDoanhThu FROM [DB_karaoke].[dbo].[HoaDon] WHERE NgayLap BETWEEN ? AND ?";
             statement = con.prepareStatement(sql);
             String ngay1 = ngay + " 08:00:00";
-            String ngay2 = ngay + " 22:00:00";
+            String ngay2 = ngay + " 23:59:00";
             statement.setString(1, ngay1);
             statement.setString(2, ngay2);
             ResultSet rs = statement.executeQuery();
@@ -1343,7 +1343,8 @@ public class HoaDon_DAO {
         }
         return maKh;
     }
-    public ArrayList<String> layDSKHDungPhong(){
+
+    public ArrayList<String> layDSKHDungPhong() {
         ArrayList<String> dsKH = new ArrayList<String>();
         ConnectDB.getInstance();
         Connection con = ConnectDB.getConnection();
@@ -1367,7 +1368,8 @@ public class HoaDon_DAO {
         }
         return dsKH;
     }
-    public ArrayList<String> layDSDVTheoHD(){
+
+    public ArrayList<String> layDSDVTheoHD() {
         ArrayList<String> dsKH = new ArrayList<String>();
         ConnectDB.getInstance();
         Connection con = ConnectDB.getConnection();
@@ -1390,5 +1392,31 @@ public class HoaDon_DAO {
             }
         }
         return dsKH;
+    }
+
+    public String layMaPhongTheoMaHD(String maHD) {
+        String maP = null;
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement stmt = null;
+        try {
+            String sql = "SELECT [maPhong] FROM [DB_karaoke].[dbo].[ChiTietHoaDon] WHERE [maHD] = ?";
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, maHD);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                maP = rs.getString(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return maP;
     }
 }

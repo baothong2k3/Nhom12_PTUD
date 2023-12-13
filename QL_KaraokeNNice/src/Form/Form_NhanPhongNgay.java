@@ -65,6 +65,7 @@ public class Form_NhanPhongNgay extends javax.swing.JFrame implements ActionList
         setResizable(false);
         updateTextField(phong);
         txtSuggestion();
+        btnNhanPhong.setEnabled(false);
     }
 
     private void txtSuggestion() {
@@ -358,7 +359,10 @@ public class Form_NhanPhongNgay extends javax.swing.JFrame implements ActionList
 
     private void btnKiemTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKiemTraActionPerformed
         // TODO add your handling code here:
-        kiemTraSDTKhach();
+        if(kiemTraSDTKhach()!=null){
+            btnNhanPhong.setEnabled(true);
+        }
+        
     }//GEN-LAST:event_btnKiemTraActionPerformed
 
     private void btnNhanPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhanPhongActionPerformed
