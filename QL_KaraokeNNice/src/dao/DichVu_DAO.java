@@ -326,4 +326,56 @@ public class DichVu_DAO {
 
         return dsdv;
     }
+
+    public boolean updateSLSuDung(int sl, String mDV, String mHD, String mP) {
+        PreparedStatement stmt = null;
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        int n = 0;
+        try {
+            String sql = "update ChiTietDichVu set soLuong = ? where maDV = ? and maHD = ? and maPhong = ?";
+            stmt = con.prepareStatement(sql);
+            stmt.setInt(1, sl);
+            stmt.setString(2, mDV);
+            stmt.setString(3, mHD);
+            stmt.setString(4, mP);
+            n = stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return n > 0;
+    }
+    public boolean xoaDichVuThem(ArrayList<ChiTietDichVu> dsCTDV) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement stmt = null;
+        int n = 0;
+        try {
+            for (ChiTietDichVu ctdv : dsCTDV) {
+                stmt = con.prepareStatement("delete ChiTietDichVu where maDV = ? and maHD = ? and maPhong = ?");
+                stmt.setString(1, ctdv.getDichVu().getMaDV());
+                stmt.setString(2, ctdv.getHoaDon().getMaHD());
+                stmt.setString(3, ctdv.getmaPhong());
+                n = stmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            try {
+                stmt.close();
+
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+
+            }
+        }
+        return true;
+    }
 }

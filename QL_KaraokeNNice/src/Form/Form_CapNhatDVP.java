@@ -119,6 +119,10 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
                     tenDVDS = modelDSDV.getValueAt(i, 1).toString();
                     if (tenDV.equalsIgnoreCase(tenDVDS)) {
                         int soLuong = (int) modelDSDV.getValueAt(i, 3);
+                        if (soLuong <= 0) {
+                            JOptionPane.showMessageDialog(null, "Không đủ hàng trong kho");
+                            return;
+                        }
                         soLuong--;
                         modelDSDV.setValueAt(soLuong, i, 3);
                         break;
@@ -222,6 +226,10 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
                         modelDVDaThem.setValueAt(thanhTien, i, 3);
 
                         int soL = (int) modelDSDV.getValueAt(r, 3);
+                        if (soLuong <= 0) {
+                            JOptionPane.showMessageDialog(null, "Không đủ hàng trong kho");
+                            return;
+                        }
                         soL--;
                         modelDSDV.setValueAt(soL, r, 3);
                         break;
@@ -501,7 +509,7 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
 
         btnThem.setBackground(new java.awt.Color(153, 204, 255));
         btnThem.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnThem.setText("Thêm");
+        btnThem.setText("Cập nhật");
         btnThem.setPreferredSize(new java.awt.Dimension(140, 40));
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -548,40 +556,95 @@ public class Form_CapNhatDVP extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMaPhongActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        int check = 0;
         System.out.println(txtMaPhong.getText().trim());
         String maPhong = txtMaPhong.getText();
+
         HoaDon hd = hoaDonDao.getHoaDonTheoMaPhong_TrangThai(txtMaPhong.getText().trim());
+
         ArrayList<ChiTietDichVu> dsCTDV = new ArrayList<ChiTietDichVu>();
-        int slTonMoi;
+
+        ArrayList<ChiTietDichVu> dsDVDT = new ArrayList<ChiTietDichVu>();
+        dsDVDT = dichvudao.layDVDaThem(maPhong);
+
+        //chạy từ đầu đến cuối table
         for (int i = 0; i < modelDVDaThem.getRowCount(); i++) {
             String tenDV = modelDVDaThem.getValueAt(i, 0).toString();
-            DichVu dv = dichvudao.getDichVuTheoTen(tenDV);
-            String sSL = modelDVDaThem.getValueAt(i, 2).toString();
-            int sl = Integer.parseInt(sSL);
-            slTonMoi = dv.getSoLuongTon() - sl;
-            if (slTonMoi < 0) {
-                JOptionPane.showMessageDialog(null, "Kho không đủ số lượng");
-                return;
-            } else {
-                dichvudao.updateSLTon(slTonMoi, dv.getMaDV());
-                modelDSDV.setRowCount(0);
-                loadAllDV();
+            //chạy từ đầu đến cuối ds dv của database
+            int flag = 0;
+            for (ChiTietDichVu chiTietDichVu : dsDVDT) {
+                String tenDVDaThem = chiTietDichVu.getDichVu().getTenDV();
+                // nếu đã có trên database
+                if (tenDVDaThem.equalsIgnoreCase(tenDV)) {
+                    check = 1;
+                    flag = 1;
+                    int soLuongTable = (int) modelDVDaThem.getValueAt(i, 2);
+                    int soLData = chiTietDichVu.getSoLuong();
+                    int chenhLech = soLuongTable - soLData;
+                    System.out.println("Chênh" + chenhLech);
+                    dichvudao.updateSLSuDung(soLuongTable, chiTietDichVu.getDichVu().getMaDV(), hd.getMaHD(), maP);
+                    if (chenhLech > 0) {
+                        String maDV = chiTietDichVu.getDichVu().getMaDV();
+                        DichVu dv = dichvudao.getDichVuTheoMa(maDV);
+                        int slTon = dv.getSoLuongTon();
+                        int slMoi = slTon - chenhLech;
+                        dichvudao.updateSLTon(slMoi, maDV);
+                    } else if (chenhLech < 0) {
+                        String maDV = chiTietDichVu.getDichVu().getMaDV();
+                        DichVu dv = dichvudao.getDichVuTheoMa(maDV);
+                        int slTon = dv.getSoLuongTon();
+                        int slMoi = slTon + chenhLech;
+                        dichvudao.updateSLTon(slMoi, maDV);
+                    }
+                }
             }
-            ChiTietDichVu ctdv = new ChiTietDichVu(dv, sl, hd, maPhong);
-            dsCTDV.add(ctdv);
+            if (flag == 0) {
+                DichVu dv = dichvudao.getDichVuTheoTen(tenDV);
+                int sl = (int) modelDVDaThem.getValueAt(i, 2);
+                int slTonMoi = dv.getSoLuongTon() - sl;
+                dichvudao.updateSLTon(slTonMoi, dv.getMaDV());
+                ChiTietDichVu ctdv = new ChiTietDichVu(dv, sl, hd, maPhong);
+                dsCTDV.add(ctdv);
+            }
         }
-
-        if (hoaDonDao.themChiTietDichVu(dsCTDV)) {
-            JOptionPane.showMessageDialog(null, "Thêm thành công");
-        } else {
-            JOptionPane.showMessageDialog(null, "Đã có lỗi");
+        ArrayList<ChiTietDichVu> dsDVDT2 = new ArrayList<ChiTietDichVu>();
+        dsDVDT2 = dichvudao.layDVDaThem(maPhong);
+        for (int i = 0; i < modelDVDaThem.getRowCount(); i++) {
+            String tenDV = modelDVDaThem.getValueAt(i, 0).toString();
+            for (ChiTietDichVu chiTietDichVu : dsDVDT2) {
+                String tenDVDaThem = chiTietDichVu.getDichVu().getTenDV();
+                if (tenDV.equalsIgnoreCase(tenDVDaThem)) {
+                    dsDVDT2.remove(chiTietDichVu);
+                    break;
+                }
+            }
+        }
+        if (dsDVDT2.size() > 0) {
+            check = 1;
+            for (ChiTietDichVu chiTietDichVu : dsDVDT2) {
+                int sl = chiTietDichVu.getSoLuong();
+                DichVu dv = dichvudao.getDichVuTheoMa(chiTietDichVu.getDichVu().getMaDV());
+                int slM = dv.getSoLuongTon() + sl;
+                dichvudao.updateSLTon(slM, dv.getMaDV());
+            }
+            dichvudao.xoaDichVuThem(dsDVDT2);
+        }
+        if (dsCTDV.size() > 0) {
+            check = 1;
+            if (hoaDonDao.themChiTietDichVu(dsCTDV)) {
+                //
+            } else {
+                JOptionPane.showMessageDialog(null, "Đã có lỗi");
+            }
+        }
+        if (check == 1) {
+            JOptionPane.showMessageDialog(null, "Cập nhật dịch vụ thành công");
         }
     }//GEN-LAST:event_btnThemActionPerformed
 
     /**
      * @param args the command line arguments
      */
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTim;
