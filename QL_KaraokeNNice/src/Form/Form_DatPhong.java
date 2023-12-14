@@ -62,7 +62,7 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
         updateTextField(phong);
         ngaymai.addActionListener(this);
         homnay.addActionListener(this);
-        thietLapGio();
+        //thietLapGio();
         txtSuggestion();
         btnDatPhong.setEnabled(false);
     }
@@ -465,18 +465,25 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
 
     private void btnKiemTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKiemTraActionPerformed
         // TODO add your handling code here:
-        if(kiemTraSDTKhach()!=null){
+        if (kiemTraSDTKhach() != null) {
             btnDatPhong.setEnabled(true);
         }
-        
+
     }//GEN-LAST:event_btnKiemTraActionPerformed
 
     private void btnDatPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatPhongActionPerformed
         // TODO add your handling code here:
         phieudatphongdao = new PhieuDatPhong_DAO();
         KhachHang khachHang = kiemTraSDTKhach();
-        int gio = Integer.parseInt(gioModel.getSelectedItem().toString());
-        int phut = Integer.parseInt(phutModel.getSelectedItem().toString());
+        int gio;
+        int phut;
+        if (homnay.isSelected() || ngaymai.isSelected()) {
+            gio = Integer.parseInt(gioModel.getSelectedItem().toString());
+            phut = Integer.parseInt(phutModel.getSelectedItem().toString());
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày nhận phòng");
+            return;
+        }
         Date date = new Date();
         if (homnay.isSelected()) {
             if (gio < date.getDay() || (gio == date.getHours() && phut < date.getMinutes())) {
@@ -519,8 +526,19 @@ public class Form_DatPhong extends javax.swing.JFrame implements ActionListener 
 
     private void gioModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gioModelActionPerformed
         // TODO add your handling code here:
-        phutModel.removeAllItems();
-        thietLapGio();
+        //
+        //thietLapGio();
+        Date date = new Date();
+        int gio = 0;
+        if (gioModel.getSelectedItem() != null) {
+            gio = Integer.parseInt(gioModel.getSelectedItem().toString());
+        }
+        if (gio != date.getHours()) {
+            phutModel.removeAllItems();
+            for (int i = 0; i < 60; i += 5) {
+                phutModel.addItem(i + "");
+            }
+        }
     }//GEN-LAST:event_gioModelActionPerformed
 
     /**
